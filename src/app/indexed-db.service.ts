@@ -36,8 +36,8 @@ export class IndexedDbService {
       const transaction = db.transaction([this.objectStoreName], 'readwrite');
       const objectStore = transaction.objectStore(this.objectStoreName);
   
-      // Generate a key for the item
-      const key = Date.now();
+      // Use a property of the response object as the key
+      const key = response.VisitorId;
   
       const addRequest = objectStore.add(response, key);
   
@@ -56,5 +56,6 @@ export class IndexedDbService {
       // Handle the error appropriately (e.g., display a user-friendly message)
     }
   }
+  
   
 }
