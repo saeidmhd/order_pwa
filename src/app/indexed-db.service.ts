@@ -4,47 +4,57 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class IndexedDbService {
-  private dbName = 'myDatabase';
+  private dbName = 'loginDatabase';
   private objectStoreName = 'loginResponse';
 
-  constructor() { }
+  constructor() {}
 
-  openDatabase(): IDBRequest {
-    return indexedDB.open(this.dbName, 1);
+  openDatabase(): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, 1);
+
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as IDBRequest<IDBDatabase>).result;
+        if (!db.objectStoreNames.contains(this.objectStoreName)) {
+          db.createObjectStore(this.objectStoreName);
+        }
+      };
+
+      request.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<IDBDatabase>).result);
+      };
+
+      request.onerror = (event) => {
+        reject(new Error('Failed to open database: ' + (event.target as any).error.message));
+      };
+    });
   }
 
   async storeLoginResponse(response: any): Promise<void> {
-    const request: IDBRequest<IDBDatabase> = this.openDatabase();
+    try {
+      const db = await this.openDatabase();
+      const transaction = db.transaction([this.objectStoreName], 'readwrite');
+      const objectStore = transaction.objectStore(this.objectStoreName);
   
-    request.onsuccess = (event) => {
-      const db = (event.target as IDBRequest<IDBDatabase>).result;
+      // Generate a key for the item
+      const key = Date.now();
   
-      if (db) {
-        const transaction = db.transaction([this.objectStoreName], 'readwrite');
-        const objectStore = transaction.objectStore(this.objectStoreName);
+      const addRequest = objectStore.add(response, key);
   
-        // Add the response to the object store
-        const addRequest = objectStore.add(response);
-  
-        addRequest.onsuccess = (addEvent) => {
-          console.log('Data stored in IndexedDB with key: ' + (addEvent.target as any).result);
+      await new Promise<void>((resolve, reject) => {
+        addRequest.onsuccess = (event) => {
+          console.log('Data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
         };
   
-        addRequest.onerror = (addEvent) => {
-          console.error('Failed to store data: ' + (addEvent.target as any).error.message);
+        addRequest.onerror = (event) => {
+          reject(new Error('Failed to store data: ' + (event.target as any).error.message));
         };
-        // Rest of your code for working with the transaction
-      } else {
-        console.error('Failed to open the database');
-      }
-    };
-  
-    request.onerror = (event) => {
-      console.error('Failed to open the database: ' + (event.target as any).error.message);
-    };
+      });
+    } catch (error) {
+      console.error('Error storing login response:', error);
+      // Handle the error appropriately (e.g., display a user-friendly message)
+    }
   }
   
-  
-
-  // Add other methods for retrieving and managing data in IndexedDB if needed
 }
