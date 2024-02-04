@@ -20,17 +20,17 @@ export class AppComponent {
     this.isLoading = true; // Show loading indicator
     this.loginError = ''; // Clear any previous error message
 
-    this.loginService.login(username, password).subscribe(
-      (response) => {
+    this.loginService.login(username, password).subscribe({
+      next: (response) => {
         // Handle successful response here
         console.log(response);
         this.isLoading = false; // Hide loading indicator on success
       },
-      (error) => {
+      error: (error) => {
         // Handle error, e.g., display an error message
         this.loginError = 'Login failed. Please check your credentials.';
         this.isLoading = false; // Hide loading indicator on error
       }
-    );
+    });    
   }
 }

@@ -39,15 +39,15 @@ export class IndexedDbService {
       // Use a property of the response object as the key
       const key = response.VisitorId;
   
-      const addRequest = objectStore.add(response, key);
+      const putRequest = objectStore.put(response, key); // Use put instead of add
   
       await new Promise<void>((resolve, reject) => {
-        addRequest.onsuccess = (event) => {
+        putRequest.onsuccess = (event) => {
           console.log('Data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
   
-        addRequest.onerror = (event) => {
+        putRequest.onerror = (event) => {
           reject(new Error('Failed to store data: ' + (event.target as any).error.message));
         };
       });
@@ -56,6 +56,7 @@ export class IndexedDbService {
       // Handle the error appropriately (e.g., display a user-friendly message)
     }
   }
+  
 
   async getLoginResponse(): Promise<any> {
     const db = await this.openDatabase();
