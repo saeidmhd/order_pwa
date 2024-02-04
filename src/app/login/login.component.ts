@@ -12,7 +12,7 @@ export class LoginComponent {
   loginError: string = '';
   isLoading: boolean = false;
 
-  constructor(private loginService: LoginService, private router:Router) {}
+  constructor(private loginService: LoginService) {}
 
   onSubmit() {
     const { username, password } = this.formData;
@@ -25,7 +25,6 @@ export class LoginComponent {
         // Handle successful response here
         console.log(response);
         this.isLoading = false; // Hide loading indicator on success
-        this.router.navigateByUrl('user-information'); // Navigate on successfu
       },
       error: (error) => {
         // Handle error, e.g., display an error message
