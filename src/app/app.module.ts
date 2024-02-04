@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,15 +16,20 @@ import { MatInputModule } from '@angular/material/input';
 
 import { IndexedDbService } from './indexed-db.service';
 import { LoginService } from './login.service';
-import { UserInformationComponent } from './user-information/user-information.component'; // Import the component
+import { UserInformationComponent } from './user-information/user-information.component';
+import { LoginComponent } from './login/login.component'; // Import the component
+import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserInformationComponent, // Declare the component
+    LoginComponent,
+    UserInformationComponent,
   ],
   imports: [
     AppRoutingModule,
+    RouterModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,

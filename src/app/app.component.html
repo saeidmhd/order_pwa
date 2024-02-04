@@ -1,19 +1,2 @@
-<div class="login-container">
-  <h2>ورود به سامانه</h2>
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex;justify-items: center;flex-direction: column;">
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>نام کاربری</mat-label>
-      <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required>
-      <mat-icon matSuffix>account_circle</mat-icon> <!-- Add an icon for the username field -->
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>کلمه عبور</mat-label>
-      <input matInput type="password" id="password" name="password" [(ngModel)]="formData.password" required>
-      <mat-icon matSuffix>lock</mat-icon> <!-- Add an icon for the password field -->
-    </mat-form-field>
-    <button mat-raised-button type="submit" [disabled]="loginForm.invalid" class="submit-button">ورود به سامانه</button>
-  </form>
-  <mat-progress-spinner *ngIf="isLoading" [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
-  <p class="error-message" *ngIf="loginError">{{ loginError }}</p>
-</div>
-<router-outlet></router-outlet> <!-- Add this line -->
+
+<router-outlet></router-outlet>
