@@ -16,3 +16,4 @@
   <mat-progress-spinner *ngIf="isLoading" [diameter]="30" [mode]="'indeterminate'"></mat-progress-spinner>
   <p class="error-message" *ngIf="loginError">{{ loginError }}</p>
 </div>
+<router-outlet></router-outlet> <!-- Add this line -->

@@ -56,6 +56,24 @@ export class IndexedDbService {
       // Handle the error appropriately (e.g., display a user-friendly message)
     }
   }
+
+  async getLoginResponse(): Promise<any> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.objectStoreName], 'readonly');
+    const objectStore = transaction.objectStore(this.objectStoreName);
+
+    return new Promise<any>((resolve, reject) => {
+      const getRequest = objectStore.get('VisitorId'); // Replace 'VisitorId' with the key you used to store the data
+
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<any>).result);
+      };
+
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get data: ' + (event.target as any).error.message));
+      };
+    });
+  }
   
   
 }

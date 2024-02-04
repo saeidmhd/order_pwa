@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
-import { LoginModel } from './login-model'; // Assuming correct path
+import { LoginModel } from './login-model';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -12,24 +13,27 @@ import { Observable, of } from 'rxjs';
 export class LoginService {
   private apiUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/login';
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {}
+  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {}
 
   login(username: string, password: string): Observable<LoginModel> {
-    const hashedPassword = CryptoJS.MD5(password).toString(); // Hash the password
+    const hashedPassword = CryptoJS.MD5(password).toString();
     const requestBody = {
       username: username,
       password: hashedPassword
     };
 
-    return this.http.post<LoginModel>(this.apiUrl, requestBody).pipe( // Use <LoginModel> type
+    return this.http.post<LoginModel>(this.apiUrl, requestBody).pipe(
       tap((response) => {
-        this.indexedDbService.storeLoginResponse(response.Data) // Store only data object
-          .then(() => console.log('Login response stored in IndexedDB'))
+        this.indexedDbService.storeLoginResponse(response.Data)
+          .then(() => {
+            console.log('Login response stored in IndexedDB');
+            this.router.navigate(['/user-information']); // Navigate on successful login
+          })
           .catch((error) => console.error('Error storing login response:', error));
       }),
       catchError((error) => {
         console.error('Login error:', error);
-        // Handle the error appropriately (e.g., display a user-friendly message)
+        // Handle the error appropriately
         if (error.status) { // Check for HTTP status code errors
           switch (error.status) {
             case 401: // Unauthorized
@@ -43,8 +47,6 @@ export class LoginService {
           return of({ Result: false, Message: 'Connection error! Please try again later.', Data: {} as LoginModel['Data'] });
         }
       })
-      
-      
     );
   }
 }

@@ -12,16 +12,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon'; // Add this line
-import { MatInputModule } from '@angular/material/input'; // Add this line
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { IndexedDbService } from './indexed-db.service';
 import { LoginService } from './login.service';
-
+import { UserInformationComponent } from './user-information/user-information.component'; // Import the component
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserInformationComponent, // Declare the component
   ],
   imports: [
     AppRoutingModule,
@@ -32,10 +33,10 @@ import { LoginService } from './login.service';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatIconModule, // Add this line
-    MatInputModule, // Add this line
+    MatIconModule,
+    MatInputModule,
   ],
-  providers: [LoginService, IndexedDbService], // Add the services here
+  providers: [LoginService, IndexedDbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
