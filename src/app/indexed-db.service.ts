@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class IndexedDbService {
   private dbName = 'loginDatabase';
   private objectStoreName = 'loginResponse';
+  private visitorId!: string; 
 
   constructor() {}
 
@@ -38,6 +39,7 @@ export class IndexedDbService {
   
       // Use a property of the response object as the key
       const key = response.VisitorId;
+      this.visitorId = key;
   
       const putRequest = objectStore.put(response, key); // Use put instead of add
   
@@ -64,7 +66,7 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.objectStoreName);
 
     return new Promise<any>((resolve, reject) => {
-      const getRequest = objectStore.get(26575);
+      const getRequest = objectStore.get(this.visitorId);
        // Replace 'VisitorId' with the key you used to store the data
        console.log(getRequest);
 
