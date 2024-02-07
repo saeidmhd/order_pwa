@@ -15,21 +15,29 @@ export class LoginService {
 
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {}
 
-  login(username: string, password: string): Observable<LoginModel> {
+  login(username: string, password: string): Observable<any> {
     const hashedPassword = CryptoJS.MD5(password).toString();
     const requestBody = {
       username: username,
       password: hashedPassword
     };
 
-    return this.http.post<LoginModel>(this.apiUrl, requestBody).pipe(
+    return this.http.post<any>(this.apiUrl, requestBody).pipe(
       tap((response) => {
-        this.indexedDbService.storeLoginResponse(response.Data)
-          .then(() => {
-            console.log('Login response stored in IndexedDB');
-            this.router.navigate(['/user-information']); // Navigate on successful login
-          })
-          .catch((error) => console.error('Error storing login response:', error));
+        if (response.Result) {
+          // Successful login
+          this.indexedDbService.storeLoginResponse(response.Data)
+            .then(() => {
+              console.log('Login response stored in IndexedDB');
+              this.router.navigate(['/user-information']); // Navigate on successful login
+            })
+            .catch((error) => console.error('Error storing login response:', error));
+        } else {
+          // Failed login
+          console.error('Login error:', response.Message);
+          // Handle the error appropriately
+          // For example, display an error message to the user
+        }
       }),
       catchError((error) => {
         console.error('Login error:', error);
