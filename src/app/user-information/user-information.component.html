@@ -1,7 +1,7 @@
-<div *ngIf="userData">
-    <p>User Information:</p>
-    <p>UserTitle: {{ userData.UserTitle }}</p>
-    <p>UserToken: {{ userData.UserToken }}</p>
-    <p>SyncId: {{ userData.SyncId }}</p>
-    <!-- Add more fields as needed -->
-  </div>
+<div *ngIf="userData" class="user-information">
+  <p class="title">User Information:</p>
+  <p>UserTitle: {{ userData.UserTitle }}</p>
+  <p>UserToken: {{ userData.UserToken }}</p>
+  <p>SyncId: {{ userData.SyncId }}</p>
+  <!-- Add more fields as needed -->
+</div>
