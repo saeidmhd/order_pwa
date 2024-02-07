@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../login.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +27,7 @@ export class LoginComponent {
       },
       error: (error) => {
         // Handle error, e.g., display an error message
+        console.log(error)
         this.loginError = 'Login failed. Please check your credentials.';
         this.isLoading = false; // Hide loading indicator on error
       }

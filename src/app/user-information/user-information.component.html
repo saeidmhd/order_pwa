@@ -1,1 +1,7 @@
-<p>user-information works!</p>
+<div *ngIf="userData">
+    <p>User Information:</p>
+    <p>UserTitle: {{ userData.UserTitle }}</p>
+    <p>UserToken: {{ userData.UserToken }}</p>
+    <p>SyncId: {{ userData.SyncId }}</p>
+    <!-- Add more fields as needed -->
+  </div>

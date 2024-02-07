@@ -64,7 +64,9 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.objectStoreName);
 
     return new Promise<any>((resolve, reject) => {
-      const getRequest = objectStore.get('VisitorId'); // Replace 'VisitorId' with the key you used to store the data
+      const getRequest = objectStore.get(26575);
+       // Replace 'VisitorId' with the key you used to store the data
+       console.log(getRequest);
 
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<any>).result);
