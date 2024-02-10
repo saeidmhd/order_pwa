@@ -6,9 +6,8 @@ import { Person } from './Person';
 })
 export class IndexedDbService {
   
-
-  private dbName = 'loginDatabase';
-  private loginStoreName = 'loginResponse';
+  private dbName = 'OrderDatabase';
+  private loginStoreName = 'loginStore';
   private personStoreName = 'personStore';
   private visitorId!: string; 
 
@@ -93,7 +92,8 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.personStoreName);
 
     for (const person of people) {
-      const putRequest = objectStore.put(person, person.PersonId); // Use PersonId as the key
+      const key = `${this.visitorId}-${person.PersonId}`; // Use userId and PersonId as the key
+      const putRequest = objectStore.put(person, key); // Use PersonId as the key
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
