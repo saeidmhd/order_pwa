@@ -20,12 +20,15 @@ import { UserInformationComponent } from './user-information/user-information.co
 import { LoginComponent } from './login/login.component'; // Import the component
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { PeopleListComponent } from './people-list/people-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     UserInformationComponent,
+    PeopleListComponent
   ],
   imports: [
     AppRoutingModule,
@@ -39,6 +42,7 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
   ],
   providers: [LoginService, IndexedDbService],
   bootstrap: [AppComponent]
