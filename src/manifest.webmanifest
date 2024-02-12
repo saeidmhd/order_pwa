@@ -1,6 +1,6 @@
 {
-  "name": "myApp",
-  "short_name": "myApp",
+  "name": "سفارش گیر همراه",
+  "short_name": "سفارش گیر همراه",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
