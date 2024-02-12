@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Person } from '../Person';
-import { IndexedDbService } from '../indexed-db.service';
-import { PeopleService } from '../people.service'; // Import PeopleService
+import { Person } from '../../../core/models/Person';
+import { IndexedDbService } from '../../../core/services/indexed-db.service';
+import { PeopleService } from '../../../core/services/people.service'; // Import PeopleService
 
 @Component({
   selector: 'app-people-list',

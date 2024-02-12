@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap, catchError } from 'rxjs';
-import { PeopleResponse } from './PeopleResponse';
+
 import { IndexedDbService } from './indexed-db.service';
+import { PeopleResponse } from '../models/Person';
 
 @Injectable({
   providedIn: 'root'

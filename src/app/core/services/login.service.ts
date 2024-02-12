@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
-import { LoginModel } from './login-model';
+import { LoginModel } from '../models/login-model';
 import { Observable, of } from 'rxjs';
 
 @Injectable({

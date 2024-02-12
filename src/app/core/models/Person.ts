@@ -41,3 +41,12 @@ export interface Person {
     PersonGroupClientId: number;
     PersonGroupCode: number;
   }
+
+  export interface PeopleResponse {
+    Result: boolean;
+    Data: {
+      Objects: {
+        People: Person[];
+      };
+    };
+  }

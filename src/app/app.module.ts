@@ -14,20 +14,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { IndexedDbService } from './indexed-db.service';
-import { LoginService } from './login.service';
-import { UserInformationComponent } from './user-information/user-information.component';
-import { LoginComponent } from './login/login.component'; // Import the component
-import { AppComponent } from './app.component';
+import { IndexedDbService } from './core/services/indexed-db.service';
+import { LoginService } from './core/services/login.service';
+import { LoginComponent } from './shared/modules/login/login.component'; // Import the component
+import { AppComponent } from './shared/components/app.component';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
-import { PeopleListComponent } from './people-list/people-list.component';
+import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserInformationComponent,
     PeopleListComponent
   ],
   imports: [
