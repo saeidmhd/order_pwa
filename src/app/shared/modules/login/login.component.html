@@ -1,6 +1,6 @@
 <div class="login-container">
   <h2>ورود به سامانه</h2>
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container" style="display: flex;justify-items: center;flex-direction: column;">
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container" >
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>نام کاربری</mat-label>
       <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required (focus)="onFocus()" (blur)="onBlur()">

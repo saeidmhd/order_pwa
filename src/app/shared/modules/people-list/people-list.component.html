@@ -1,5 +1,9 @@
-<mat-list>
+
+  <mat-list>
     <mat-list-item *ngFor="let person of people">
-      {{person.FirstName}} {{person.LastName}}
+      <h3>
+        {{person.Prifix}} {{person.FirstName}} {{person.LastName}}
+      </h3>
     </mat-list-item>
   </mat-list>
+
