@@ -22,12 +22,16 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
+import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    PeopleListComponent
+    PeopleListComponent,
+    DashboardComponent,
+    BasicInfoComponent
   ],
   imports: [
     AppRoutingModule,
