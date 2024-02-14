@@ -1,0 +1,11 @@
+<!-- bank-list.component.html -->
+<div *ngIf="isLoading">Loading...</div> <!-- Show a loading message when isLoading is true -->
+<mat-progress-spinner [diameter]="30" mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner> <!-- Show a progress bar when isLoading is true -->
+
+<mat-list *ngIf="!isLoading && banks"> <!-- Only show the list when isLoading is false and banks data is available -->
+  <mat-list-item *ngFor="let bank of banks">
+    <h3>
+      {{bank.Name}}
+    </h3>
+  </mat-list-item>
+</mat-list>

@@ -2,7 +2,6 @@
 body {
 	font-family: dana  !important;
 	direction: rtl;
-	background-color: #cdcdcd;
 	margin: 0;
 }
 h1, h2, h3, h4, h5, h6,input, textarea , mat-label , button , mat-list-item , form {

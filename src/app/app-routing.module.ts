@@ -4,6 +4,8 @@ import { LoginComponent } from './shared/modules/login/login.component'; // Impo
 import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
 import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
 import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.component';
+import { UpdateInfoComponent } from './shared/modules/update-info/update-info.component';
+import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -11,6 +13,8 @@ const routes: Routes = [
   { path: 'people-list', component: PeopleListComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'basic-info', component: BasicInfoComponent },
+  { path: 'update-info', component: UpdateInfoComponent },
+  { path: 'bank-list', component: BankListComponent },
 
   // other routes...
 ];

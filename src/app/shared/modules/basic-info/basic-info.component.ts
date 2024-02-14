@@ -17,7 +17,7 @@ navigateToIncomes() {
 throw new Error('Method not implemented.');
 }
 navigateToBanks() {
-throw new Error('Method not implemented.');
+  this.router.navigate(['/bank-list']);
 }
 navigateToGoods() {
 throw new Error('Method not implemented.');

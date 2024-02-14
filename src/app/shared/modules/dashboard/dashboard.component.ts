@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -24,4 +25,8 @@ export class DashboardComponent implements OnInit {
   navigateToReports() {
     // Navigate to the Reports page
   }
+
+  navigateToUpdateInfo() {
+    this.router.navigate(['/update-info']);
+    }
 }

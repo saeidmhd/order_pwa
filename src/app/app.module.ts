@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
+
 import { IndexedDbService } from './core/services/indexed-db.service';
 import { LoginService } from './core/services/login.service';
 import { LoginComponent } from './shared/modules/login/login.component'; // Import the component
@@ -24,6 +25,10 @@ import { PeopleListComponent } from './shared/modules/people-list/people-list.co
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
 import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.component';
+import { UpdateInfoComponent } from './shared/modules/update-info/update-info.component';
+import { PeopleService } from './core/services/people.service';
+import { BanksService } from './core/services/banks.service';
+import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,9 @@ import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.compo
     LoginComponent,
     PeopleListComponent,
     DashboardComponent,
-    BasicInfoComponent
+    BasicInfoComponent,
+    UpdateInfoComponent,
+    BankListComponent
   ],
   imports: [
     AppRoutingModule,
@@ -53,7 +60,7 @@ import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.compo
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [LoginService, IndexedDbService],
+  providers: [LoginService, IndexedDbService , PeopleService , BanksService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

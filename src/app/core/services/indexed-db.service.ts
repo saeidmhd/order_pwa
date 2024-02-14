@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Person } from '../models/Person';
+import { Bank } from '../models/Bank';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndexedDbService {
   
+  
   private dbName = 'OrderDatabase';
   private loginStoreName = 'loginStore';
   private personStoreName = 'personStore';
+  private bankStoreName = 'bankStore';
   private visitorId!: string; 
 
   constructor() {}
@@ -24,6 +27,9 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.personStoreName)) {
           db.createObjectStore(this.personStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.bankStoreName)) {
+          db.createObjectStore(this.bankStoreName);
         }
       };
 
@@ -74,8 +80,6 @@ export class IndexedDbService {
     return new Promise<any>((resolve, reject) => {
       const getRequest = objectStore.get(this.visitorId);
        // Replace 'VisitorId' with the key you used to store the data
-       console.log(getRequest);
-
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<any>).result);
       };
@@ -112,16 +116,65 @@ export class IndexedDbService {
     const db = await this.openDatabase();
     const transaction = db.transaction([this.personStoreName], 'readonly');
     const objectStore = transaction.objectStore(this.personStoreName);
+  
+    // Use a key range to get all people for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.visitorId}-`, `${this.visitorId}-\uffff`);
+    console.log(keyRange)
 
+    const getRequest = objectStore.getAll(keyRange);
+  
     return new Promise<Person[]>((resolve, reject) => {
-      const getRequest = objectStore.getAll();
-
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<Person[]>).result);
       };
-
+  
       getRequest.onerror = (event) => {
         reject(new Error('Failed to get people data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+  
+
+  async storeBanks(banks: Bank[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.bankStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.bankStoreName);
+
+    for (const bank of banks) {
+      const key = `${this.visitorId}-${bank.BankId}`; // Use visitorId and BankId as the key
+      const putRequest = objectStore.put(bank, key); // Use BankId as the key
+
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Bank data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store bank data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+  
+  async getBanks(): Promise<Bank[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.bankStoreName], 'readonly');
+    const objectStore = transaction.objectStore(this.bankStoreName);
+  
+    // Use a key range to get all banks for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.visitorId}-`, `${this.visitorId}-\uffff`);
+    console.log(keyRange)
+    
+    const getRequest = objectStore.getAll(keyRange);
+  
+    return new Promise<Bank[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<Bank[]>).result);
+      };
+  
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get banks data: ' + (event.target as any).error.message));
       };
     });
   }
@@ -134,13 +187,9 @@ export class IndexedDbService {
   
     return new Promise<string>((resolve, reject) => {
       const getRequest = objectStore.get(this.visitorId);// Use visitorId to fetch the token
-
-      console.log("this.visitorId" + this.visitorId)
   
       getRequest.onsuccess = (event) => {
         const loginResponse = (event.target as IDBRequest<any>).result;
-
-        console.log(loginResponse)
 
         if (loginResponse && loginResponse.UserToken) {
           resolve(loginResponse.UserToken);
