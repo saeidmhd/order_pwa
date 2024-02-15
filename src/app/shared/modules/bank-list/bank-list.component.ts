@@ -22,16 +22,14 @@ export class BankListComponent implements OnInit {
         this.banks = banks;
         this.isLoading = false; // Set loading state to false when data is loaded
       } else {
-        this.indexedDbService.getLoginToken().then((token: string) => {
-          this.banksService.getBanks(token).subscribe((response: { Result: any; Data: { Objects: { Banks: Bank[]; }; }; }) => {
-            if (response.Result) {
-              this.banks = response.Data.Objects.Banks;
-              this.indexedDbService.storeBanks(this.banks).then(() => {
-                console.log('Banks data stored in IndexedDB');
-                this.isLoading = false; // Set loading state to false when data is loaded
-              });
-            }
-          });
+        this.banksService.getBanks().subscribe((response: { Result: any; Data: { Objects: { Banks: Bank[]; }; }; }) => {
+          if (response.Result) {
+            this.banks = response.Data.Objects.Banks;
+            this.indexedDbService.storeBanks(this.banks).then(() => {
+              console.log('Banks data stored in IndexedDB');
+              this.isLoading = false; // Set loading state to false when data is loaded
+            });
+          }
         });
       }
     });

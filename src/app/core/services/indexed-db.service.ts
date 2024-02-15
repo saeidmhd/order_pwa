@@ -57,6 +57,11 @@ export class IndexedDbService {
       const db = await this.openDatabase();
       const transaction = db.transaction([this.loginStoreName], 'readwrite');
       const objectStore = transaction.objectStore(this.loginStoreName);
+
+
+      if (response && response.UserToken) {
+        localStorage.setItem('UserToken', response.UserToken);
+      }
   
       // Use a property of the response object as the key
       const key = response.VisitorId;
@@ -188,29 +193,10 @@ export class IndexedDbService {
     });
   }
 
-  async getLoginToken(): Promise<string> {
-    console.log("getLoginToken")
-    const db = await this.openDatabase();
-    const transaction = db.transaction([this.loginStoreName], 'readonly');
-    const objectStore = transaction.objectStore(this.loginStoreName);
-  
-    return new Promise<string>((resolve, reject) => {
-      const getRequest = objectStore.get(this.visitorId);// Use visitorId to fetch the token
-  
-      getRequest.onsuccess = (event) => {
-        const loginResponse = (event.target as IDBRequest<any>).result;
 
-        if (loginResponse && loginResponse.UserToken) {
-          resolve(loginResponse.UserToken);
-        } else {
-          reject(new Error('No login response or Data is undefined'));
-        }
-      };
-  
-      getRequest.onerror = (event) => {
-        reject(new Error('Failed to get token: ' + (event.target as any).error.message));
-      };
-    });
+  getToken(): string | null {
+    return localStorage.getItem('UserToken');
   }
+  
   
 }

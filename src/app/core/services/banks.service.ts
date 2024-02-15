@@ -14,7 +14,8 @@ export class BanksService {
 
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {}
 
-  getBanks(token: string): Observable<BanksResponse> { // replace any with your BanksResponse interface
+  getBanks(): Observable<BanksResponse> { 
+    const token = this.indexedDbService.getToken(); // replace any with your BanksResponse interface
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const body = {
       FromBankVersion: 0

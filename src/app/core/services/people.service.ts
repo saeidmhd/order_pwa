@@ -13,7 +13,8 @@ export class PeopleService {
 
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {}
 
-  getPeople(token: string): Observable<PeopleResponse> {
+  getPeople(): Observable<PeopleResponse> {
+    const token = this.indexedDbService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const body = {
       FromPersonVersion: 0

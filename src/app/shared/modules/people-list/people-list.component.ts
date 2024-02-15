@@ -22,16 +22,14 @@ export class PeopleListComponent implements OnInit {
         this.people = people;
         this.isLoading = false; // Set loading state to false when data is loaded
       } else {
-        this.indexedDbService.getLoginToken().then((token: string) => {
-          this.peopleService.getPeople(token).subscribe((response: { Result: any; Data: { Objects: { People: Person[] ; }; }; }) => {
-            if (response.Result) {
-              this.people = response.Data.Objects.People;
-              this.indexedDbService.storePeople(this.people).then(() => {
-                console.log('People data stored in IndexedDB');
-                this.isLoading = false; // Set loading state to false when data is loaded
-              });
-            }
-          });
+        this.peopleService.getPeople().subscribe((response: { Result: any; Data: { Objects: { People: Person[] ; }; }; }) => {
+          if (response.Result) {
+            this.people = response.Data.Objects.People;
+            this.indexedDbService.storePeople(this.people).then(() => {
+              console.log('People data stored in IndexedDB');
+              this.isLoading = false; // Set loading state to false when data is loaded
+            });
+          }
         });
       }
     });
