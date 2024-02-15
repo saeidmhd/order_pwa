@@ -14,6 +14,15 @@ export class IndexedDbService {
   private bankStoreName = 'bankStore';
   private visitorId!: string; 
 
+  setVisitorId(visitorId: string): void {
+    this.visitorId = visitorId;
+    localStorage.setItem('visitorId', visitorId);
+  }
+
+  getVisitorId(): string | undefined {
+    return localStorage.getItem('visitorId') || undefined;
+  }
+
   constructor() {}
 
   openDatabase(): Promise<IDBDatabase> {
@@ -52,7 +61,9 @@ export class IndexedDbService {
       // Use a property of the response object as the key
       const key = response.VisitorId;
       this.visitorId = key;
-  
+
+      this.setVisitorId(key)
+
       const putRequest = objectStore.put(response, key); // Use put instead of add
   
       await new Promise<void>((resolve, reject) => {
@@ -96,7 +107,7 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.personStoreName);
 
     for (const person of people) {
-      const key = `${this.visitorId}-${person.PersonId}`; // Use userId and PersonId as the key
+      const key = `${this.getVisitorId()}-${person.PersonId}`; // Use visitorId and PersonId as the key
       const putRequest = objectStore.put(person, key); // Use PersonId as the key
 
       await new Promise<void>((resolve, reject) => {
@@ -118,9 +129,8 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.personStoreName);
   
     // Use a key range to get all people for the specific visitorId
-    const keyRange = IDBKeyRange.bound(`${this.visitorId}-`, `${this.visitorId}-\uffff`);
-    console.log(keyRange)
-
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+    
     const getRequest = objectStore.getAll(keyRange);
   
     return new Promise<Person[]>((resolve, reject) => {
@@ -141,7 +151,7 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.bankStoreName);
 
     for (const bank of banks) {
-      const key = `${this.visitorId}-${bank.BankId}`; // Use visitorId and BankId as the key
+      const key = `${this.getVisitorId()}-${bank.BankId}`; // Use visitorId and BankId as the key
       const putRequest = objectStore.put(bank, key); // Use BankId as the key
 
       await new Promise<void>((resolve, reject) => {
@@ -163,8 +173,7 @@ export class IndexedDbService {
     const objectStore = transaction.objectStore(this.bankStoreName);
   
     // Use a key range to get all banks for the specific visitorId
-    const keyRange = IDBKeyRange.bound(`${this.visitorId}-`, `${this.visitorId}-\uffff`);
-    console.log(keyRange)
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
     
     const getRequest = objectStore.getAll(keyRange);
   
