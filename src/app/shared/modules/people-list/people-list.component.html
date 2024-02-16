@@ -1,13 +1,25 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 <!-- people-list.component.html -->
 <div class="container" *ngIf="isLoading">
-  <div>در حال دریافت اطلاعات از سرور ...</div> <!-- Show a loading message when isLoading is true -->
-  <mat-progress-spinner [diameter]="30" mode="indeterminate"></mat-progress-spinner> <!-- Show a progress bar when isLoading is true -->
+  <div>در حال دریافت از سرور ...</div> <!-- Show a loading message when isLoading is true -->
+  <!-- Show a progress bar when isLoading is true -->
 </div>
 
-<mat-list *ngIf="!isLoading && people"> <!-- Only show the list when isLoading is false and people data is available -->
-  <mat-list-item *ngFor="let person of people">
-    <h3>
-      {{person.Prifix}} {{person.FirstName}} {{person.LastName}}
-    </h3>
-  </mat-list-item>
-</mat-list>
+<div *ngIf="!isLoading && people" class="list-container"> <!-- Only show the list when isLoading is false and people data is available -->
+  <mat-card *ngFor="let person of people" class="person-card">
+    <mat-card-header>
+      <mat-card-title>({{person.PersonCode}}) {{person.Prifix}} {{person.FirstName}} {{person.LastName}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        نام شرکت یا فروشگاه: {{person.Organization}}<br>
+        آدرس: {{person.Address}}<br>
+        موبایل: {{person.Mobile}}<br>
+        توضیحات: {{person.Description}}<br>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>اطلاعات بیشتر</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

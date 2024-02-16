@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+
 
 
 import { IndexedDbService } from './core/services/indexed-db.service';
@@ -29,6 +31,8 @@ import { UpdateInfoComponent } from './shared/modules/update-info/update-info.co
 import { PeopleService } from './core/services/people.service';
 import { BanksService } from './core/services/banks.service';
 import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +57,8 @@ import { BankListComponent } from './shared/modules/bank-list/bank-list.componen
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatCardModule,
+    MatProgressBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

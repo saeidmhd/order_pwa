@@ -1,13 +1,26 @@
-<!-- bank-list.component.html -->
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+<!-- banks-list.component.html -->
 <div class="container" *ngIf="isLoading">
-    <div>در حال دریافت اطلاعات از سرور ...</div> <!-- Show a loading message when isLoading is true -->
-    <mat-progress-spinner [diameter]="30" mode="indeterminate"></mat-progress-spinner> <!-- Show a progress bar when isLoading is true -->
-  </div>
+  <div>در حال دریافت اطلاعات از سرور ...</div> <!-- Show a loading message when isLoading is true -->
+</div>
+<div *ngIf="!isLoading && banks" class="list-container"> <!-- Only show the list when isLoading is false and banks data is available -->
+  <mat-card *ngFor="let bank of banks" class="bank-card">
+    <mat-card-header>
+      <mat-card-title>{{bank.BankName}}</mat-card-title>
+      <mat-card-subtitle>{{bank.Branch}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        کد بانک: {{bank.BankCode}}<br>
+        شماره حساب: {{bank.AccountNumber}}<br>
+        شماره کارت: {{bank.CardNumber}}<br>
+        شماره شبا: {{bank.Shaba}}<br>
+        توضیحات: {{bank.Description}}<br>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>اطلاعات بیشتر</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 
-<mat-list *ngIf="!isLoading && banks"> <!-- Only show the list when isLoading is false and banks data is available -->
-  <mat-list-item *ngFor="let bank of banks">
-    <h3>
-      {{bank.Name}}
-    </h3>
-  </mat-list-item>
-</mat-list>
