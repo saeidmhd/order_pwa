@@ -11,4 +11,11 @@
     margin: 20px; /* Adjust as needed */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
   }
+
+  .full-width {
+    width: 70%;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
   

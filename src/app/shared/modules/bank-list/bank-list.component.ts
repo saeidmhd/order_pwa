@@ -13,6 +13,14 @@ export class BankListComponent implements OnInit {
   banks: Bank[] = [];
   isLoading = false; // Add a new property to track loading state
 
+  searchText = '';
+
+get filteredBanks() {
+  return this.banks.filter(bank =>
+    bank.BankName.toLowerCase().includes(this.searchText.toLowerCase())
+  );
+}
+
   constructor(private indexedDbService: IndexedDbService, private banksService: BanksService) { }
 
   ngOnInit(): void {

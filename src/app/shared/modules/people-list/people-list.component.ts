@@ -13,6 +13,14 @@ export class PeopleListComponent implements OnInit {
   people: Person[] = [];
   isLoading = false; // Add a new property to track loading state
 
+searchText = '';
+
+get filteredPeople() {
+  return this.people.filter(person =>
+    (person.FirstName + ' ' + person.LastName).toLowerCase().includes(this.searchText.toLowerCase())
+  );
+}
+
   constructor(private indexedDbService: IndexedDbService, private peopleService: PeopleService) { }
 
   ngOnInit(): void {

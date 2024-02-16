@@ -3,8 +3,21 @@
 <div class="container" *ngIf="isLoading">
   <div>در حال دریافت اطلاعات از سرور ...</div> <!-- Show a loading message when isLoading is true -->
 </div>
-<div *ngIf="!isLoading && banks" class="list-container"> <!-- Only show the list when isLoading is false and banks data is available -->
-  <mat-card *ngFor="let bank of banks" class="bank-card">
+<div *ngIf="!isLoading && banks" class="list-container"> 
+  
+  <mat-form-field appearance="outline" class="full-width">
+    <input matInput [(ngModel)]="searchText" placeholder="جستجوی بانک‌ها" aria-label="Search">
+    <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-button matSuffix  aria-label="Search">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+  
+  
+  <!-- Only show the list when isLoading is false and banks data is available -->
+  <mat-card *ngFor="let bank of filteredBanks" class="bank-card">
     <mat-card-header>
       <mat-card-title>{{bank.BankName}}</mat-card-title>
       <mat-card-subtitle>{{bank.Branch}}</mat-card-subtitle>
