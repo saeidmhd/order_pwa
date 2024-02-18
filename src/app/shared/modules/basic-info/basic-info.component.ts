@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./basic-info.component.css']
 })
 export class BasicInfoComponent implements OnInit {
+
+  base64Image!: string;
   constructor(private router: Router) { }
   ngOnInit(): void {
   }
@@ -14,7 +16,26 @@ navigateToIncentivePlans() {
 throw new Error('Method not implemented.');
 }
 navigateToIncomes() {
-throw new Error('Method not implemented.');
+  throw new Error('Method not implemented.');
+}
+navigateToAndroid() {
+ fetch('assets/image.png')
+ .then(response => response.blob())
+ .then(blob => {
+   let reader = new FileReader();
+   reader.onloadend = () => {
+     if (typeof reader.result === 'string') {
+       this.base64Image = reader.result;
+
+       const customUrl = 'your-app://print?image=' + encodeURIComponent(this.base64Image);
+       window.location.href = customUrl;
+
+     } else {
+       console.error('Failed to read the image file.');
+     }
+   };
+   reader.readAsDataURL(blob);
+ });
 }
 navigateToBanks() {
   this.router.navigate(['/bank-list']);
@@ -26,6 +47,4 @@ navigateToPeople() {
   this.router.navigate(['/people-list']);
 }
 
-
- 
 }
