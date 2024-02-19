@@ -3,6 +3,7 @@ import { Person } from '../models/Person';
 import { Bank } from '../models/Bank';
 import { Product } from '../models/product';
 import { ProductDetail } from '../models/product-detail';
+import { VisitorPerson } from '../models/visitor-person';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class IndexedDbService {
   private bankStoreName = 'bankStore';
   private productStoreName = 'productStore';
   private productDetailStoreName = 'productDetailStore';
+  private visitorPeopleStoreName = 'visitorPeopleStore';
   private visitorId!: string; 
 
   setVisitorId(visitorId: string): void {
@@ -50,6 +52,9 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.productDetailStoreName)) {
           db.createObjectStore(this.productDetailStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.visitorPeopleStoreName)) {
+          db.createObjectStore(this.visitorPeopleStoreName);
         }
       };
 
@@ -294,10 +299,53 @@ async getProductDetails(): Promise<ProductDetail[]> {
   });
 }
 
+// indexed-db.service.ts
+async storeVisitorPeople(visitorPeople: VisitorPerson[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.visitorPeopleStoreName], 'readwrite');
+  const objectStore = transaction.objectStore(this.visitorPeopleStoreName);
+
+  for (const visitorPerson of visitorPeople) {
+    const putRequest = objectStore.put(visitorPerson, visitorPerson.VisitorPersonId); // Use VisitorPersonId as the key
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Visitor person data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store visitor person data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
 
   getToken(): string | null {
     return localStorage.getItem('UserToken');
   }
-  
+
+  // indexed-db.service.ts
+async getMaxRowVersion(storeName: string): Promise<number> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([storeName], 'readonly');
+  const objectStore = transaction.objectStore(storeName);
+
+  return new Promise<number>((resolve, reject) => {
+    const getRequest = objectStore.getAll();
+
+    getRequest.onsuccess = (event) => {
+      const records = (event.target as IDBRequest<any[]>).result;
+      const maxRowVersion = Math.max(...records.map(record => record.RowVersion), 0);
+      console.log( "maxRowVersion = " + maxRowVersion)
+      resolve(maxRowVersion);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get records: ' + (event.target as any).error.message));
+    };
+  });
+}
+
   
 }
