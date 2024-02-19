@@ -5,6 +5,7 @@ import { Product } from '../models/product';
 import { ProductDetail } from '../models/product-detail';
 import { VisitorPerson } from '../models/visitor-person';
 import { Order } from '../models/order';
+import { OrderDetail } from '../models/order-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class IndexedDbService {
   private productDetailStoreName = 'productDetailStore';
   private visitorPeopleStoreName = 'visitorPeopleStore';
   private OrderStoreName = 'orderStore';
+  private orderDetailStoreName = 'orderDetailStore';
  
   private visitorId!: string; 
 
@@ -61,6 +63,9 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.OrderStoreName)) {
           db.createObjectStore(this.OrderStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.orderDetailStoreName)) {
+          db.createObjectStore(this.orderDetailStoreName);
         }
       };
 
@@ -348,6 +353,51 @@ async storeOrders(orders: Order[]): Promise<void> {
     });
   }
 }
+
+async storeOrderDetails(orderDetails: OrderDetail[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.orderDetailStoreName], 'readwrite'); // Use your order detail store name
+  const objectStore = transaction.objectStore(this.orderDetailStoreName);
+
+  for (const orderDetail of orderDetails) {
+    const key = `${this.getVisitorId()}-${orderDetail.OrderDetailId}`; // Use visitorId and OrderDetailId as the key
+    const putRequest = objectStore.put(orderDetail, key); // Use put instead of add
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Order detail data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store order detail data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
+
+async getOrderDetails(): Promise<OrderDetail[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.orderDetailStoreName], 'readonly'); // Use your order detail store name
+  const objectStore = transaction.objectStore(this.orderDetailStoreName);
+
+  // Use a key range to get all order details for the specific visitorId
+  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+  const getRequest = objectStore.getAll(keyRange);
+
+  return new Promise<OrderDetail[]>((resolve, reject) => {
+    getRequest.onsuccess = (event) => {
+      resolve((event.target as IDBRequest<OrderDetail[]>).result);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get order details data: ' + (event.target as any).error.message));
+    };
+  });
+}
+
+
 
 
 async getOrders(): Promise<Order[]> {
