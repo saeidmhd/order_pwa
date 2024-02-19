@@ -4,6 +4,7 @@ import { Bank } from '../models/Bank';
 import { Product } from '../models/product';
 import { ProductDetail } from '../models/product-detail';
 import { VisitorPerson } from '../models/visitor-person';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class IndexedDbService {
   private productStoreName = 'productStore';
   private productDetailStoreName = 'productDetailStore';
   private visitorPeopleStoreName = 'visitorPeopleStore';
+  private OrderStoreName = 'orderStore';
+ 
   private visitorId!: string; 
 
   setVisitorId(visitorId: string): void {
@@ -55,6 +58,9 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.visitorPeopleStoreName)) {
           db.createObjectStore(this.visitorPeopleStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.OrderStoreName)) {
+          db.createObjectStore(this.OrderStoreName);
         }
       };
 
@@ -321,19 +327,68 @@ async storeVisitorPeople(visitorPeople: VisitorPerson[]): Promise<void> {
   }
 }
 
+async storeOrders(orders: Order[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.OrderStoreName], 'readwrite'); // Use your order store name
+  const objectStore = transaction.objectStore(this.OrderStoreName);
+
+  for (const order of orders) {
+    const key = `${this.getVisitorId()}-${order.OrderId}`; // Use visitorId and OrderId as the key
+    const putRequest = objectStore.put(order, key); // Use put instead of add
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Order data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store order data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
+
+
+async getOrders(): Promise<Order[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.OrderStoreName], 'readonly'); // Use your order store name
+  const objectStore = transaction.objectStore(this.OrderStoreName);
+
+  // Use a key range to get all orders for the specific visitorId
+  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+  const getRequest = objectStore.getAll(keyRange);
+
+  return new Promise<Order[]>((resolve, reject) => {
+    getRequest.onsuccess = (event) => {
+      resolve((event.target as IDBRequest<Order[]>).result);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get orders data: ' + (event.target as any).error.message));
+    };
+  });
+}
+
+
   getToken(): string | null {
     return localStorage.getItem('UserToken');
   }
 
   // indexed-db.service.ts
 async getMaxRowVersion(storeName: string): Promise<number> {
+  console.log("storeName1 = " + storeName )
   const db = await this.openDatabase();
+  console.log("storeName2 = " + storeName )
   const transaction = db.transaction([storeName], 'readonly');
+  console.log("storeName3 = " + storeName )
   const objectStore = transaction.objectStore(storeName);
+  console.log(objectStore)
 
   return new Promise<number>((resolve, reject) => {
     const getRequest = objectStore.getAll();
-
+    console.log(getRequest)
     getRequest.onsuccess = (event) => {
       const records = (event.target as IDBRequest<any[]>).result;
       const maxRowVersion = Math.max(...records.map(record => record.RowVersion), 0);
@@ -346,6 +401,5 @@ async getMaxRowVersion(storeName: string): Promise<number> {
     };
   });
 }
-
   
 }

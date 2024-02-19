@@ -4,6 +4,7 @@ import { PeopleService } from '../../../core/services/people.service';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductDetailService } from '../../../core/services/product-detail.service';
 import { VisitorPeopleService } from 'src/app/core/services/visitor-person.service';
+import { OrdersService } from 'src/app/core/services/order.service';
 
 @Component({
   selector: 'app-update-info',
@@ -17,13 +18,15 @@ export class UpdateInfoComponent implements OnInit {
   productsReceived = false;
   productDetailsReceived = false;
   visitorPeopleReceived = false;
+  ordersReceived = false;
 
   constructor(
     private banksService: BanksService,
     private peopleService: PeopleService,
     private productService: ProductService,
     private productDetailService: ProductDetailService,
-    private visitorPeopleService: VisitorPeopleService
+    private visitorPeopleService: VisitorPeopleService,
+    private ordersService: OrdersService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -46,6 +49,9 @@ export class UpdateInfoComponent implements OnInit {
 
       const visitorPeople = await this.visitorPeopleService.getVisitorPeople().toPromise();
       this.visitorPeopleReceived = true;
+
+      const orders = await this.ordersService.getOrders().toPromise();
+      this.ordersReceived = true;
 
       // Store product details in IndexedDB
     } catch (error) {

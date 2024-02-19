@@ -37,6 +37,7 @@ import { ProductService } from './core/services/product.service';
 import { ProductListComponent } from './shared/modules/product-list/product-list.component';
 import { ProductDetailListComponent } from './shared/modules/product-detail-list/product-detail-list.component';
 import { VisitorPeopleService } from './core/services/visitor-person.service';
+import { OrdersService } from './core/services/order.service';
 
 
 @NgModule({
@@ -73,7 +74,7 @@ import { VisitorPeopleService } from './core/services/visitor-person.service';
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [LoginService, IndexedDbService , PeopleService , BanksService , ProductDetailService , ProductService , VisitorPeopleService ],
+  providers: [LoginService, IndexedDbService , PeopleService , BanksService , ProductDetailService , ProductService , VisitorPeopleService , OrdersService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
