@@ -15,9 +15,6 @@ export class ProductDetailService {
 
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {}
 
- 
-
-
   getProductDetails(): Observable<ProductDetailsResponse> {
     return from(this.indexedDbService.getMaxRowVersion('productDetailStore')).pipe(
       switchMap(fromProductDetailVersion => {
