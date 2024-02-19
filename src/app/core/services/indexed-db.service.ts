@@ -14,7 +14,7 @@ export class IndexedDbService {
   
   
   private dbName = 'OrderDatabase';
-  private dbVersion = 1;
+  private dbVersion = 2;
   private loginStoreName = 'loginStore';
   private personStoreName = 'personStore';
   private bankStoreName = 'bankStore';
