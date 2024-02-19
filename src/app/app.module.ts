@@ -32,6 +32,10 @@ import { PeopleService } from './core/services/people.service';
 import { BanksService } from './core/services/banks.service';
 import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ProductDetailService } from './core/services/product-detail.service';
+import { ProductService } from './core/services/product.service';
+import { ProductListComponent } from './shared/modules/product-list/product-list.component';
+import { ProductDetailListComponent } from './shared/modules/product-detail-list/product-detail-list.component';
 
 
 @NgModule({
@@ -42,7 +46,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     DashboardComponent,
     BasicInfoComponent,
     UpdateInfoComponent,
-    BankListComponent
+    BankListComponent,
+    ProductListComponent,
+    ProductDetailListComponent
   ],
   imports: [
     AppRoutingModule,
@@ -66,7 +72,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [LoginService, IndexedDbService , PeopleService , BanksService ],
+  providers: [LoginService, IndexedDbService , PeopleService , BanksService , ProductDetailService , ProductService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Person } from '../models/Person';
 import { Bank } from '../models/Bank';
+import { Product } from '../models/product';
+import { ProductDetail } from '../models/product-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +11,12 @@ export class IndexedDbService {
   
   
   private dbName = 'OrderDatabase';
+  private dbVersion = 1;
   private loginStoreName = 'loginStore';
   private personStoreName = 'personStore';
   private bankStoreName = 'bankStore';
+  private productStoreName = 'productStore';
+  private productDetailStoreName = 'productDetailStore';
   private visitorId!: string; 
 
   setVisitorId(visitorId: string): void {
@@ -27,7 +32,7 @@ export class IndexedDbService {
 
   openDatabase(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, 1);
+      const request = indexedDB.open(this.dbName, this.dbVersion);
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBRequest<IDBDatabase>).result;
@@ -39,6 +44,12 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.bankStoreName)) {
           db.createObjectStore(this.bankStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.productStoreName)) {
+          db.createObjectStore(this.productStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.productDetailStoreName)) {
+          db.createObjectStore(this.productDetailStoreName);
         }
       };
 
@@ -192,6 +203,96 @@ export class IndexedDbService {
       };
     });
   }
+
+  // indexed-db.service.ts
+async storeProducts(products: Product[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.productStoreName], 'readwrite');
+  const objectStore = transaction.objectStore(this.productStoreName);
+
+  for (const product of products) {
+    const key = `${this.getVisitorId()}-${product.ProductId}`; // Use visitorId and ProductId as the key
+    const putRequest = objectStore.put(product, key); // Use put instead of add
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Product data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store product data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
+
+async storeProductDetails(productDetails: ProductDetail[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.productDetailStoreName], 'readwrite');
+  const objectStore = transaction.objectStore(this.productDetailStoreName);
+
+  for (const productDetail of productDetails) {
+    const key = `${this.getVisitorId()}-${productDetail.ProductDetailId}`; // Use visitorId and ProductDetailId as the key
+    const putRequest = objectStore.put(productDetail, key); // Use put instead of add
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Product detail data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store product detail data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
+
+// indexed-db.service.ts
+async getProducts(): Promise<Product[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.productStoreName], 'readonly');
+  const objectStore = transaction.objectStore(this.productStoreName);
+
+  // Use a key range to get all products for the specific visitorId
+  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+  const getRequest = objectStore.getAll(keyRange);
+
+  return new Promise<Product[]>((resolve, reject) => {
+    getRequest.onsuccess = (event) => {
+      resolve((event.target as IDBRequest<Product[]>).result);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get products data: ' + (event.target as any).error.message));
+    };
+  });
+}
+
+
+// indexed-db.service.ts
+async getProductDetails(): Promise<ProductDetail[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.productDetailStoreName], 'readonly');
+  const objectStore = transaction.objectStore(this.productDetailStoreName);
+
+  // Use a key range to get all product details for the specific visitorId
+  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+  const getRequest = objectStore.getAll(keyRange);
+
+  return new Promise<ProductDetail[]>((resolve, reject) => {
+    getRequest.onsuccess = (event) => {
+      resolve((event.target as IDBRequest<ProductDetail[]>).result);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get product details data: ' + (event.target as any).error.message));
+    };
+  });
+}
 
 
   getToken(): string | null {
