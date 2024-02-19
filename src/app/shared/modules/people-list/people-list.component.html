@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 
 <div class="container" *ngIf="isLoading">
-  <div>در حال دریافت از سرور ...</div> <!-- Show a loading message when isLoading is true -->
+  <div>بارگذاری اشخاص ...</div> <!-- Show a loading message when isLoading is true -->
 </div>
 
 <div *ngIf="!isLoading && people" class="list-container"> 
@@ -11,9 +11,7 @@
     <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
       <mat-icon>close</mat-icon>
     </button>
-    <button mat-button matSuffix  aria-label="Search">
-      <mat-icon>search</mat-icon>
-    </button>
+  
   </mat-form-field>
   
   <mat-card *ngFor="let person of filteredPeople" class="person-card">
