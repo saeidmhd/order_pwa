@@ -6,12 +6,15 @@
 
 <div *ngIf="!isLoading && products" class="list-container"> 
 
-  <mat-form-field appearance="outline" class="full-width">
-    <input matInput [(ngModel)]="searchText" placeholder="جستجوی کالاها" aria-label="Search">
-    <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon> <!-- Add this line -->
+      <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
+      <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>  
+  </div>
   
   <mat-card *ngFor="let product of filteredProducts" class="product-card">
     <mat-card-header>

@@ -6,6 +6,7 @@ import { ProductDetail } from '../models/product-detail';
 import { VisitorPerson } from '../models/visitor-person';
 import { Order } from '../models/order';
 import { OrderDetail } from '../models/order-detail';
+import { ProductCategory } from '../models/product-category';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class IndexedDbService {
   private visitorPeopleStoreName = 'visitorPeopleStore';
   private OrderStoreName = 'orderStore';
   private orderDetailStoreName = 'orderDetailStore';
+  private productCategoryName = 'productCategoryStore';
  
   private visitorId!: string; 
 
@@ -66,6 +68,9 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.orderDetailStoreName)) {
           db.createObjectStore(this.orderDetailStoreName);
+        }
+        if (!db.objectStoreNames.contains(this.productCategoryName)) {
+          db.createObjectStore(this.productCategoryName);
         }
       };
 
@@ -420,6 +425,51 @@ async getOrders(): Promise<Order[]> {
     };
   });
 }
+
+async storeProductCategories(productCategories: ProductCategory[]): Promise<void> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction(['productCategoryStore'], 'readwrite'); // Use your product category store name
+  const objectStore = transaction.objectStore('productCategoryStore');
+
+  for (const productCategory of productCategories) {
+    const key = `${this.getVisitorId()}-${productCategory.ProductCategoryId}`; // Use visitorId and ProductCategoryId as the key
+    const putRequest = objectStore.put(productCategory, key); // Use put instead of add
+
+    await new Promise<void>((resolve, reject) => {
+      putRequest.onsuccess = (event) => {
+        console.log('Product category data stored in IndexedDB with key: ' + (event.target as any).result);
+        resolve();
+      };
+
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to store product category data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+}
+
+async getProductCategories(): Promise<ProductCategory[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction(['productCategoryStore'], 'readonly'); // Use your product category store name
+  const objectStore = transaction.objectStore('productCategoryStore');
+
+  // Use a key range to get all product categories for the specific visitorId
+  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+  const getRequest = objectStore.getAll(keyRange);
+
+  return new Promise<ProductCategory[]>((resolve, reject) => {
+    getRequest.onsuccess = (event) => {
+      resolve((event.target as IDBRequest<ProductCategory[]>).result);
+    };
+
+    getRequest.onerror = (event) => {
+      reject(new Error('Failed to get product categories data: ' + (event.target as any).error.message));
+    };
+  });
+}
+
+
 
 
   getToken(): string | null {

@@ -4,16 +4,17 @@
   <div>بارگذاری اشخاص ...</div> <!-- Show a loading message when isLoading is true -->
 </div>
 
-<div *ngIf="!isLoading && people" class="list-container"> 
-
+<div class="search-bar">
   <mat-form-field appearance="outline" class="full-width">
-    <input matInput [(ngModel)]="searchText" placeholder="جستجوی اشخاص" aria-label="Search">
+    <mat-icon matPrefix>search</mat-icon> <!-- Add this line -->
+    <input matInput [(ngModel)]="searchText" placeholder="جستجو در اشخاص" aria-label="Search">
     <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
       <mat-icon>close</mat-icon>
     </button>
-  
-  </mat-form-field>
-  
+  </mat-form-field>  
+</div>
+
+<div class="list-container" *ngIf="!isLoading && people"> 
   <mat-card *ngFor="let person of filteredPeople" class="person-card">
     <mat-card-header>
       <mat-card-title>({{person.PersonCode}}) {{person.Prifix}} {{person.FirstName}} {{person.LastName}}</mat-card-title>
