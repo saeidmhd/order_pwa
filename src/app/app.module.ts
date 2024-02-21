@@ -23,6 +23,7 @@ import { LoginComponent } from './shared/modules/login/login.component'; // Impo
 import { AppComponent } from './shared/components/app.component';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
@@ -38,6 +39,7 @@ import { ProductListComponent } from './shared/modules/product-list/product-list
 import { ProductDetailListComponent } from './shared/modules/product-detail-list/product-detail-list.component';
 import { VisitorPeopleService } from './core/services/visitor-person.service';
 import { OrdersService } from './core/services/order.service';
+import { ProductCategoryComponent } from './shared/modules/product-category/product-category.component';
 
 
 @NgModule({
@@ -50,7 +52,8 @@ import { OrdersService } from './core/services/order.service';
     UpdateInfoComponent,
     BankListComponent,
     ProductListComponent,
-    ProductDetailListComponent
+    ProductDetailListComponent,
+    ProductCategoryComponent
   ],
   imports: [
     AppRoutingModule,
@@ -59,6 +62,7 @@ import { OrdersService } from './core/services/order.service';
     HttpClientModule,
     FormsModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatButtonModule,

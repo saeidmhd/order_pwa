@@ -1,8 +1,7 @@
-// product-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../core/models/product';
+import { ProductCategory } from '../../../core/models/product-category';
 import { IndexedDbService } from '../../../core/services/indexed-db.service';
-import { ProductService } from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -11,35 +10,56 @@ import { ProductService } from '../../../core/services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-  isLoading = false; // Add a new property to track loading state
-
+  productCategories: ProductCategory[] = [];
+  selectedCategory: ProductCategory | null = null; // Add a new property to track the selected category
+  isLoading = false;
   searchText = '';
 
-  get filteredProducts() {
-    return this.products.filter(product =>
-      product.Name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-  }
-
-  constructor(private indexedDbService: IndexedDbService, private productService: ProductService) { }
+  constructor(private indexedDbService: IndexedDbService) {}
 
   ngOnInit(): void {
-    this.isLoading = true; // Set loading state to true at the start
-    this.indexedDbService.getProducts().then((products: Product[]) => {
-      if (products.length > 0) {
-        this.products = products;
-        this.isLoading = false; // Set loading state to false when data is loaded
-      } else {
-        this.productService.getProducts().subscribe((response: { Result: any; Data: { Objects: { Products: Product[] ; }; }; }) => {
-          if (response.Result) {
-            this.products = response.Data.Objects.Products;
-            this.indexedDbService.storeProducts(this.products).then(() => {
-              console.log('Products data stored in IndexedDB');
-              this.isLoading = false; // Set loading state to false when data is loaded
-            });
-          }
-        });
-      }
+    this.isLoading = true;
+    this.loadProducts();
+    this.loadProductCategories();
+  }
+
+  loadProducts(): void {
+    this.indexedDbService.getProducts().then(products => {
+      this.products = products;
+      this.isLoading = false;
     });
   }
+
+  loadProductCategories(): void {
+    this.indexedDbService.getProductCategories().then(categories => {
+      this.productCategories = categories;
+    });
+  }
+
+  filterByCategory(category: ProductCategory): void {
+    this.selectedCategory = category; // Set the selected category
+  }
+
+  clearSearch(): void {
+    this.searchText = '';
+  }
+
+  get filteredProducts() {
+    let filtered = this.products;
+  
+    // Filter by search text
+    if (this.searchText) {
+      filtered = filtered.filter(product =>
+        product.Name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
+  
+    // Filter by selected category
+    if (this.selectedCategory) {
+      filtered = filtered.filter(product => product.ProductCategoryId === this.selectedCategory?.ProductCategoryId);
+    }
+  
+    return filtered;
+  }
+  
 }
