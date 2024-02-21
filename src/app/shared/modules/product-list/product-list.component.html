@@ -1,53 +1,58 @@
-<div class="container">
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
-      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="clearSearch()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>  
-  </div>
-
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
-      <!-- Product Categories -->
-      <mat-list>
-        <mat-list-item *ngFor="let category of productCategories" 
-                       (click)="filterByCategory(category)"
-                       [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
-          {{ category.Name }}
-        </mat-list-item>
-      </mat-list>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <!-- Product List -->
-      <div class="product-list">
-        <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
-
-        <div *ngIf="isLoading">
-          <div>بارگذاری کالاها ...</div>
-        </div>
-
-        <div *ngIf="!isLoading && products" class="list-container">
-          <mat-card *ngFor="let product of filteredProducts" class="product-card">
-            <mat-card-header>
-              <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Unit Name: {{product.UnitName}}<br>
-                Unit Name 2: {{product.UnitName2}}<br>
-              </p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button> اطلاعات بیشتر</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+<!-- banks-list.component.html -->
+<div class="container" *ngIf="isLoading">
+  <div>بارگذاری بانک‌ها ...</div> <!-- Show a loading message when isLoading is true -->
 </div>
+
+<div class="search-bar">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
+    <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="clearSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>  
+</div>
+
+<div>
+  <div class="container">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
+        <!-- Product Categories -->
+        <mat-list>
+          <mat-list-item *ngFor="let category of productCategories" 
+                         (click)="filterByCategory(category)"
+                         [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
+            {{ category.Name }}
+          </mat-list-item>
+        </mat-list>
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+        <!-- Product List -->
+        <div class="product-list">
+          
+          <div *ngIf="!isLoading && products" class="list-container">
+            <mat-card *ngFor="let product of filteredProducts" class="product-card">
+              <mat-card-header>
+                <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                  Unit Name: {{product.UnitName}}<br>
+                  Unit Name 2: {{product.UnitName2}}<br>
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button> اطلاعات بیشتر</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  
+</div>
+
+
