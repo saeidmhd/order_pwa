@@ -13,46 +13,37 @@
     </button>
   </mat-form-field>  
 </div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
+    <!-- Product Categories -->
+    <mat-list>
+      <mat-list-item *ngFor="let category of productCategories" 
+                     (click)="filterByCategory(category)"
+                     [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
+        {{ category.Name }}
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
 
-<div>
-  <div class="container">
-    <mat-sidenav-container class="sidenav-container">
-      <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
-        <!-- Product Categories -->
-        <mat-list>
-          <mat-list-item *ngFor="let category of productCategories" 
-                         (click)="filterByCategory(category)"
-                         [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
-            {{ category.Name }}
-          </mat-list-item>
-        </mat-list>
-      </mat-sidenav>
-  
-      <mat-sidenav-content>
-        <!-- Product List -->
-        <div class="product-list">
-          
-          <div *ngIf="!isLoading && products" class="list-container">
-            <mat-card *ngFor="let product of filteredProducts" class="product-card">
-              <mat-card-header>
-                <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <p>
-                  Unit Name: {{product.UnitName}}<br>
-                  Unit Name 2: {{product.UnitName2}}<br>
-                </p>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-button> اطلاعات بیشتر</button>
-              </mat-card-actions>
-            </mat-card>
-          </div>
-        </div>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
-  
-</div>
-
-
+  <mat-sidenav-content>
+    <!-- Product List -->
+    <div class="product-list-container">
+      <div *ngIf="!isLoading && products" class="list-container">
+        <mat-card *ngFor="let product of filteredProducts" class="product-card">
+          <mat-card-header>
+            <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Unit Name: {{product.UnitName}}<br>
+              Unit Name 2: {{product.UnitName2}}<br>
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button> اطلاعات بیشتر</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
