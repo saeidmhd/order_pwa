@@ -9,7 +9,7 @@
 .product-card {
   margin: 10px;
   /* Adjust as needed */
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .full-width {
@@ -25,4 +25,12 @@
   background: white;
   width: 90%;
   /* Optional: this ensures the text below doesn't show when scrolling */
+}
+
+.sidenav-container{
+  width: 100%;
+}
+
+.mat-side-nav{
+
 }
