@@ -475,17 +475,19 @@ export class IndexedDbService {
   }
 
   // indexed-db.service.ts
+  
   async getMaxRowVersion(storeName: string): Promise<number> {
-    console.log("storeName1 = " + storeName)
+    console.log("storeName = " + storeName)
     const db = await this.openDatabase();
-    console.log("storeName2 = " + storeName)
     const transaction = db.transaction([storeName], 'readonly');
-    console.log("storeName3 = " + storeName)
     const objectStore = transaction.objectStore(storeName);
     console.log(objectStore)
 
+    // Use a key range to get all records for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+
     return new Promise<number>((resolve, reject) => {
-      const getRequest = objectStore.getAll();
+      const getRequest = objectStore.getAll(keyRange);
       console.log(getRequest)
       getRequest.onsuccess = (event) => {
         const records = (event.target as IDBRequest<any[]>).result;
@@ -498,6 +500,7 @@ export class IndexedDbService {
         reject(new Error('Failed to get records: ' + (event.target as any).error.message));
       };
     });
-  }
+}
+
 
 }
