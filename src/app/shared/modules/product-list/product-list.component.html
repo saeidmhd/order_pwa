@@ -1,7 +1,6 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
-<!-- banks-list.component.html -->
 <div class="container" *ngIf="isLoading">
-  <div>بارگذاری بانک‌ها ...</div> <!-- Show a loading message when isLoading is true -->
+  <div>بارگذاری بانک‌ها ...</div>
 </div>
 
 <div class="search-bar">
@@ -15,9 +14,7 @@
 </div>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
-    <!-- Product Categories -->
     <mat-list>
-      
       <mat-list-item class = "mat-list-item" *ngFor="let category of productCategories" 
                      (click)="filterByCategory(category)"
                      [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
@@ -27,10 +24,10 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <!-- Product List -->
     <div class="product-list-container">
       <div *ngIf="!isLoading && products" class="list-container">
         <mat-card *ngFor="let product of filteredProducts" class="product-card">
+          <img [src]="getProductImageUrl(product)" alt="{{ product.Name }}"> <!-- Add image tag -->
           <mat-card-header>
             <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
           </mat-card-header>

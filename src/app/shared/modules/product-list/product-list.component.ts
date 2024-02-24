@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../core/models/product';
 import { ProductCategory } from '../../../core/models/product-category';
+import { Picture } from '../../../core/models/picture'; // Import Picture model
+import { PhotoGallery } from '../../../core/models/photo-gallery'; // Import PhotoGallery model
 import { IndexedDbService } from '../../../core/services/indexed-db.service';
 
 @Component({
@@ -9,20 +11,24 @@ import { IndexedDbService } from '../../../core/services/indexed-db.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  
-  
   products: Product[] = [];
   productCategories: ProductCategory[] = [];
-  selectedCategory: ProductCategory | null = null; // Add a new property to track the selected category
+  pictures: Picture[] = []; // Add pictures array
+  photoGalleries: PhotoGallery[] = []; // Add photoGalleries array
+  selectedCategory: ProductCategory | null = null;
   isLoading = false;
   searchText = '';
 
-  constructor(private indexedDbService: IndexedDbService) {}
+  constructor(
+    private indexedDbService: IndexedDbService,
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.loadProducts();
     this.loadProductCategories();
+    this.loadPictures(); // Load pictures
+    this.loadPhotoGalleries(); // Load photo galleries
   }
 
   loadProducts(): void {
@@ -38,30 +44,48 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  loadPictures(): void { // Add loadPictures method
+    this.indexedDbService.getPictures().then(pictures => {
+      this.pictures = pictures;
+    });
+  }
+
+  loadPhotoGalleries(): void { // Add loadPhotoGalleries method
+    this.indexedDbService.getPhotoGalleries().then(photoGalleries => {
+      this.photoGalleries = photoGalleries;
+    });
+  }
+
   filterByCategory(category: ProductCategory): void {
-    this.selectedCategory = category; // Set the selected category
+    this.selectedCategory = category;
   }
 
   clearSearch(): void {
     this.searchText = '';
   }
 
+  getProductImageUrl(product: Product): string { // Add getProductImageUrl method
+    const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
+    const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
+    console.log("picture : " + picture)
+    return 'https://mahakacc.mahaksoft.com' + picture?.Url;
+  }
+
   get filteredProducts() {
     let filtered = this.products;
-  
+
     // Filter by search text
     if (this.searchText) {
       filtered = filtered.filter(product =>
         product.Name.toLowerCase().includes(this.searchText.toLowerCase())
       );
     }
-  
+
     // Filter by selected category
     if (this.selectedCategory) {
       filtered = filtered.filter(product => product.ProductCategoryId === this.selectedCategory?.ProductCategoryId);
     }
-  
+
     return filtered;
   }
-  
 }
