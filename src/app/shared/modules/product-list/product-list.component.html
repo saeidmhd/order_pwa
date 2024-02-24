@@ -17,6 +17,7 @@
   <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
     <!-- Product Categories -->
     <mat-list>
+      
       <mat-list-item *ngFor="let category of productCategories" 
                      (click)="filterByCategory(category)"
                      [style.background]="selectedCategory === category ? '#f0f0f0' : ''">

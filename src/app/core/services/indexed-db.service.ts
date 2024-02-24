@@ -12,8 +12,8 @@ import { ProductCategory } from '../models/product-category';
   providedIn: 'root'
 })
 export class IndexedDbService {
-  
-  
+
+
   private dbName = 'OrderDatabase';
   private dbVersion = 2;
   private loginStoreName = 'loginStore';
@@ -25,8 +25,8 @@ export class IndexedDbService {
   private OrderStoreName = 'orderStore';
   private orderDetailStoreName = 'orderDetailStore';
   private productCategoryName = 'productCategoryStore';
- 
-  private visitorId!: string; 
+
+  private visitorId!: string;
 
   setVisitorId(visitorId: string): void {
     this.visitorId = visitorId;
@@ -37,7 +37,7 @@ export class IndexedDbService {
     return localStorage.getItem('visitorId') || undefined;
   }
 
-  constructor() {}
+  constructor() { }
 
   openDatabase(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
@@ -94,7 +94,7 @@ export class IndexedDbService {
       if (response && response.UserToken) {
         localStorage.setItem('UserToken', response.UserToken);
       }
-  
+
       // Use a property of the response object as the key
       const key = response.VisitorId;
       this.visitorId = key;
@@ -102,13 +102,13 @@ export class IndexedDbService {
       this.setVisitorId(key)
 
       const putRequest = objectStore.put(response, key); // Use put instead of add
-  
+
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
           console.log('Data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
-  
+
         putRequest.onerror = (event) => {
           reject(new Error('Failed to store data: ' + (event.target as any).error.message));
         };
@@ -118,7 +118,7 @@ export class IndexedDbService {
       // Handle the error appropriately (e.g., display a user-friendly message)
     }
   }
-  
+
 
   async getLoginResponse(): Promise<any> {
     const db = await this.openDatabase();
@@ -127,7 +127,7 @@ export class IndexedDbService {
 
     return new Promise<any>((resolve, reject) => {
       const getRequest = objectStore.get(this.visitorId);
-       // Replace 'VisitorId' with the key you used to store the data
+      // Replace 'VisitorId' with the key you used to store the data
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<any>).result);
       };
@@ -164,23 +164,23 @@ export class IndexedDbService {
     const db = await this.openDatabase();
     const transaction = db.transaction([this.personStoreName], 'readonly');
     const objectStore = transaction.objectStore(this.personStoreName);
-  
+
     // Use a key range to get all people for the specific visitorId
     const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-    
+
     const getRequest = objectStore.getAll(keyRange);
-  
+
     return new Promise<Person[]>((resolve, reject) => {
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<Person[]>).result);
       };
-  
+
       getRequest.onerror = (event) => {
         reject(new Error('Failed to get people data: ' + (event.target as any).error.message));
       };
     });
   }
-  
+
 
   async storeBanks(banks: Bank[]): Promise<void> {
     const db = await this.openDatabase();
@@ -203,22 +203,22 @@ export class IndexedDbService {
       });
     }
   }
-  
+
   async getBanks(): Promise<Bank[]> {
     const db = await this.openDatabase();
     const transaction = db.transaction([this.bankStoreName], 'readonly');
     const objectStore = transaction.objectStore(this.bankStoreName);
-  
+
     // Use a key range to get all banks for the specific visitorId
     const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-    
+
     const getRequest = objectStore.getAll(keyRange);
-  
+
     return new Promise<Bank[]>((resolve, reject) => {
       getRequest.onsuccess = (event) => {
         resolve((event.target as IDBRequest<Bank[]>).result);
       };
-  
+
       getRequest.onerror = (event) => {
         reject(new Error('Failed to get banks data: ' + (event.target as any).error.message));
       };
@@ -226,250 +226,248 @@ export class IndexedDbService {
   }
 
   // indexed-db.service.ts
-async storeProducts(products: Product[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.productStoreName], 'readwrite');
-  const objectStore = transaction.objectStore(this.productStoreName);
+  async storeProducts(products: Product[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.productStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.productStoreName);
 
-  for (const product of products) {
-    const key = `${this.getVisitorId()}-${product.ProductId}`; // Use visitorId and ProductId as the key
-    const putRequest = objectStore.put(product, key); // Use put instead of add
+    for (const product of products) {
+      const key = `${this.getVisitorId()}-${product.ProductId}`; // Use visitorId and ProductId as the key
+      const putRequest = objectStore.put(product, key); // Use put instead of add
 
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Product data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Product data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store product data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async storeProductDetails(productDetails: ProductDetail[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.productDetailStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.productDetailStoreName);
+
+    for (const productDetail of productDetails) {
+      const key = `${this.getVisitorId()}-${productDetail.ProductDetailId}`; // Use visitorId and ProductDetailId as the key
+      const putRequest = objectStore.put(productDetail, key); // Use put instead of add
+
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Product detail data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store product detail data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  // indexed-db.service.ts
+  async getProducts(): Promise<Product[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.productStoreName], 'readonly');
+    const objectStore = transaction.objectStore(this.productStoreName);
+
+    // Use a key range to get all products for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+
+    const getRequest = objectStore.getAll(keyRange);
+
+    return new Promise<Product[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        let products = (event.target as IDBRequest<Product[]>).result;
+        // Sort products by ProductCode
+        products.sort((a, b) => a.ProductCode - b.ProductCode);
+        resolve(products);
       };
 
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store product data: ' + (event.target as any).error.message));
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get products data: ' + (event.target as any).error.message));
       };
     });
   }
-}
 
-async storeProductDetails(productDetails: ProductDetail[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.productDetailStoreName], 'readwrite');
-  const objectStore = transaction.objectStore(this.productDetailStoreName);
 
-  for (const productDetail of productDetails) {
-    const key = `${this.getVisitorId()}-${productDetail.ProductDetailId}`; // Use visitorId and ProductDetailId as the key
-    const putRequest = objectStore.put(productDetail, key); // Use put instead of add
+  // indexed-db.service.ts
+  async getProductDetails(): Promise<ProductDetail[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.productDetailStoreName], 'readonly');
+    const objectStore = transaction.objectStore(this.productDetailStoreName);
 
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Product detail data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
+    // Use a key range to get all product details for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+
+    const getRequest = objectStore.getAll(keyRange);
+
+    return new Promise<ProductDetail[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<ProductDetail[]>).result);
       };
 
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store product detail data: ' + (event.target as any).error.message));
-      };
-    });
-  }
-}
-
-// indexed-db.service.ts
-async getProducts(): Promise<Product[]> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.productStoreName], 'readonly');
-  const objectStore = transaction.objectStore(this.productStoreName);
-
-  // Use a key range to get all products for the specific visitorId
-  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-  
-  const getRequest = objectStore.getAll(keyRange);
-
-  return new Promise<Product[]>((resolve, reject) => {
-    getRequest.onsuccess = (event) => {
-      resolve((event.target as IDBRequest<Product[]>).result);
-    };
-
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get products data: ' + (event.target as any).error.message));
-    };
-  });
-}
-
-
-// indexed-db.service.ts
-async getProductDetails(): Promise<ProductDetail[]> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.productDetailStoreName], 'readonly');
-  const objectStore = transaction.objectStore(this.productDetailStoreName);
-
-  // Use a key range to get all product details for the specific visitorId
-  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-  
-  const getRequest = objectStore.getAll(keyRange);
-
-  return new Promise<ProductDetail[]>((resolve, reject) => {
-    getRequest.onsuccess = (event) => {
-      resolve((event.target as IDBRequest<ProductDetail[]>).result);
-    };
-
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get product details data: ' + (event.target as any).error.message));
-    };
-  });
-}
-
-// indexed-db.service.ts
-async storeVisitorPeople(visitorPeople: VisitorPerson[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.visitorPeopleStoreName], 'readwrite');
-  const objectStore = transaction.objectStore(this.visitorPeopleStoreName);
-
-  for (const visitorPerson of visitorPeople) {
-    const putRequest = objectStore.put(visitorPerson, visitorPerson.VisitorPersonId); // Use VisitorPersonId as the key
-
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Visitor person data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
-      };
-
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store visitor person data: ' + (event.target as any).error.message));
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get product details data: ' + (event.target as any).error.message));
       };
     });
   }
-}
 
-async storeOrders(orders: Order[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.OrderStoreName], 'readwrite'); // Use your order store name
-  const objectStore = transaction.objectStore(this.OrderStoreName);
+  // indexed-db.service.ts
+  async storeVisitorPeople(visitorPeople: VisitorPerson[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.visitorPeopleStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.visitorPeopleStoreName);
 
-  for (const order of orders) {
-    const key = `${this.getVisitorId()}-${order.OrderId}`; // Use visitorId and OrderId as the key
-    const putRequest = objectStore.put(order, key); // Use put instead of add
+    for (const visitorPerson of visitorPeople) {
+      const putRequest = objectStore.put(visitorPerson, visitorPerson.VisitorPersonId); // Use VisitorPersonId as the key
 
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Order data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Visitor person data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store visitor person data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async storeOrders(orders: Order[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.OrderStoreName], 'readwrite'); // Use your order store name
+    const objectStore = transaction.objectStore(this.OrderStoreName);
+
+    for (const order of orders) {
+      const key = `${this.getVisitorId()}-${order.OrderId}`; // Use visitorId and OrderId as the key
+      const putRequest = objectStore.put(order, key); // Use put instead of add
+
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Order data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store order data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async storeOrderDetails(orderDetails: OrderDetail[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.orderDetailStoreName], 'readwrite'); // Use your order detail store name
+    const objectStore = transaction.objectStore(this.orderDetailStoreName);
+
+    for (const orderDetail of orderDetails) {
+      const key = `${this.getVisitorId()}-${orderDetail.OrderDetailId}`; // Use visitorId and OrderDetailId as the key
+      const putRequest = objectStore.put(orderDetail, key); // Use put instead of add
+
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Order detail data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store order detail data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async getOrderDetails(): Promise<OrderDetail[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.orderDetailStoreName], 'readonly'); // Use your order detail store name
+    const objectStore = transaction.objectStore(this.orderDetailStoreName);
+
+    // Use a key range to get all order details for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+
+    const getRequest = objectStore.getAll(keyRange);
+
+    return new Promise<OrderDetail[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<OrderDetail[]>).result);
       };
 
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store order data: ' + (event.target as any).error.message));
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get order details data: ' + (event.target as any).error.message));
       };
     });
   }
-}
 
-async storeOrderDetails(orderDetails: OrderDetail[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.orderDetailStoreName], 'readwrite'); // Use your order detail store name
-  const objectStore = transaction.objectStore(this.orderDetailStoreName);
+  async getOrders(): Promise<Order[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.OrderStoreName], 'readonly'); // Use your order store name
+    const objectStore = transaction.objectStore(this.OrderStoreName);
 
-  for (const orderDetail of orderDetails) {
-    const key = `${this.getVisitorId()}-${orderDetail.OrderDetailId}`; // Use visitorId and OrderDetailId as the key
-    const putRequest = objectStore.put(orderDetail, key); // Use put instead of add
+    // Use a key range to get all orders for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
 
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Order detail data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
+    const getRequest = objectStore.getAll(keyRange);
+
+    return new Promise<Order[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<Order[]>).result);
       };
 
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store order detail data: ' + (event.target as any).error.message));
-      };
-    });
-  }
-}
-
-async getOrderDetails(): Promise<OrderDetail[]> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.orderDetailStoreName], 'readonly'); // Use your order detail store name
-  const objectStore = transaction.objectStore(this.orderDetailStoreName);
-
-  // Use a key range to get all order details for the specific visitorId
-  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-  
-  const getRequest = objectStore.getAll(keyRange);
-
-  return new Promise<OrderDetail[]>((resolve, reject) => {
-    getRequest.onsuccess = (event) => {
-      resolve((event.target as IDBRequest<OrderDetail[]>).result);
-    };
-
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get order details data: ' + (event.target as any).error.message));
-    };
-  });
-}
-
-
-
-
-async getOrders(): Promise<Order[]> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction([this.OrderStoreName], 'readonly'); // Use your order store name
-  const objectStore = transaction.objectStore(this.OrderStoreName);
-
-  // Use a key range to get all orders for the specific visitorId
-  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-  
-  const getRequest = objectStore.getAll(keyRange);
-
-  return new Promise<Order[]>((resolve, reject) => {
-    getRequest.onsuccess = (event) => {
-      resolve((event.target as IDBRequest<Order[]>).result);
-    };
-
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get orders data: ' + (event.target as any).error.message));
-    };
-  });
-}
-
-async storeProductCategories(productCategories: ProductCategory[]): Promise<void> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction(['productCategoryStore'], 'readwrite'); // Use your product category store name
-  const objectStore = transaction.objectStore('productCategoryStore');
-
-  for (const productCategory of productCategories) {
-    const key = `${this.getVisitorId()}-${productCategory.ProductCategoryId}`; // Use visitorId and ProductCategoryId as the key
-    const putRequest = objectStore.put(productCategory, key); // Use put instead of add
-
-    await new Promise<void>((resolve, reject) => {
-      putRequest.onsuccess = (event) => {
-        console.log('Product category data stored in IndexedDB with key: ' + (event.target as any).result);
-        resolve();
-      };
-
-      putRequest.onerror = (event) => {
-        reject(new Error('Failed to store product category data: ' + (event.target as any).error.message));
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get orders data: ' + (event.target as any).error.message));
       };
     });
   }
-}
 
-async getProductCategories(): Promise<ProductCategory[]> {
-  const db = await this.openDatabase();
-  const transaction = db.transaction(['productCategoryStore'], 'readonly'); // Use your product category store name
-  const objectStore = transaction.objectStore('productCategoryStore');
+  async storeProductCategories(productCategories: ProductCategory[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['productCategoryStore'], 'readwrite'); // Use your product category store name
+    const objectStore = transaction.objectStore('productCategoryStore');
 
-  // Use a key range to get all product categories for the specific visitorId
-  const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-  
-  const getRequest = objectStore.getAll(keyRange);
+    for (const productCategory of productCategories) {
+      const key = `${this.getVisitorId()}-${productCategory.ProductCategoryId}`; // Use visitorId and ProductCategoryId as the key
+      const putRequest = objectStore.put(productCategory, key); // Use put instead of add
 
-  return new Promise<ProductCategory[]>((resolve, reject) => {
-    getRequest.onsuccess = (event) => {
-      resolve((event.target as IDBRequest<ProductCategory[]>).result);
-    };
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Product category data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
 
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get product categories data: ' + (event.target as any).error.message));
-    };
-  });
-}
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store product category data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
 
+  async getProductCategories(): Promise<ProductCategory[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['productCategoryStore'], 'readonly'); // Use your product category store name
+    const objectStore = transaction.objectStore('productCategoryStore');
 
+    // Use a key range to get all product categories for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+
+    const getRequest = objectStore.getAll(keyRange);
+
+    return new Promise<ProductCategory[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<ProductCategory[]>).result);
+      };
+
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get product categories data: ' + (event.target as any).error.message));
+      };
+    });
+  }
 
 
   getToken(): string | null {
@@ -477,29 +475,29 @@ async getProductCategories(): Promise<ProductCategory[]> {
   }
 
   // indexed-db.service.ts
-async getMaxRowVersion(storeName: string): Promise<number> {
-  console.log("storeName1 = " + storeName )
-  const db = await this.openDatabase();
-  console.log("storeName2 = " + storeName )
-  const transaction = db.transaction([storeName], 'readonly');
-  console.log("storeName3 = " + storeName )
-  const objectStore = transaction.objectStore(storeName);
-  console.log(objectStore)
+  async getMaxRowVersion(storeName: string): Promise<number> {
+    console.log("storeName1 = " + storeName)
+    const db = await this.openDatabase();
+    console.log("storeName2 = " + storeName)
+    const transaction = db.transaction([storeName], 'readonly');
+    console.log("storeName3 = " + storeName)
+    const objectStore = transaction.objectStore(storeName);
+    console.log(objectStore)
 
-  return new Promise<number>((resolve, reject) => {
-    const getRequest = objectStore.getAll();
-    console.log(getRequest)
-    getRequest.onsuccess = (event) => {
-      const records = (event.target as IDBRequest<any[]>).result;
-      const maxRowVersion = Math.max(...records.map(record => record.RowVersion), 0);
-      console.log( "maxRowVersion = " + maxRowVersion)
-      resolve(maxRowVersion);
-    };
+    return new Promise<number>((resolve, reject) => {
+      const getRequest = objectStore.getAll();
+      console.log(getRequest)
+      getRequest.onsuccess = (event) => {
+        const records = (event.target as IDBRequest<any[]>).result;
+        const maxRowVersion = Math.max(...records.map(record => record.RowVersion), 0);
+        console.log("maxRowVersion = " + maxRowVersion)
+        resolve(maxRowVersion);
+      };
 
-    getRequest.onerror = (event) => {
-      reject(new Error('Failed to get records: ' + (event.target as any).error.message));
-    };
-  });
-}
-  
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get records: ' + (event.target as any).error.message));
+      };
+    });
+  }
+
 }

@@ -28,23 +28,27 @@
   /* Optional: this ensures the text below doesn't show when scrolling */
 }
 
-
 .sidenav-container {
   display: flex;
   /* Adjust alignment as needed */
 }
 
 .mat-side-nav {
-  flex: 0 0 auto;
+  width: 150px;
   /* Adjust width as needed */
 }
 
 .mat-sidenav-content {
-  flex: 1 1 auto;
+  flex-grow: 1;
   overflow-y: auto; /* Ensure content can scroll if needed */
 }
 
 .product-card {
   margin-bottom: 20px; /* Add some bottom margin to create space between product cards */
+}
+
+.product-list-container {
+  overflow-y: auto; /* Add a scrollbar when the content is too tall */
+  height: 100vh; /* Adjust as needed */
 }
 

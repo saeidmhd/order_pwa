@@ -9,6 +9,8 @@ import { IndexedDbService } from '../../../core/services/indexed-db.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  
+  
   products: Product[] = [];
   productCategories: ProductCategory[] = [];
   selectedCategory: ProductCategory | null = null; // Add a new property to track the selected category
