@@ -27,7 +27,7 @@
     <div class="product-list-container">
       <div *ngIf="!isLoading && products" class="list-container">
         <mat-card *ngFor="let product of filteredProducts" class="product-card">
-          <img [src]="getProductImageUrl(product)" alt="{{ product.Name }}"> <!-- Add image tag -->
+          <img [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image"> <!-- Add CSS class -->
           <mat-card-header>
             <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
           </mat-card-header>

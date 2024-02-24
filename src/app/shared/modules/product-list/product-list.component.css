@@ -55,6 +55,10 @@
 .mat-list-item {
   font-size: 4px !important; /* Adjust as needed */
 }
+.product-image {
+  width: 150px; /* Adjust as needed */
+  height: auto;
+}
 
 
 
