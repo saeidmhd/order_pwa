@@ -7,6 +7,8 @@ import { VisitorPeopleService } from 'src/app/core/services/visitor-person.servi
 import { OrdersService } from 'src/app/core/services/order.service';
 import { OrderDetailsService } from 'src/app/core/services/order-details.service';
 import { ProductCategoryService } from 'src/app/core/services/product-category.service';
+import { PhotoGalleryService } from 'src/app/core/services/photo-gallery.service';
+import { PictureService } from 'src/app/core/services/picture.service';
 
 @Component({
   selector: 'app-update-info',
@@ -23,6 +25,8 @@ export class UpdateInfoComponent implements OnInit {
   ordersReceived = false;
   orderDetailsReceived = false;
   productCategoriesReceived = false;
+  photoGalleriesReceived = false;
+  picturesReceived = false;
 
   constructor(
     private banksService: BanksService,
@@ -33,6 +37,8 @@ export class UpdateInfoComponent implements OnInit {
     private ordersService: OrdersService,
     private orderDetailsService: OrderDetailsService,
     private productCategoryService: ProductCategoryService,
+    private photoGalleryService: PhotoGalleryService,
+    private pictureService: PictureService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -64,6 +70,12 @@ export class UpdateInfoComponent implements OnInit {
 
       const productCategories = await this.productCategoryService.getProductCategories().toPromise();
       this.productCategoriesReceived = true;
+
+      const photoGalleries = await this.photoGalleryService.getPhotoGalleries().toPromise();
+      this.photoGalleriesReceived = true;
+
+      const pictures = await this.pictureService.getPictures().toPromise();
+      this.picturesReceived = true;
 
       // Store product details in IndexedDB
     } catch (error) {

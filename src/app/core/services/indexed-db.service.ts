@@ -7,6 +7,8 @@ import { VisitorPerson } from '../models/visitor-person';
 import { Order } from '../models/order';
 import { OrderDetail } from '../models/order-detail';
 import { ProductCategory } from '../models/product-category';
+import { PhotoGallery } from '../models/photo-gallery';
+import { Picture } from '../models/picture';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class IndexedDbService {
 
 
   private dbName = 'OrderDatabase';
-  private dbVersion = 3;
+  private dbVersion = 4;
   private loginStoreName = 'loginStore';
   private personStoreName = 'personStore';
   private bankStoreName = 'bankStore';
@@ -25,6 +27,8 @@ export class IndexedDbService {
   private OrderStoreName = 'orderStore';
   private orderDetailStoreName = 'orderDetailStore';
   private productCategoryName = 'productCategoryStore';
+  private photoGaleryName = 'photoGalleryStore';
+  private pictureName = 'pictureStore';
 
   private visitorId!: string;
 
@@ -71,6 +75,12 @@ export class IndexedDbService {
         }
         if (!db.objectStoreNames.contains(this.productCategoryName)) {
           db.createObjectStore(this.productCategoryName);
+        }
+        if (!db.objectStoreNames.contains(this.photoGaleryName)) {
+          db.createObjectStore(this.photoGaleryName);
+        }
+        if (!db.objectStoreNames.contains(this.pictureName)) {
+          db.createObjectStore(this.pictureName);
         }
       };
 
@@ -469,6 +479,91 @@ export class IndexedDbService {
     });
   }
 
+  async storePhotoGalleries(photoGalleries: PhotoGallery[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['photoGalleryStore'], 'readwrite'); // Use your photo gallery store name
+    const objectStore = transaction.objectStore('photoGalleryStore');
+  
+    for (const photoGallery of photoGalleries) {
+      const key = `${this.getVisitorId()}-${photoGallery.PhotoGalleryId}`; // Use visitorId and PhotoGalleryId as the key
+      const putRequest = objectStore.put(photoGallery, key); // Use put instead of add
+  
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Photo gallery data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+  
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store photo gallery data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async getPhotoGalleries(): Promise<PhotoGallery[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['photoGalleryStore'], 'readonly'); // Use your photo gallery store name
+    const objectStore = transaction.objectStore('photoGalleryStore');
+  
+    // Use a key range to get all photo galleries for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+    const getRequest = objectStore.getAll(keyRange);
+  
+    return new Promise<PhotoGallery[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<PhotoGallery[]>).result);
+      };
+  
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get photo galleries data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+
+  async storePictures(pictures: Picture[]): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['pictureStore'], 'readwrite'); // Use your picture store name
+    const objectStore = transaction.objectStore('pictureStore');
+  
+    for (const picture of pictures) {
+      const key = `${this.getVisitorId()}-${picture.PictureId}`; // Use visitorId and PictureId as the key
+      const putRequest = objectStore.put(picture, key); // Use put instead of add
+  
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          console.log('Picture data stored in IndexedDB with key: ' + (event.target as any).result);
+          resolve();
+        };
+  
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store picture data: ' + (event.target as any).error.message));
+        };
+      });
+    }
+  }
+
+  async getPictures(): Promise<Picture[]> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction(['pictureStore'], 'readonly'); // Use your picture store name
+    const objectStore = transaction.objectStore('pictureStore');
+  
+    // Use a key range to get all pictures for the specific visitorId
+    const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
+  
+    const getRequest = objectStore.getAll(keyRange);
+  
+    return new Promise<Picture[]>((resolve, reject) => {
+      getRequest.onsuccess = (event) => {
+        resolve((event.target as IDBRequest<Picture[]>).result);
+      };
+  
+      getRequest.onerror = (event) => {
+        reject(new Error('Failed to get pictures data: ' + (event.target as any).error.message));
+      };
+    });
+  }
 
   getToken(): string | null {
     return localStorage.getItem('UserToken');
