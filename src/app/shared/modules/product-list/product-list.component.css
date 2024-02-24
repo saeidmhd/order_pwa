@@ -34,7 +34,7 @@
 }
 
 .mat-side-nav {
-  width: 150px;
+  width: 130px;
   /* Adjust width as needed */
 }
 
@@ -51,4 +51,10 @@
   overflow-y: auto; /* Add a scrollbar when the content is too tall */
   height: 100vh; /* Adjust as needed */
 }
+
+.mat-list-item {
+  font-size: 4px !important; /* Adjust as needed */
+}
+
+
 
