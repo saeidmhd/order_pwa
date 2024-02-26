@@ -37,19 +37,24 @@ export class ProductListComponent implements OnInit {
             this.indexedDbService.getVisitorProducts().then(visitorProducts => {
                 this.products = products.map(product => {
                     const productDetail = productDetails.find(detail => detail.ProductId === product.ProductId);
-                    const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId);
+                    const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId && vp.Deleted == false);
                     return {
                         ...product,
-                        price: (productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel],
+                        price: parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'currency', currency: 'IRR' }), // Convert to Iranian Rials
                         count1: visitorProduct?.Count1,
                         count2: visitorProduct?.Count2
                     };
-                });
+                }).filter(product => product.count1 !== undefined && product.count2 !== undefined);
                 this.isLoading = false;
             });
         });
     });
 }
+
+
+
+
+
 
 
   loadProductCategories(): void {
@@ -78,11 +83,12 @@ export class ProductListComponent implements OnInit {
     this.searchText = '';
   }
 
-  getProductImageUrl(product: Product): string { // Add getProductImageUrl method
+  getProductImageUrl(product: Product): string | undefined { // Add getProductImageUrl method
     const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
     const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
-    return 'https://mahakacc.mahaksoft.com' + picture?.Url;
-  }
+    return picture ? 'https://mahakacc.mahaksoft.com' + picture.Url : undefined;
+}
+
 
   get filteredProducts() {
     let filtered = this.products;

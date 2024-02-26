@@ -1,6 +1,6 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 <div class="container" *ngIf="isLoading">
-  <div>بارگذاری بانک‌ها ...</div>
+  <div>بارگذاری کالاها ...</div>
 </div>
 
 <div class="search-bar">
@@ -27,7 +27,7 @@
     <div class="product-list-container">
       <div *ngIf="!isLoading && products" class="list-container">
         <mat-card *ngFor="let product of filteredProducts" class="product-card">
-          <img [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image"> <!-- Add CSS class -->
+          <img *ngIf="getProductImageUrl(product)" [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image"> <!-- Add *ngIf directive -->
           <mat-card-header>
             <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
           </mat-card-header>

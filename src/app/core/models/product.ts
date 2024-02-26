@@ -28,7 +28,7 @@ export interface Product {
     RowVersion: number;
     ProductCategoryClientId: number;
     ProductCategoryCode: number;
-    price?: number;
+    price?: string;
     count1?: number;
     count2?: number;
   }
