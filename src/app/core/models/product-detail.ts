@@ -37,6 +37,7 @@ export interface ProductDetail {
     RowVersion: number;
     ProductClientId: number;
     ProductCode: number;
+    [key: string]: any;
   }
   
   export interface ProductDetailsResponse {

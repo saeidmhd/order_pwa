@@ -33,10 +33,24 @@ export class ProductListComponent implements OnInit {
 
   loadProducts(): void {
     this.indexedDbService.getProducts().then(products => {
-      this.products = products;
-      this.isLoading = false;
+        this.indexedDbService.getProductDetails().then(productDetails => {
+            this.indexedDbService.getVisitorProducts().then(visitorProducts => {
+                this.products = products.map(product => {
+                    const productDetail = productDetails.find(detail => detail.ProductId === product.ProductId);
+                    const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId);
+                    return {
+                        ...product,
+                        price: (productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel],
+                        count1: visitorProduct?.Count1,
+                        count2: visitorProduct?.Count2
+                    };
+                });
+                this.isLoading = false;
+            });
+        });
     });
-  }
+}
+
 
   loadProductCategories(): void {
     this.indexedDbService.getProductCategories().then(categories => {

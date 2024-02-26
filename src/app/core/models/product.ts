@@ -28,6 +28,9 @@ export interface Product {
     RowVersion: number;
     ProductCategoryClientId: number;
     ProductCategoryCode: number;
+    price?: number;
+    count1?: number;
+    count2?: number;
   }
   
   export interface ProductsResponse {
