@@ -67,7 +67,6 @@ export class ProductListComponent implements OnInit {
   getProductImageUrl(product: Product): string { // Add getProductImageUrl method
     const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
     const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
-    console.log("picture : " + picture)
     return 'https://mahakacc.mahaksoft.com' + picture?.Url;
   }
 

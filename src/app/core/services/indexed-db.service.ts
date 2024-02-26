@@ -115,7 +115,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -159,7 +158,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Person data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -203,7 +201,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Bank data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -247,7 +244,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Product data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -269,7 +265,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Product detail data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -339,7 +334,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Visitor person data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -361,7 +355,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Order data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -383,7 +376,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Order detail data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -447,7 +439,6 @@ export class IndexedDbService {
 
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Product category data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
 
@@ -490,7 +481,6 @@ export class IndexedDbService {
   
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Photo gallery data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
   
@@ -533,7 +523,6 @@ export class IndexedDbService {
   
       await new Promise<void>((resolve, reject) => {
         putRequest.onsuccess = (event) => {
-          console.log('Picture data stored in IndexedDB with key: ' + (event.target as any).result);
           resolve();
         };
   
@@ -572,22 +561,18 @@ export class IndexedDbService {
   // indexed-db.service.ts
   
   async getMaxRowVersion(storeName: string): Promise<number> {
-    console.log("storeName = " + storeName)
     const db = await this.openDatabase();
     const transaction = db.transaction([storeName], 'readonly');
     const objectStore = transaction.objectStore(storeName);
-    console.log(objectStore)
 
     // Use a key range to get all records for the specific visitorId
     const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
 
     return new Promise<number>((resolve, reject) => {
       const getRequest = objectStore.getAll(keyRange);
-      console.log(getRequest)
       getRequest.onsuccess = (event) => {
         const records = (event.target as IDBRequest<any[]>).result;
         const maxRowVersion = Math.max(...records.map(record => record.RowVersion), 0);
-        console.log("maxRowVersion = " + maxRowVersion)
         resolve(maxRowVersion);
       };
 

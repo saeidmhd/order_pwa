@@ -21,11 +21,9 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Optional: this ensures the search bar stays on top of other elements */
   background: white;
-  width: 90%;
   margin: 10px;
-  /* Optional: this ensures the text below doesn't show when scrolling */
+  flex: 1 1 auto;
 }
 
 .sidenav-container {

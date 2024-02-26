@@ -22,13 +22,10 @@ export class PeopleService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const body = { FromPersonVersion };
 
-        console.log(body)
-
         return this.http.post<PeopleResponse>(this.apiUrl, body, { headers }).pipe(
           tap((response) => {
             if (response.Result) {
               // Successful request
-              console.log(response.Data.Objects.People)
               this.indexedDbService.storePeople(response.Data.Objects.People)
                 .then(() => console.log('People data stored in IndexedDB'))
                 .catch((error: any) => console.error('Error storing people data:', error));

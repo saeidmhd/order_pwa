@@ -27,6 +27,8 @@
 .search-bar {
   position: sticky;
   top: 0;
-  z-index: 1000; /* Optional: this ensures the search bar stays on top of other elements */
-  background: white; /* Optional: this ensures the text below doesn't show when scrolling */
+  z-index: 1000;
+  background: white;
+  margin: 10px;
+  flex: 1 1 auto;
 }

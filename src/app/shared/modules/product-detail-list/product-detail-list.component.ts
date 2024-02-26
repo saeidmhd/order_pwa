@@ -34,7 +34,6 @@ export class ProductDetailListComponent implements OnInit {
           if (response.Result) {
             this.productDetails = response.Data.Objects.ProductDetails;
             this.indexedDbService.storeProductDetails(this.productDetails).then(() => {
-              console.log('Product details data stored in IndexedDB');
               this.isLoading = false; // Set loading state to false when data is loaded
             });
           }

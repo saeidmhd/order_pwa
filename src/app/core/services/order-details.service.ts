@@ -26,7 +26,6 @@ export class OrderDetailsService {
           tap((response) => {
             if (response.Result) {
               // Successful request
-              console.log("order details = ", response.Data.Objects.OrderDetails)
               this.indexedDbService.storeOrderDetails(response.Data.Objects.OrderDetails) // Replace 'storeOrderDetails' with your method for storing order details in IndexedDB
                 .then(() => console.log('Order details data stored in IndexedDB'))
                 .catch((error: any) => console.error('Error storing order details data:', error));

@@ -5,12 +5,10 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* Adjust as needed */
 }
 
 .bank-card {
   margin: 20px;
-  /* Adjust as needed */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -25,7 +23,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Optional: this ensures the search bar stays on top of other elements */
   background: white;
-  /* Optional: this ensures the text below doesn't show when scrolling */
+  margin: 10px;
+  flex: 1 1 auto;
 }

@@ -26,7 +26,6 @@ export class BanksService {
           tap((response) => {
             if (response.Result) {
               // Successful request
-              console.log("banks = " , response.Data.Objects.Banks)
               this.indexedDbService.storeBanks(response.Data.Objects.Banks)
                 .then(() => console.log('Banks data stored in IndexedDB'))
                 .catch((error: any) => console.error('Error storing banks data:', error));

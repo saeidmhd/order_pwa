@@ -34,7 +34,6 @@ get filteredPeople() {
           if (response.Result) {
             this.people = response.Data.Objects.People;
             this.indexedDbService.storePeople(this.people).then(() => {
-              console.log('People data stored in IndexedDB');
               this.isLoading = false; // Set loading state to false when data is loaded
             });
           }

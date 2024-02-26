@@ -34,7 +34,6 @@ get filteredBanks() {
           if (response.Result) {
             this.banks = response.Data.Objects.Banks;
             this.indexedDbService.storeBanks(this.banks).then(() => {
-              console.log('Banks data stored in IndexedDB');
               this.isLoading = false; // Set loading state to false when data is loaded
             });
           }

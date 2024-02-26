@@ -28,7 +28,6 @@ export class LoginService {
           // Successful login
           this.indexedDbService.storeLoginResponse(response.Data)
             .then(() => {
-              console.log('Login response stored in IndexedDB');
               this.router.navigate(['/dashboard']); // Navigate on successful login
             })
             .catch((error) => console.error('Error storing login response:', error));
