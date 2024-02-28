@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit {
                     const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId && vp.Deleted == false);
                     return {
                         ...product,
-                        price: parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'currency', currency: 'IRR' }), // Convert to Iranian Rials
+                        price:  parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ',
                         count1: visitorProduct?.Count1,
                         count2: visitorProduct?.Count2
                     };
@@ -50,11 +50,6 @@ export class ProductListComponent implements OnInit {
         });
     });
 }
-
-
-
-
-
 
 
   loadProductCategories(): void {
