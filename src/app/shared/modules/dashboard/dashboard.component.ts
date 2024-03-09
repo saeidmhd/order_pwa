@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToReports() {
-    // Navigate to the Reports page
+    this.router.navigate(['/order-list']);
   }
 
   navigateToUpdateInfo() {

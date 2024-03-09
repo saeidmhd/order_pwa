@@ -1,0 +1,29 @@
+<!-- order-list.component.html -->
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+<div class="container" *ngIf="isLoading">
+  <div>Loading orders...</div>
+</div>
+<div *ngIf="!isLoading && orders" class="list-container"> 
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchText" placeholder="Search in orders" aria-label="Search">
+      <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>  
+  </div>
+  <mat-card *ngFor="let order of filteredOrders" class="order-card">
+    <mat-card-header>
+      <mat-card-title>{{getPersonName(order.PersonId)}} {{getPerson(order.PersonId)?.Organization}}</mat-card-title>
+      <mat-card-subtitle>شماره فاکتور : {{order.OrderId}}</mat-card-subtitle>
+      <mat-card-subtitle>کد پیگیری : {{order.OrderClientId}}</mat-card-subtitle>
+      <mat-card-subtitle>تاریخ فاکتور : {{order.OrderDate}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        مبلغ فاکتور: {{getOrderSum(order)}}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
