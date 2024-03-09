@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom, EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { BanksService } from '../../../core/services/banks.service';
 import { PeopleService } from '../../../core/services/people.service';
 import { ProductService } from '../../../core/services/product.service';
@@ -44,50 +47,130 @@ export class UpdateInfoComponent implements OnInit {
     private visitorProductService: VisitorProductService,
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.isLoading = true;
-    try {
-      const banks = await this.banksService.getBanks().toPromise();
-      this.banksReceived = true;
-      // Store banks in IndexedDB
-
-      const people = await this.peopleService.getPeople().toPromise();
-      this.peopleReceived = true;
-      // Store people in IndexedDB
-
-      const products = await this.productService.getProducts().toPromise();
-      this.productsReceived = true;
-      // Store products in IndexedDB
-
-      const productDetails = await this.productDetailService.getProductDetails().toPromise();
-      this.productDetailsReceived = true;
-
-      const visitorPeople = await this.visitorPeopleService.getVisitorPeople().toPromise();
-      this.visitorPeopleReceived = true;
-
-      const orders = await this.ordersService.getOrders().toPromise();
-      this.ordersReceived = true;
-
-      const orderDetails = await this.orderDetailsService.getOrderDetails().toPromise();
-      this.orderDetailsReceived = true;
-
-      const productCategories = await this.productCategoryService.getProductCategories().toPromise();
-      this.productCategoriesReceived = true;
-
-      const photoGalleries = await this.photoGalleryService.getPhotoGalleries().toPromise();
-      this.photoGalleriesReceived = true;
-
-      const pictures = await this.pictureService.getPictures().toPromise();
-      this.picturesReceived = true;
-
-      const visitorProductService = await this.visitorProductService.getVisitorProducts().toPromise();
-      this.visitorProductReceived = true;
-
-      // Store product details in IndexedDB
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      this.isLoading = false;
-    }
+    this.fetchData();
   }
+
+  private fetchData(): void {
+    this.fetchBanks();
+    this.fetchPeople();
+    this.fetchProducts();
+    this.fetchProductDetails();
+    this.fetchVisitorPeople();
+    this.fetchOrders();
+    this.fetchOrderDetails();
+    this.fetchProductCategories();
+    this.fetchPhotoGalleries();
+    this.fetchPictures();
+    this.fetchVisitorProducts();
+  }
+
+  private async fetchBanks(): Promise<void> {
+    try {
+        await firstValueFrom(this.banksService.getBanks());
+        this.banksReceived = true;
+        // Store banks in IndexedDB
+    } catch (error) {
+        console.error('Error fetching banks:', error);
+    }
+}
+
+private async fetchPeople(): Promise<void> {
+    try {
+        await firstValueFrom(this.peopleService.getPeople());
+        this.peopleReceived = true;
+        // Store people in IndexedDB
+    } catch (error) {
+        console.error('Error fetching people:', error);
+    }
+}
+
+private async fetchProducts(): Promise<void> {
+    try {
+        await firstValueFrom(this.productService.getProducts());
+        this.productsReceived = true;
+        // Store products in IndexedDB
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+}
+
+// Repeat the pattern for other fetch methods
+
+private async fetchProductDetails(): Promise<void> {
+    try {
+        await firstValueFrom(this.productDetailService.getProductDetails());
+        this.productDetailsReceived = true;
+        // Store product details in IndexedDB
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+    }
+}
+
+private async fetchVisitorPeople(): Promise<void> {
+    try {
+        await firstValueFrom(this.visitorPeopleService.getVisitorPeople());
+        this.visitorPeopleReceived = true;
+    } catch (error) {
+        console.error('Error fetching visitor people:', error);
+    }
+}
+
+private async fetchOrders(): Promise<void> {
+    try {
+        await firstValueFrom(this.ordersService.getOrders());
+        this.ordersReceived = true;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+    }
+}
+
+private async fetchOrderDetails(): Promise<void> {
+    try {
+        await firstValueFrom(this.orderDetailsService.getOrderDetails());
+        this.orderDetailsReceived = true;
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+    }
+}
+
+private async fetchProductCategories(): Promise<void> {
+    try {
+        await firstValueFrom(this.productCategoryService.getProductCategories());
+        this.productCategoriesReceived = true;
+    } catch (error) {
+        console.error('Error fetching product categories:', error);
+    }
+}
+
+private async fetchPhotoGalleries(): Promise<void> {
+    try {
+        await firstValueFrom(this.photoGalleryService.getPhotoGalleries());
+        this.photoGalleriesReceived = true;
+    } catch (error) {
+        console.error('Error fetching photo galleries:', error);
+    }
+}
+
+private async fetchPictures(): Promise<void> {
+    try {
+        await firstValueFrom(this.pictureService.getPictures());
+        this.picturesReceived = true;
+    } catch (error) {
+        console.error('Error fetching pictures:', error);
+    }
+}
+
+private async fetchVisitorProducts(): Promise<void> {
+    try {
+        await firstValueFrom(this.visitorProductService.getVisitorProducts());
+        this.visitorProductReceived = true;
+    } catch (error) {
+        console.error('Error fetching visitor products:', error);
+    } finally {
+        this.isLoading = false; // Set isLoading to false regardless of success or failure
+    }
+}
+
 }
