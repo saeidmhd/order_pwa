@@ -40,6 +40,7 @@ import { ProductDetailListComponent } from './shared/modules/product-detail-list
 import { VisitorPeopleService } from './core/services/visitor-person.service';
 import { OrdersService } from './core/services/order.service';
 import { ProductCategoryComponent } from './shared/modules/product-category/product-category.component';
+import { OrderListComponent } from './shared/modules/order-list/order-list.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ProductCategoryComponent } from './shared/modules/product-category/prod
     BankListComponent,
     ProductListComponent,
     ProductDetailListComponent,
-    ProductCategoryComponent
+    ProductCategoryComponent,
+    OrderListComponent
   ],
   imports: [
     AppRoutingModule,
