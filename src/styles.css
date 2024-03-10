@@ -13,3 +13,10 @@ body {
     font-family: 'Material Icons' !important;
 }
 
+/* @media only screen and (min-width: 600px) {
+	body {
+	  max-width: 600px;
+	  margin: 0 auto;
+	}
+  } */
+  

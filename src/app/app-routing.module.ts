@@ -7,8 +7,8 @@ import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.compo
 import { UpdateInfoComponent } from './shared/modules/update-info/update-info.component';
 import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
 import { ProductListComponent } from './shared/modules/product-list/product-list.component';
-import { ProductDetailListComponent } from './shared/modules/product-detail-list/product-detail-list.component';
 import { OrderListComponent } from './shared/modules/order-list/order-list.component';
+import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -19,8 +19,9 @@ const routes: Routes = [
   { path: 'update-info', component: UpdateInfoComponent },
   { path: 'bank-list', component: BankListComponent },
   { path: 'product-list', component: ProductListComponent },
-  { path: 'product-detail-list', component: ProductDetailListComponent },
+  { path: 'product-list/:categoryId', component: ProductListComponent }, 
   { path: 'order-list', component: OrderListComponent },
+  { path: 'product-categories', component: ProductCategoriesComponent },
 
   // other routes...
 ];

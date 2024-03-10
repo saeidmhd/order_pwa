@@ -1,3 +1,4 @@
+
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 <div class="container" *ngIf="isLoading">
   <div>بارگذاری کالاها ...</div>
@@ -12,34 +13,25 @@
     </button>
   </mat-form-field>  
 </div>
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav mode="side" opened position="start" class="mat-side-nav">
-    <mat-list>
-      <mat-list-item class = "mat-list-item" *ngFor="let category of productCategories" 
-                     (click)="filterByCategory(category)"
-                     [style.background]="selectedCategory === category ? '#f0f0f0' : ''">
-        {{ category.Name }}
-      </mat-list-item>
-    </mat-list>
-  </mat-sidenav>
 
-  <mat-sidenav-content>
-    <div class="product-list-container">
-      <div *ngIf="!isLoading && products" class="list-container">
-        <mat-card *ngFor="let product of filteredProducts" class="product-card">
-          <img *ngIf="getProductImageUrl(product)" [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image"> <!-- Add *ngIf directive -->
-          <mat-card-header>
-            <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p>
-              قیمت : {{product.price}}<br> <!-- Add this line -->
-              موجودی 1: {{product.count1}} {{product.UnitName}}<br> <!-- Add this line -->
-              موجودی 2: {{product.count2}} {{product.UnitName2}}<br>
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<mat-toolbar>
+  <mat-icon (click)="goToProductCategories()">menu</mat-icon>
+</mat-toolbar>
+
+<div class="product-list-container">
+  <div *ngIf="!isLoading && products" class="list-container">
+    <mat-card *ngFor="let product of filteredProducts" class="product-card">
+      <img *ngIf="getProductImageUrl(product)" [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image">
+      <mat-card-header>
+        <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          قیمت : {{product.price}}<br>
+          موجودی 1: {{product.count1}} {{product.UnitName}}<br>
+          موجودی 2: {{product.count2}} {{product.UnitName2}}<br>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

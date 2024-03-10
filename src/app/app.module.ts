@@ -36,11 +36,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ProductDetailService } from './core/services/product-detail.service';
 import { ProductService } from './core/services/product.service';
 import { ProductListComponent } from './shared/modules/product-list/product-list.component';
-import { ProductDetailListComponent } from './shared/modules/product-detail-list/product-detail-list.component';
 import { VisitorPeopleService } from './core/services/visitor-person.service';
 import { OrdersService } from './core/services/order.service';
-import { ProductCategoryComponent } from './shared/modules/product-category/product-category.component';
 import { OrderListComponent } from './shared/modules/order-list/order-list.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
 
 
 @NgModule({
@@ -53,8 +53,7 @@ import { OrderListComponent } from './shared/modules/order-list/order-list.compo
     UpdateInfoComponent,
     BankListComponent,
     ProductListComponent,
-    ProductDetailListComponent,
-    ProductCategoryComponent,
+    ProductCategoriesComponent,
     OrderListComponent
   ],
   imports: [
@@ -73,6 +72,7 @@ import { OrderListComponent } from './shared/modules/order-list/order-list.compo
     MatListModule,
     MatCardModule,
     MatProgressBarModule,
+    MatToolbarModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
