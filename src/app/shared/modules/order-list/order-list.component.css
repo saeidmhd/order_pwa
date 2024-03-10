@@ -1,0 +1,29 @@
+/* people-list.component.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .order-card {
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .full-width {
+    width: 90%;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+  
+  .search-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    margin: 10px;
+    flex: 1 1 auto;
+  }

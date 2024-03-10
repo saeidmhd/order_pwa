@@ -73,6 +73,7 @@ import { OrderListComponent } from './shared/modules/order-list/order-list.compo
     MatListModule,
     MatCardModule,
     MatProgressBarModule,
+
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
