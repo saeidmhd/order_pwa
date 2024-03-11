@@ -1,34 +1,36 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 
-<div class="container" *ngIf="isLoading">
-  <div>بارگذاری اشخاص ...</div> <!-- Show a loading message when isLoading is true -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-text">بارگذاری اشخاص ...</div>
 </div>
 
 <div class="search-bar">
   <mat-form-field appearance="outline" class="full-width">
-    <mat-icon matPrefix>search</mat-icon> <!-- Add this line -->
+    <mat-icon matPrefix>search</mat-icon>
     <input matInput [(ngModel)]="searchText" placeholder="جستجو در اشخاص" aria-label="Search">
-    <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
+    <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>  
 </div>
 
-<div class="list-container" *ngIf="!isLoading && people"> 
-  <mat-card *ngFor="let person of filteredPeople" class="person-card">
-    <mat-card-header>
-      <mat-card-title>({{person.PersonCode}}) {{person.Prifix}} {{person.FirstName}} {{person.LastName}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        نام شرکت یا فروشگاه: {{person.Organization}}<br>
-        آدرس: {{person.Address}}<br>
-        موبایل: {{person.Mobile}}<br>
-        توضیحات: {{person.Description}}<br>
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>اطلاعات بیشتر</button>
-    </mat-card-actions>
-  </mat-card>
+<div class="people-list-container">
+  <div class="list-container" *ngIf="!isLoading && people"> 
+    <mat-card *ngFor="let person of filteredPeople" class="person-card">
+      <mat-card-header>
+        <mat-card-title>({{person.PersonCode}}) {{person.Prifix}} {{person.FirstName}} {{person.LastName}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          نام شرکت یا فروشگاه: {{person.Organization}}<br>
+          آدرس: {{person.Address}}<br>
+          موبایل: {{person.Mobile}}<br>
+          توضیحات: {{person.Description}}<br>
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary">اطلاعات بیشتر</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

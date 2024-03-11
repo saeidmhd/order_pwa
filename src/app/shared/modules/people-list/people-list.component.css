@@ -1,28 +1,13 @@
-/* people-list.component.css */
-.container {
+.loading-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #e3e0e0;
+  background-color: #f5f5f5; /* Adjust background color */
 }
 
-.person-card {
-  margin: 20px;
-  /* Adjust as needed */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.full-width {
-  width: 90%;
-  margin-right: 20px;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.mat-mdc-form-field-infix {
-  width: auto !important;
+.loading-text {
+  font-size: 20px;
 }
 
 .search-bar {
@@ -31,5 +16,33 @@
   z-index: 1000;
   background: white;
   margin: 10px;
-  flex: 1 1 auto;
+  padding: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.people-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.person-card {
+  margin: 20px;
+  width: 300px;
+  background-color: white; /* Adjust background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.person-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
