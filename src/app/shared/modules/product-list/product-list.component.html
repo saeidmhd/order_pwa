@@ -1,4 +1,10 @@
 
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-text">بارگذاری کالاها ...</div>
+</div>
+
 <div class="container">
   <div class="toolbar-container">
     <mat-toolbar>
@@ -6,10 +12,7 @@
     </mat-toolbar>
   </div>
 
-  <div class="loading-container" *ngIf="isLoading">
-    <mat-progress-bar mode="indeterminate" class="progress-bar"></mat-progress-bar>
-    <div class="loading-text">بارگذاری کالاها ...</div>
-  </div>
+  
 
   <div class="search-bar">
     <mat-form-field appearance="outline" class="full-width">

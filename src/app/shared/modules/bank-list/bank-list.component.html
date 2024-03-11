@@ -1,39 +1,42 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
-<!-- banks-list.component.html -->
-<div class="container" *ngIf="isLoading">
-  <div>بارگذاری بانک‌ها ...</div> <!-- Show a loading message when isLoading is true -->
-</div>
-<div *ngIf="!isLoading && banks" class="list-container"> 
-  
-  <div class="search-bar">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-icon matPrefix>search</mat-icon> <!-- Add this line -->
-      <input matInput [(ngModel)]="searchText" placeholder="جستجو در بانک ها" aria-label="Search">
-      <button mat-button *ngIf="searchText" matSuffix  aria-label="Clear" (click)="searchText=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>  
-  </div>
-  
-  
-  <!-- Only show the list when isLoading is false and banks data is available -->
-  <mat-card *ngFor="let bank of filteredBanks" class="bank-card">
-    <mat-card-header>
-      <mat-card-title>{{bank.BankName}}</mat-card-title>
-      <mat-card-subtitle>{{bank.Branch}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        کد بانک: {{bank.BankCode}}<br>
-        شماره حساب: {{bank.AccountNumber}}<br>
-        شماره کارت: {{bank.CardNumber}}<br>
-        شماره شبا: {{bank.Shaba}}<br>
-        توضیحات: {{bank.Description}}<br>
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>اطلاعات بیشتر</button>
-    </mat-card-actions>
-  </mat-card>
+
+<!-- Show loading container while isLoading is true -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-text">بارگذاری بانک‌ها ...</div>
 </div>
 
+<!-- Show bank list when isLoading is false and banks data is available -->
+<div *ngIf="!isLoading && banks" class="container">
+  <!-- Search bar -->
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchText" placeholder="جستجو در بانک ها" aria-label="Search">
+      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- Bank list -->
+  <div class="list-container">
+    <mat-card *ngFor="let bank of filteredBanks" class="bank-card">
+      <mat-card-header>
+        <mat-card-title>{{bank.BankName}}</mat-card-title>
+        <mat-card-subtitle>{{bank.Branch}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          کد بانک: {{bank.BankCode}}<br>
+          شماره حساب: {{bank.AccountNumber}}<br>
+          شماره کارت: {{bank.CardNumber}}<br>
+          شماره شبا: {{bank.Shaba}}<br>
+          توضیحات: {{bank.Description}}<br>
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>اطلاعات بیشتر</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
