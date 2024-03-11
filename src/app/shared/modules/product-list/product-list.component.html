@@ -1,37 +1,42 @@
 
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
-<div class="container" *ngIf="isLoading">
-  <div>بارگذاری کالاها ...</div>
-</div>
+<div class="container">
+  <div class="toolbar-container">
+    <mat-toolbar>
+      <mat-icon (click)="goToProductCategories()">menu</mat-icon>
+    </mat-toolbar>
+  </div>
 
-<div class="search-bar">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-icon matPrefix>search</mat-icon>
-    <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
-    <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="clearSearch()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>  
-</div>
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-progress-bar mode="indeterminate" class="progress-bar"></mat-progress-bar>
+    <div class="loading-text">بارگذاری کالاها ...</div>
+  </div>
 
-<mat-toolbar>
-  <mat-icon (click)="goToProductCategories()">menu</mat-icon>
-</mat-toolbar>
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
+      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>  
+  </div>
 
-<div class="product-list-container">
-  <div *ngIf="!isLoading && products" class="list-container">
-    <mat-card *ngFor="let product of filteredProducts" class="product-card">
-      <img *ngIf="getProductImageUrl(product)" [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image">
-      <mat-card-header>
-        <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          قیمت : {{product.price}}<br>
-          موجودی 1: {{product.count1}} {{product.UnitName}}<br>
-          موجودی 2: {{product.count2}} {{product.UnitName2}}<br>
-        </p>
-      </mat-card-content>
-    </mat-card>
+  <div class="product-list-container">
+    <div class="list-container" *ngIf="!isLoading && products">
+      <mat-card *ngFor="let product of filteredProducts" class="product-card">
+        <img *ngIf="getProductImageUrl(product)" [src]="getProductImageUrl(product)" alt="{{ product.Name }}" class="product-image">
+        <mat-card-header>
+          <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            قیمت : {{product.price}}<br>
+            موجودی 1: {{product.count1}} {{product.UnitName}}<br>
+            موجودی 2: {{product.count2}} {{product.UnitName2}}<br>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
+
