@@ -1,0 +1,13 @@
+<!-- order-detail.component.html -->
+<div class="order-detail-container">
+    <h1 class="page-title">جزییات سفارش برای {{ person?.FirstName }} {{ person?.LastName }}</h1>
+  
+    <div class="order-details-container">
+      <div class="order-detail" *ngFor="let detail of orderDetails; let i = index">
+        <h2 class="product-name"> {{ products[i]?.Name }}</h2>
+        <p class="detail-item">تعداد: {{ detail?.Count1 }}</p>
+        <p class="detail-item">قیمت: {{ detail?.Price }}</p>
+      </div>
+    </div>
+  </div>
+  

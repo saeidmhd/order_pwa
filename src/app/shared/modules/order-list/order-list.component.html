@@ -27,6 +27,9 @@
           مبلغ فاکتور: {{getOrderSum(order)}}
         </p>
       </mat-card-content>
+
+      <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]">جزییات سفارش</button>
+
     </mat-card>
   </div>
 </div>

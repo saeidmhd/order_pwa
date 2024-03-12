@@ -41,6 +41,7 @@ import { OrdersService } from './core/services/order.service';
 import { OrderListComponent } from './shared/modules/order-list/order-list.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
+import { OrderDetailComponent } from './shared/modules/order-detail/order-detail.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { ProductCategoriesComponent } from './shared/modules/product-categories/
     BankListComponent,
     ProductListComponent,
     ProductCategoriesComponent,
-    OrderListComponent
+    OrderListComponent,
+    OrderDetailComponent
   ],
   imports: [
     AppRoutingModule,
