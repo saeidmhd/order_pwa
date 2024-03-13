@@ -42,14 +42,14 @@ export class OrderDetailComponent implements OnInit {
         this.productDetails = (await Promise.all(this.orderDetails.map(async detail =>
           (await this.indexedDbService.getProductDetails()).find(productDetail => productDetail.ProductDetailId === detail.ProductDetailId)
         ))).filter((productDetail): productDetail is ProductDetail => productDetail !== undefined);
-        
+
         this.products = (await Promise.all(this.productDetails.map(async productDetail =>
           (await this.indexedDbService.getProducts()).find(product => product.ProductId === productDetail.ProductId)
         ))).filter((product): product is Product => product !== undefined);
-  
+
         this.person = (await this.indexedDbService.getPeople()).find(person => person.PersonId === this.order?.PersonId);
       }
     }
   }
-  
+
 }

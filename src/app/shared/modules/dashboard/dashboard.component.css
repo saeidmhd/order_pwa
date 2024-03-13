@@ -1,3 +1,38 @@
+/* Styles for the navigation rail */
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: #007bff; /* Updated color for the sidenav toolbar */
+  justify-content: space-between; /* Aligns the elements horizontally with space between */
+  border-radius: 0 10px 10px 0; /* Rounded border on the left side */
+}
+
+.sidenav-toolbar {
+  color: white;
+  display: flex; /* Enable flexbox layout for toolbar content */
+  align-items: center; /* Aligns items vertically center */
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Highlight active link */
+.mat-list-item.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: 25px;
+}
+
+/* Your existing styles for .container and .section */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid layout */
@@ -40,3 +75,17 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.page-title {
+  margin-left: 1rem; /* Add some margin to separate the title from the menu button */
+}
+
+.mat-icon {
+  margin-left: 0.5rem; /* Add some margin to separate the icon from the text */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+

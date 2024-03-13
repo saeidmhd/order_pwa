@@ -1,15 +1,16 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+
 <div class="login-container">
   <h2>ورود به سامانه</h2>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container">
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>نام کاربری</mat-label>
-      <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required (focus)="onFocus()" (blur)="onBlur()">
+      <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required>
       <mat-icon matSuffix class="material-icons">account_circle</mat-icon> <!-- Icon for the username field -->
     </mat-form-field>
     <mat-form-field appearance="outline" class="form-group">
       <mat-label>کلمه عبور</mat-label>
-      <input matInput type="password" id="password" name="password" [(ngModel)]="formData.password" required (focus)="onFocus()" (blur)="onBlur()">
+      <input matInput type="password" id="password" name="password" [(ngModel)]="formData.password" required>
       <mat-icon matSuffix class="material-icons">lock</mat-icon> <!-- Icon for the password field -->
     </mat-form-field>
     <div class="submit-button-container">
