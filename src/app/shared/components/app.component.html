@@ -1,2 +1,45 @@
+<mat-drawer-container class="drawer-container">
+    <mat-drawer #drawer class="drawer" mode="over">
+        <mat-nav-list>
+            <a mat-list-item (click)="navigateToUpdateInfo()" [routerLinkActive]="['active']">
+              <div class="nav-item">
+                <mat-icon>update</mat-icon>
+                <span mat-line>بروزرسانی اطلاعات</span>
+              </div>
+            </a>      
+            <a mat-list-item (click)="navigateToBasicInfo()" [routerLinkActive]="['active']">
+              <div class="nav-item">
+                <mat-icon>info</mat-icon> <!-- Add your icon here -->
+                <span mat-line>اطلاعات پایه</span>
+              </div>
+            </a>
+            <a mat-list-item (click)="navigateToOperations()" [routerLinkActive]="['active']">
+              <div class="nav-item">
+                <mat-icon>build</mat-icon> <!-- Add your icon here -->
+                <span mat-line>عملیات</span>
+              </div>
+            </a>
+            <a mat-list-item (click)="navigateToReports()" [routerLinkActive]="['active']">
+              <div class="nav-item">
+                <mat-icon>assessment</mat-icon> <!-- Add your icon here -->
+                <span mat-line>گزارشات</span>
+              </div>
+            </a>
+          </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <app-toolbar (draweClicked)="test()"></app-toolbar>
+      <!-- <mat-toolbar color="primary">
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar> -->
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
 
-<router-outlet></router-outlet>
+<!-- <mat-toolbar>
+    <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+</mat-toolbar> -->

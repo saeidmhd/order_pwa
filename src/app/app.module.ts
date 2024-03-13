@@ -42,6 +42,7 @@ import { OrderListComponent } from './shared/modules/order-list/order-list.compo
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
 import { OrderDetailComponent } from './shared/modules/order-detail/order-detail.component';
+import { ToolbarComponent } from './shared/modules/toolbar/toolbar.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { OrderDetailComponent } from './shared/modules/order-detail/order-detail
     ProductListComponent,
     ProductCategoriesComponent,
     OrderListComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    ToolbarComponent
   ],
   imports: [
     AppRoutingModule,

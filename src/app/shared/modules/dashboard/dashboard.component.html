@@ -1,68 +1,25 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav class="sidenav" mode="over">
-    <mat-toolbar class="sidenav-toolbar" color="primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu_open</mat-icon>
-      </button>
-    </mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item (click)="navigateToUpdateInfo()" [routerLinkActive]="['active']">
-        <div class="nav-item">
-          <mat-icon>update</mat-icon>
-          <span mat-line>بروزرسانی اطلاعات</span>
-        </div>
-      </a>      
-      <a mat-list-item (click)="navigateToBasicInfo()" [routerLinkActive]="['active']">
-        <div class="nav-item">
-          <mat-icon>info</mat-icon> <!-- Add your icon here -->
-          <span mat-line>اطلاعات پایه</span>
-        </div>
-      </a>
-      <a mat-list-item (click)="navigateToOperations()" [routerLinkActive]="['active']">
-        <div class="nav-item">
-          <mat-icon>build</mat-icon> <!-- Add your icon here -->
-          <span mat-line>عملیات</span>
-        </div>
-      </a>
-      <a mat-list-item (click)="navigateToReports()" [routerLinkActive]="['active']">
-        <div class="nav-item">
-          <mat-icon>assessment</mat-icon> <!-- Add your icon here -->
-          <span mat-line>گزارشات</span>
-        </div>
-      </a>
-    </mat-nav-list>
-    
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </mat-toolbar>
-    <div class="container">
-      <div class="section" style="background-color: #f0f0f0;">
-        <h2>بروزرسانی اطلاعات</h2>
-        <p>اینجا برای بروزرسانی اطلاعات</p>
-        <button (click)="navigateToUpdateInfo()">برو به بروزرسانی اطلاعات</button>
-      </div>
-    
-      <div class="section" style="background-color: #f0f0f0;">
-        <h2>اطلاعات پایه</h2>
-        <p>اینجا شامل اطلاعات اشخاص، کالاها و ... می‌شود.</p>
-        <button (click)="navigateToBasicInfo()">برو به اطلاعات پایه</button>
-      </div>
-    
-      <div class="section" style="background-color: #d0d0d0;">
-        <h2>عملیات</h2>
-        <p>اینجا شامل عملیات مثل ثبت فاکتور، پیش فاکتور، دریافتی و ... می‌شود.</p>
-        <button (click)="navigateToOperations()">برو به عملیات</button>
-      </div>
-    
-      <div class="section" style="background-color: #b0b0b0;">
-        <h2>گزارشات</h2>
-        <p>اینجا شامل گزارشات مثل لیست فاکتور‌ها، لیست پیش فاکتور‌ها، گزارشات روزانه و ... می‌شود.</p>
-        <button (click)="navigateToReports()">برو به گزارشات</button>
-      </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="container">
+  <div class="section" style="background-color: #f0f0f0;">
+    <h2>بروزرسانی اطلاعات</h2>
+    <p>اینجا برای بروزرسانی اطلاعات</p>
+    <button (click)="navigateToUpdateInfo()">برو به بروزرسانی اطلاعات</button>
+  </div>
+
+  <div class="section" style="background-color: #f0f0f0;">
+    <h2>اطلاعات پایه</h2>
+    <p>اینجا شامل اطلاعات اشخاص، کالاها و ... می‌شود.</p>
+    <button (click)="navigateToBasicInfo()">برو به اطلاعات پایه</button>
+  </div>
+
+  <div class="section" style="background-color: #d0d0d0;">
+    <h2>عملیات</h2>
+    <p>اینجا شامل عملیات مثل ثبت فاکتور، پیش فاکتور، دریافتی و ... می‌شود.</p>
+    <button (click)="navigateToOperations()">برو به عملیات</button>
+  </div>
+
+  <div class="section" style="background-color: #b0b0b0;">
+    <h2>گزارشات</h2>
+    <p>اینجا شامل گزارشات مثل لیست فاکتور‌ها، لیست پیش فاکتور‌ها، گزارشات روزانه و ... می‌شود.</p>
+    <button (click)="navigateToReports()">برو به گزارشات</button>
+  </div>
+</div>

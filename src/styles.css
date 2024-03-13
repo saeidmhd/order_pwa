@@ -9,6 +9,18 @@ body {
 	direction: rtl;
 }
 
+body {
+	font-family: dana  !important;
+	direction: rtl;
+	background-color: #cdcdcd;
+	margin: 0;
+	height: 100dvh;
+}
+
+.mat-drawer-container {
+	height: 100%;
+}
+
 .material-icons{
     font-family: 'Material Icons' !important;
 }
