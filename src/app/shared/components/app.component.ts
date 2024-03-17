@@ -15,7 +15,9 @@ export class AppComponent {
     this.drawer.open();
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    alert("app is called")
+   }
 
   navigateToBasicInfo() {
     this.router.navigate(['/basic-info']);

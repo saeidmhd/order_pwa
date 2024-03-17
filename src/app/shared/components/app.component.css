@@ -1,91 +1,86 @@
 /* Styles for the navigation rail */
-.sidenav-container {
-    height: 100%;
-  }
-  
-  .sidenav {
-    width: 200px;
-  }
-  
-  .sidenav .mat-toolbar {
-    background: #007bff;
-    justify-content: space-between;
-    border-radius: 0 10px 10px 0;
-  }
-  
-  .sidenav-toolbar {
-    color: white;
-    display: flex;
-    align-items: center;
-  }
-  
-  .mat-toolbar.mat-primary {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-  
-  /* Highlight active link */
-  .mat-list-item.active {
-    background-color: #007bff;
-    color: white;
-    border-radius: 25px;
-  }
-  
-  /* Styles for .container and .section */
-  .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    padding: 1em;
-  }
-  
-  .section {
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    margin-bottom: 1rem;
-  }
-  
-  button {
-    display: block;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.3rem;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .page-title {
-    margin-left: 1rem;
-  }
-  
-  .nav-item {
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-text {
-    margin-left: 0.5rem;
-  }
-  
+.drawer-container {
+  height: 100%;
+}
+
+.drawer {
+  width: 200px;
+}
+
+.drawer .mat-toolbar {
+  background: #007bff;
+  justify-content: space-between;
+  border-radius: 0 10px 10px 0;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Highlight active link */
+.mat-list-item.active {
+  background-color: #007bff;
+  color: white;
+  border-radius: 25px;
+}
+
+/* Styles for the container and sections */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1em;
+}
+
+.section {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* Button styles */
+button {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.page-title {
+  margin-left: 1rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.mat-line {
+  margin-right: 0.5rem;
+}
