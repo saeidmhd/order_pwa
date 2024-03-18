@@ -185,7 +185,9 @@ export class IndexedDbService {
 
     return new Promise<Person[]>((resolve, reject) => {
       getRequest.onsuccess = (event) => {
-        resolve((event.target as IDBRequest<Person[]>).result);
+        let people = (event.target as IDBRequest<Person[]>).result;
+        people.sort((a,b) => a.PersonCode - b.PersonCode)
+        resolve(people);
       };
 
       getRequest.onerror = (event) => {
