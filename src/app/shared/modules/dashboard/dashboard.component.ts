@@ -12,7 +12,6 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private router: Router , private checkForUpdate : CheckForUpdateService ) {
-    alert("salam")
    }
 
   ngOnInit(): void {

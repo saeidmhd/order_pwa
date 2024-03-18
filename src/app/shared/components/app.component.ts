@@ -8,32 +8,38 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  @ViewChild("drawer") drawer!:MatDrawer;
+  @ViewChild("drawer") drawer!: MatDrawer;
 
-  test():void {
+  test(): void {
     console.log("drawer opened");
     this.drawer.open();
   }
 
   constructor(private router: Router) {
-    alert("app is called")
-   }
+  }
 
   navigateToBasicInfo() {
     this.router.navigate(['/basic-info']);
+    this.drawer.close();
   }
 
   navigateToOperations() {
-    // Navigate to the Operations page
+    this.drawer.close();
   }
 
   navigateToReports() {
     this.router.navigate(['/order-list']);
+    this.drawer.close();
   }
 
   navigateToUpdateInfo() {
     this.router.navigate(['/update-info']);
-    }
-sidenav: any;
-  
+    this.drawer.close();
+  }
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
+    this.drawer.close();
+  }
+  sidenav: any;
+
 }

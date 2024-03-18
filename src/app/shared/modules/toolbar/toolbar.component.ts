@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Route, Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-toolbar',
@@ -14,12 +15,17 @@ export class ToolbarComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav | undefined; // Add this line
   drawer: any;
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit(): void {
   }
   openDrawer(): void {
     this.draweClicked.emit();
   }
+
+  goBack(): void {
+    this.location.back();
+  }
+  
 
 }

@@ -1,8 +1,10 @@
+<!-- Loading Spinner -->
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 <div class="loading-container" *ngIf="isLoading">
   <div class="loading-text">در حال بارگذاری سفارشات...</div>
 </div>
 
+<!-- Search Bar -->
 <div class="search-bar">
   <mat-form-field appearance="outline" class="full-width">
     <mat-icon matPrefix>search</mat-icon>
@@ -10,26 +12,30 @@
     <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
       <mat-icon>close</mat-icon>
     </button>
-  </mat-form-field>  
+  </mat-form-field>
 </div>
 
+<!-- Order List Container -->
 <div class="order-list-container">
-  <div class="list-container" *ngIf="!isLoading && orders"> 
+  <div class="list-container" *ngIf="!isLoading && orders">
+    <!-- Order Cards -->
     <mat-card *ngFor="let order of filteredOrders" class="order-card">
       <mat-card-header>
-        <mat-card-title>{{getPersonName(order.PersonId)}} {{getPerson(order.PersonId)?.Organization}}</mat-card-title>
-        <mat-card-subtitle>شماره فاکتور : {{order.OrderId}}</mat-card-subtitle>
-        <mat-card-subtitle>کد پیگیری : {{order.OrderClientId}}</mat-card-subtitle>
-        <mat-card-subtitle>تاریخ فاکتور : {{getFormattedPersianDate(order.OrderDate)}}</mat-card-subtitle>
+        <mat-card-title>
+          {{ getPersonName(order.PersonId) }}
+          <!-- Smaller font size for organization -->
+          <span class="organization">{{ getPerson(order.PersonId)?.Organization }}</span>
+        </mat-card-title>
+        <mat-card-subtitle>شماره فاکتور : {{ order.OrderId }}</mat-card-subtitle>
+        <mat-card-subtitle>کد پیگیری : {{ order.OrderClientId }}</mat-card-subtitle>
+        <mat-card-subtitle>تاریخ فاکتور : {{ getFormattedPersianDate(order.OrderDate) }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>
-          مبلغ فاکتور: {{getOrderSum(order)}}
-        </p>
+        <p>مبلغ فاکتور: {{ getOrderSum(order) }}</p>
       </mat-card-content>
-
-      <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]">جزییات سفارش</button>
-
+      <!-- Order Detail Button -->
+      <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]"
+        class="order-button">جزییات سفارش</button>
     </mat-card>
   </div>
 </div>

@@ -1,6 +1,12 @@
 <mat-drawer-container class="drawer-container">
     <mat-drawer #drawer class="drawer" mode="over">
         <mat-nav-list>
+          <a mat-list-item (click)="navigateToDashboard()" [routerLinkActive]="['active']">
+            <div class="nav-item">
+              <mat-icon>dashboard</mat-icon>
+              <span class="mat-line">داشبورد</span>
+            </div>
+          </a> 
             <a mat-list-item (click)="navigateToUpdateInfo()" [routerLinkActive]="['active']">
               <div class="nav-item">
                 <mat-icon>update</mat-icon>

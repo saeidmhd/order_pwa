@@ -47,28 +47,34 @@ export class OrderListComponent implements OnInit {
     const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
     const sum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Count1 * detail.Price), 0);
     return sum.toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال';
-}
+  }
 
 
   getPersonName(personId: number): string {
     const person = this.people.find(p => p.PersonId === personId);
-    return person ? person.FirstName + ' ' + person.LastName : '';
+    if (person) {
+      const firstName = person.FirstName || ''; // Handle null or undefined FirstName
+      const lastName = person.LastName || ''; // Handle null or undefined LastName
+      return firstName + ' ' + lastName;
+    }
+    return ''; // Return empty string if person is null or undefined
   }
+
   getPerson(personId: number): Person | undefined {
     return this.people.find(p => p.PersonId === personId);
-}
+  }
 
-getFormattedDate(dateString: string): string {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', options);
-}
+  getFormattedDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+  }
 
-getFormattedPersianDate(dateString: string): string {
-  let m = moment(dateString, 'YYYY-M-D HH:mm:ss');
-  let persianDate = m.format('jYYYY/jM/jD HH:mm:ss');
-  return persianDate;
-}
+  getFormattedPersianDate(dateString: string): string {
+    let m = moment(dateString, 'YYYY-M-D HH:mm:ss');
+    let persianDate = m.format('jYYYY/jM/jD HH:mm:ss');
+    return persianDate;
+  }
 
 
 }
