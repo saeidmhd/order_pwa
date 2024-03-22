@@ -40,6 +40,11 @@ export class AppComponent {
     this.router.navigate(['/dashboard']);
     this.drawer.close();
   }
+
+  navigateTologin() {
+    this.router.navigate(['/login']);
+    this.drawer.close();
+  }
   sidenav: any;
 
 }

@@ -12,7 +12,7 @@ export class CheckForUpdateService {
     // Allow the app to stabilize first, before starting
     // polling for updates with `interval()`.
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
-    const everySixHours$ = interval(10 * 1000);
+    const everySixHours$ = interval(5 * 60 * 1000);
     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
 
     everySixHoursOnceAppIsStable$.subscribe(async () => {

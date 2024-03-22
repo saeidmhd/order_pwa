@@ -1,5 +1,11 @@
 /* CSS Styling */
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Loading Container */
 .loading-container {
   display: flex;
