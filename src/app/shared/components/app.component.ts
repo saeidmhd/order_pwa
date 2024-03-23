@@ -24,6 +24,7 @@ export class AppComponent {
   }
 
   navigateToOperations() {
+    this.router.navigate(['/invoice']);
     this.drawer.close();
   }
 

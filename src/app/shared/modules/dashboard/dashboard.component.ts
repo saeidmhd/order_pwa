@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToOperations() {
-    // Navigate to the Operations page
+    this.router.navigate(['/invoice']);
   }
 
   navigateToReports() {

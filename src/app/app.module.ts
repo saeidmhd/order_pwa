@@ -45,6 +45,11 @@ import { OrderDetailComponent } from './shared/modules/order-detail/order-detail
 import { ToolbarComponent } from './shared/modules/toolbar/toolbar.component';
 import { LogUpdateService } from './core/services/log-update.service';
 import { PromptUpdateService } from './core/services/prompt-update.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+
+
 import {
   MatDialogActions,
   MatDialogClose,
@@ -52,6 +57,7 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 import { UpdateConfirmationDialogComponent } from './shared/modules/update-confirmation-dialog/update-confirmation-dialog.component';
+import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
 
 
 
@@ -69,7 +75,8 @@ import { UpdateConfirmationDialogComponent } from './shared/modules/update-confi
     OrderListComponent,
     OrderDetailComponent,
     ToolbarComponent,
-    UpdateConfirmationDialogComponent
+    UpdateConfirmationDialogComponent,
+    InvoiceComponent
   ],
   imports: [
     AppRoutingModule,
@@ -77,6 +84,7 @@ import { UpdateConfirmationDialogComponent } from './shared/modules/update-confi
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
     BrowserAnimationsModule,
@@ -92,6 +100,8 @@ import { UpdateConfirmationDialogComponent } from './shared/modules/update-confi
     MatDialogClose,
     MatDialogTitle,
     MatDialogContent,
+    MatSelectModule,
+    MatTableModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),

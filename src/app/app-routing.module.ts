@@ -10,6 +10,7 @@ import { ProductListComponent } from './shared/modules/product-list/product-list
 import { OrderListComponent } from './shared/modules/order-list/order-list.component';
 import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
 import { OrderDetailComponent } from './shared/modules/order-detail/order-detail.component';
+import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'product-list/:categoryId', component: ProductListComponent }, 
   { path: 'order-list', component: OrderListComponent },
   { path: 'product-categories', component: ProductCategoriesComponent },
+  { path: 'invoice', component: InvoiceComponent },
   { path: 'order-detail/:id', component: OrderDetailComponent },
 
   // other routes...
