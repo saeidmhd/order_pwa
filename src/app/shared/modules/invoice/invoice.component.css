@@ -1,4 +1,21 @@
 .container {
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin: 20px 0;
+  }
+  
+  .mat-elevation-z8 {
+    overflow: auto;
+    max-height: 500px;
+  }
+  .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -52,3 +69,5 @@
   .table tbody tr:hover {
     background-color: #e2e2e2;
   }
+
+  
