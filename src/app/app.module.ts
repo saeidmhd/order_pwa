@@ -58,6 +58,8 @@ import {
 } from '@angular/material/dialog';
 import { UpdateConfirmationDialogComponent } from './shared/modules/update-confirmation-dialog/update-confirmation-dialog.component';
 import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
+import { FooterComponent } from './shared/modules/footer/footer.component';
+import { DrawerComponent } from './shared/modules/drawer/drawer.component';
 
 
 
@@ -76,7 +78,12 @@ import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
     OrderDetailComponent,
     ToolbarComponent,
     UpdateConfirmationDialogComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    FooterComponent,
+    DrawerComponent
+  ],
+  exports: [
+    FooterComponent
   ],
   imports: [
     AppRoutingModule,

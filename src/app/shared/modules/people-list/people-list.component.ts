@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Person } from '../../../core/models/Person';
 import { IndexedDbService } from '../../../core/services/indexed-db.service';
 import { PeopleService } from '../../../core/services/people.service';
+import { PersonSelectionService } from 'src/app/core/services/person-selection.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-people-list',
@@ -10,34 +12,31 @@ import { PeopleService } from '../../../core/services/people.service';
   styleUrls: ['./people-list.component.css']
 })
 export class PeopleListComponent implements OnInit {
+
+  constructor(private indexedDbService: IndexedDbService, private personSelectionService: PersonSelectionService , private router : Router) { }
+
+  selectPerson(person: Person): void {
+    this.personSelectionService.selectPerson(person);
+    this.router.navigate(['/invoice']);
+  }
   people: Person[] = [];
   isLoading = false; // Add a new property to track loading state
 
-searchText = '';
+  searchText = '';
 
-get filteredPeople() {
-  return this.people.filter(person =>
-    (person.FirstName + ' ' + person.LastName).toLowerCase().includes(this.searchText.toLowerCase())
-  );
-}
+  get filteredPeople() {
+    return this.people.filter(person =>
+      (person.FirstName + ' ' + person.LastName).toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
 
-  constructor(private indexedDbService: IndexedDbService, private peopleService: PeopleService) { }
 
   ngOnInit(): void {
     this.isLoading = true; // Set loading state to true at the start
     this.indexedDbService.getPeople().then((people: Person[]) => {
+      this.isLoading = false;
       if (people.length > 0) {
         this.people = people;
-        this.isLoading = false; // Set loading state to false when data is loaded
-      } else {
-        this.peopleService.getPeople().subscribe((response: { Result: any; Data: { Objects: { People: Person[] ; }; }; }) => {
-          if (response.Result) {
-            this.people = response.Data.Objects.People;
-            this.indexedDbService.storePeople(this.people).then(() => {
-              this.isLoading = false; // Set loading state to false when data is loaded
-            });
-          }
-        });
       }
     });
   }

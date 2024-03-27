@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Person } from 'src/app/core/models/Person';
 import { OrderDetail } from 'src/app/core/models/order-detail';
 import { Product } from 'src/app/core/models/product';
 import { ProductDetail } from 'src/app/core/models/product-detail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db.service';
+import { PersonSelectionService } from 'src/app/core/services/person-selection.service';
+
 
 @Component({
   selector: 'app-invoice',
@@ -12,6 +15,15 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db.service';
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent {
+  selectedProducts: Product[] = [];
+selectProducts(): void {
+  this.router.navigate(['/product-list']);
+  }
+  selectedPerson!: Person | null;
+selectPerson() {
+  this.router.navigate(['/people-list']);
+}
+  
   invoiceForm: FormGroup;
   people: Person[] = []; // Assuming customer data is available
   products: Product[] = []; // Assuming product data is available
@@ -27,7 +39,9 @@ export class InvoiceComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private indexedDbService: IndexedDbService
+    private personSelectionService: PersonSelectionService,
+    private router : Router,
+
   ) {
     this.invoiceForm = this.formBuilder.group({
       customer: [null, Validators.required],
@@ -36,23 +50,13 @@ export class InvoiceComponent {
       quantity: [1, [Validators.required, Validators.min(1)]]
     });
 
-    this.fetchProductsAndProductDetails();
-    this.fetchPeople();
-  }
-  fetchPeople() {
-    this.indexedDbService.getPeople().then(people => {
-      this.people = people;
-    });  }
-
-  fetchProductsAndProductDetails(): void {
-    this.indexedDbService.getProducts().then(products => {
-      this.products = products;
+     this.personSelectionService.selectedPerson$.subscribe((person: Person | null) => {
+      this.selectedCustomer = person;
     });
-
-    this.indexedDbService.getProductDetails().then(productDetails => {
-      this.productDetails = productDetails;
-    });
+  
   }
+
+
 
   updateProductPrice(): void {
     console.log("here2")

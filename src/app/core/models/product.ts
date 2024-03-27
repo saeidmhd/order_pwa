@@ -31,6 +31,7 @@ export interface Product {
     price?: string;
     count1?: number;
     count2?: number;
+    quantity: number;
   }
   
   export interface ProductsResponse {

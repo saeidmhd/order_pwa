@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^17.0.7",
     "@angular/router": "^17.0.7",
     "@angular/service-worker": "^17.0.7",
+    "@material-design-icons/svg": "^0.14.13",
     "crypto-js": "^4.1.1",
     "jalali-moment": "^3.3.11",
     "rxjs": "~7.8.0",

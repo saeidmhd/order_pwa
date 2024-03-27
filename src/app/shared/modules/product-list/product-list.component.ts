@@ -14,6 +14,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+
+  selectedProducts: Product[] = [];
+
+  constructor(
+    private indexedDbService: IndexedDbService,
+    private route: ActivatedRoute,
+    private router: Router, // <-- Make sure to inject the Router service here,
+  ) {}
+
+  increaseQuantity(product: Product): void {
+    if (typeof product.quantity === 'number' && !isNaN(product.quantity)) {
+      product.quantity++; // Increment the quantity
+    } else {
+      // If quantity is not a valid number, set it to 1
+      product.quantity = 1;
+    }
+  }
+  decreaseQuantity(product: Product): void {
+    if (typeof product.quantity === 'number' && !isNaN(product.quantity) && product.quantity > 0) {
+      product.quantity--; // Decrement the quantity if it's greater than 0
+    } else {
+      // If quantity is not a valid number or already 0, set it to 0
+      product.quantity = 0;
+    }
+  }
   products: Product[] = [];
   selectedCategory: number | null = null;
   productCategories: ProductCategory[] = [];
@@ -23,13 +48,6 @@ export class ProductListComponent implements OnInit {
   isLoading = false;
   searchText = '';
 
-  constructor(
-    private indexedDbService: IndexedDbService,
-    private route: ActivatedRoute,
-    private router: Router  // <-- Make sure to inject the Router service here
-  ) {}
-  
-
   ngOnInit(): void {
     this.isLoading = true;
     this.route.params.subscribe(params => {
@@ -37,10 +55,10 @@ export class ProductListComponent implements OnInit {
       if (categoryId) {
         this.selectedCategory = +categoryId;
       }
-    this.loadProducts();
-    //this.loadProductCategories();
-    this.loadPictures(); // Load pictures
-    this.loadPhotoGalleries();
+      this.loadProducts();
+      //this.loadProductCategories();
+      this.loadPictures(); // Load pictures
+      this.loadPhotoGalleries();
     });
   }
 
@@ -53,12 +71,12 @@ export class ProductListComponent implements OnInit {
             const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId && vp.Deleted == false);
             return {
               ...product,
-              price:  parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ',
+              price: parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ',
               count1: visitorProduct?.Count1,
               count2: visitorProduct?.Count2
             };
-          }).filter(product => 
-            product.count1 !== undefined && 
+          }).filter(product =>
+            product.count1 !== undefined &&
             product.count2 !== undefined &&
             (!this.selectedCategory || product.ProductCategoryId === this.selectedCategory)
           );
@@ -100,7 +118,7 @@ export class ProductListComponent implements OnInit {
     const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
     const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
     return picture ? 'https://mahakacc.mahaksoft.com' + picture.Url : undefined;
-}
+  }
 
 
   get filteredProducts() {
