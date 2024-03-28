@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SwUpdate } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { UpdateConfirmationDialogComponent } from 'src/app/shared/modules/update-confirmation-dialog/update-confirmation-dialog.component';
+import { UpdateConfirmationDialogComponent } from 'src/app/shared/components/update-confirmation-dialog/update-confirmation-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class CheckForUpdateService {

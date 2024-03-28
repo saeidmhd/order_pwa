@@ -19,30 +19,30 @@ import { MatCardModule } from '@angular/material/card';
 
 import { IndexedDbService } from './core/services/indexed-db.service';
 import { LoginService } from './core/services/login.service';
-import { LoginComponent } from './shared/modules/login/login.component'; // Import the component
-import { AppComponent } from './shared/components/app.component';
+import { LoginComponent } from './shared/components/login/login.component'; // Import the component
+import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
+import { PeopleListComponent } from './shared/components/people-list/people-list.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
-import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.component';
-import { UpdateInfoComponent } from './shared/modules/update-info/update-info.component';
+import { DashboardComponent } from './shared/components/dashboard/dashboard.component';
+import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
+import { UpdateInfoComponent } from './shared/components/update-info/update-info.component';
 import { PeopleService } from './core/services/people.service';
 import { BanksService } from './core/services/banks.service';
-import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
+import { BankListComponent } from './shared/components/bank-list/bank-list.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ProductDetailService } from './core/services/product-detail.service';
 import { ProductService } from './core/services/product.service';
-import { ProductListComponent } from './shared/modules/product-list/product-list.component';
+import { ProductListComponent } from './shared/components/product-list/product-list.component';
 import { VisitorPeopleService } from './core/services/visitor-person.service';
 import { OrdersService } from './core/services/order.service';
-import { OrderListComponent } from './shared/modules/order-list/order-list.component';
+import { OrderListComponent } from './shared/components/order-list/order-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
-import { OrderDetailComponent } from './shared/modules/order-detail/order-detail.component';
-import { ToolbarComponent } from './shared/modules/toolbar/toolbar.component';
+import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
+import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
+import { ToolbarComponent } from './shared/components/toolbar/toolbar.component';
 import { LogUpdateService } from './core/services/log-update.service';
 import { PromptUpdateService } from './core/services/prompt-update.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -56,10 +56,10 @@ import {
   MatDialogTitle,
   MatDialogContent,
 } from '@angular/material/dialog';
-import { UpdateConfirmationDialogComponent } from './shared/modules/update-confirmation-dialog/update-confirmation-dialog.component';
-import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
-import { FooterComponent } from './shared/modules/footer/footer.component';
-import { DrawerComponent } from './shared/modules/drawer/drawer.component';
+import { UpdateConfirmationDialogComponent } from './shared/components/update-confirmation-dialog/update-confirmation-dialog.component';
+import { InvoiceComponent } from './shared/components/invoice/invoice.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { DrawerComponent } from './shared/components/drawer/drawer.component';
 
 
 

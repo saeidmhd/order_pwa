@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs';
-import { UpdateConfirmationDialogComponent } from 'src/app/shared/modules/update-confirmation-dialog/update-confirmation-dialog.component';
+import { UpdateConfirmationDialogComponent } from 'src/app/shared/components/update-confirmation-dialog/update-confirmation-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class PromptUpdateService {

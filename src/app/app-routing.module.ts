@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './shared/modules/login/login.component'; // Import the component
-import { PeopleListComponent } from './shared/modules/people-list/people-list.component';
-import { DashboardComponent } from './shared/modules/dashboard/dashboard.component';
-import { BasicInfoComponent } from './shared/modules/basic-info/basic-info.component';
-import { UpdateInfoComponent } from './shared/modules/update-info/update-info.component';
-import { BankListComponent } from './shared/modules/bank-list/bank-list.component';
-import { ProductListComponent } from './shared/modules/product-list/product-list.component';
-import { OrderListComponent } from './shared/modules/order-list/order-list.component';
-import { ProductCategoriesComponent } from './shared/modules/product-categories/product-categories.component';
-import { OrderDetailComponent } from './shared/modules/order-detail/order-detail.component';
-import { InvoiceComponent } from './shared/modules/invoice/invoice.component';
+import { LoginComponent } from './shared/components/login/login.component'; // Import the component
+import { PeopleListComponent } from './shared/components/people-list/people-list.component';
+import { DashboardComponent } from './shared/components/dashboard/dashboard.component';
+import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
+import { UpdateInfoComponent } from './shared/components/update-info/update-info.component';
+import { BankListComponent } from './shared/components/bank-list/bank-list.component';
+import { ProductListComponent } from './shared/components/product-list/product-list.component';
+import { OrderListComponent } from './shared/components/order-list/order-list.component';
+import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
+import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
+import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
