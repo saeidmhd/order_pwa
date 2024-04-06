@@ -1,21 +1,23 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 
 <div class="login-container">
-  <h2>ورود به سامانه</h2>
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container">
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>نام کاربری</mat-label>
-      <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required>
-      <mat-icon matSuffix class="material-icons">account_circle</mat-icon> <!-- Icon for the username field -->
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-group">
-      <mat-label>کلمه عبور</mat-label>
-      <input matInput type="password" id="password" name="password" [(ngModel)]="formData.password" required>
-      <mat-icon matSuffix class="material-icons">lock</mat-icon> <!-- Icon for the password field -->
-    </mat-form-field>
-    <div class="submit-button-container">
-      <button mat-raised-button type="submit" [disabled]="loginForm.invalid" class="submit-button">ورود به سامانه</button>
-    </div>
-  </form>
-  <p class="error-message" *ngIf="loginError">{{ loginError }}</p>
+  <div class="login-box">
+    <h3 class="login-title">ورود به سامانه</h3>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container">
+      <mat-form-field appearance="outline" class="form-group">
+        <mat-label>نام کاربری</mat-label>
+        <input matInput type="text" id="username" name="username" [(ngModel)]="formData.username" required>
+        <mat-icon matSuffix class="material-icons">account_circle</mat-icon> <!-- Icon for the username field -->
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-group">
+        <mat-label>کلمه عبور</mat-label>
+        <input matInput type="password" id="password" name="password" [(ngModel)]="formData.password" required>
+        <mat-icon matSuffix class="material-icons">lock</mat-icon> <!-- Icon for the password field -->
+      </mat-form-field>
+      <div class="submit-button-container" style="width: 100%;">
+        <button mat-raised-button type="submit" style="width: 100%; background-color: #369139; color: #fff;" [disabled]="loginForm.invalid" class="submit-button">ورود به سامانه</button>
+      </div>
+    </form>
+    <p class="error-message" *ngIf="loginError">{{ loginError }}</p>
+  </div>
 </div>

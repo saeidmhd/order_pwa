@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
+import { UtilityService } from '../../services/utility.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class ToolbarComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav | undefined; // Add this line
   drawer: any;
 
-  constructor(private location: Location) { }
+  constructor(private location: Location, public utilityService: UtilityService) {}
 
   ngOnInit(): void {
   }
@@ -26,6 +27,4 @@ export class ToolbarComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-  
-
 }

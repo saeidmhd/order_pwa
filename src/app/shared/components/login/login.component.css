@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 70vh;
   text-align: center;
   background-color: #f4f4f4; /* Background color for the container */
   border: 1px solid #ddd; /* Border */
@@ -12,10 +12,22 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow */
 }
 
+.login-box {
+  border: 1px solid gray;
+}
+
+.login-title {
+  background-color: #369139; 
+  padding: 13px; color: #fff; 
+  display: flex; 
+  justify-content: start;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
 }
 
 .submit-button {
@@ -33,8 +45,3 @@
 .material-icons {
   color: #777; /* Icon color */
 }
-
-::ng-deep .mat-toolbar.mat-primary  {
-	background: #369139 !important;
-}
-

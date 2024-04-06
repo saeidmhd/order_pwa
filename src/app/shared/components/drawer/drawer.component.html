@@ -1,46 +1,47 @@
 <mat-drawer-container class="drawer-container">
-    <mat-drawer #drawer class="drawer" mode="over">
-        <mat-nav-list>
-          <a mat-list-item (click)="navigateToDashboard()" [routerLinkActive]="['active']">
-            <div class="nav-item">
-              <mat-icon>dashboard</mat-icon>
-              <span class="mat-line">داشبورد</span>
-            </div>
-          </a> 
-            <a mat-list-item (click)="navigateToUpdateInfo()" [routerLinkActive]="['active']">
-              <div class="nav-item">
-                <mat-icon>update</mat-icon>
-                <span class="mat-line">بروزرسانی اطلاعات</span>
-              </div>
-            </a>      
-            <a mat-list-item (click)="navigateToBasicInfo()" [routerLinkActive]="['active']">
-              <div class="nav-item">
-                <mat-icon>info</mat-icon> <!-- Add your icon here -->
-                <span class="mat-line">اطلاعات پایه</span>
-              </div>
-            </a>
-            <a mat-list-item (click)="navigateToOperations()" [routerLinkActive]="['active']">
-              <div class="nav-item">
-                <mat-icon>build</mat-icon> <!-- Add your icon here -->
-                <span class="mat-line">عملیات</span>
-              </div>
-            </a>
-            <a mat-list-item (click)="navigateToReports()" [routerLinkActive]="['active']">
-              <div class="nav-item">
-                <mat-icon>assessment</mat-icon> <!-- Add your icon here -->
-                <span class="mat-line">گزارشات</span>
-              </div>
-            </a>
-            <a mat-list-item (click)="navigateTologin()" [routerLinkActive]="['active']">
-              <div class="nav-item">
-                <mat-icon>logout</mat-icon> <!-- Add your icon here -->
-                <span class="mat-line">خروج</span>
-              </div>
-            </a>
-          </mat-nav-list>
-    </mat-drawer>
-    <mat-drawer-content>
-        <app-toolbar (draweClicked)="test()"></app-toolbar>
-      <router-outlet></router-outlet>
-    </mat-drawer-content>
-  </mat-drawer-container>
+  <mat-drawer #drawer class="drawer" mode="over">
+    <mat-nav-list>
+      <a mat-list-item (click)="navigateToDashboard()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>dashboard</mat-icon>
+          <span class="mat-line">داشبورد</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="navigateToUpdateInfo()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>update</mat-icon>
+          <span class="mat-line">بروزرسانی اطلاعات</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="navigateToBasicInfo()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>info</mat-icon> <!-- Add your icon here -->
+          <span class="mat-line">اطلاعات پایه</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="navigateToOperations()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>build</mat-icon> <!-- Add your icon here -->
+          <span class="mat-line">عملیات</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="navigateToReports()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>assessment</mat-icon> <!-- Add your icon here -->
+          <span class="mat-line">گزارشات</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="navigateTologin()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>logout</mat-icon> <!-- Add your icon here -->
+          <span class="mat-line">خروج</span>
+        </div>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <app-toolbar (draweClicked)="test()"></app-toolbar>
+    <router-outlet style="height: 100dvh;"></router-outlet>
+    <app-footer *ngIf="utilityService.showMenuFooter | async"></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
