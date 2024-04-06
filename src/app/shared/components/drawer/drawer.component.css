@@ -8,7 +8,7 @@
 } */
 
 .drawer .mat-toolbar {
-  background: #007bff;
+  background: #369139;
   justify-content: space-between;
   border-radius: 0 10px 10px 0;
 }
@@ -21,7 +21,7 @@
 
 /* Highlight active link */
 .mat-list-item.active {
-  background-color: #007bff;
+  background-color: #369139;
   color: white;
   border-radius: 25px;
 }
@@ -62,14 +62,14 @@ button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.3rem;
-  background-color: #007bff;
+  background-color: #369139;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #c3ecc4;
 }
 
 .page-title {

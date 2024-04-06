@@ -60,6 +60,7 @@ import { UpdateConfirmationDialogComponent } from './shared/components/update-co
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
+import { MapComponent } from './shared/components/map/map.component';
 
 
 
@@ -80,7 +81,8 @@ import { DrawerComponent } from './shared/components/drawer/drawer.component';
     UpdateConfirmationDialogComponent,
     InvoiceComponent,
     FooterComponent,
-    DrawerComponent
+    DrawerComponent,
+    MapComponent
   ],
   exports: [
     FooterComponent
