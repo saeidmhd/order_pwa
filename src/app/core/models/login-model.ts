@@ -13,3 +13,10 @@ export interface LoginModel {
       WithDataTransfer: boolean;
     };
   }
+
+  export interface LoginError {
+    Result: boolean;
+    Code?: number; // Make the Code property optional
+    Message: string;
+  }
+  
