@@ -5,7 +5,6 @@ import * as CryptoJS from 'crypto-js';
 import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
 import { Observable, of } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginError, LoginModel } from '../models/login-model';
 
 @Injectable({
@@ -13,13 +12,9 @@ import { LoginError, LoginModel } from '../models/login-model';
 })
 export class LoginService {
   private apiUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/login';
+  snackBar: any;
 
-  constructor(
-    private http: HttpClient,
-    private indexedDbService: IndexedDbService,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {}
 
   login(username: string, password: string): Observable<LoginModel | LoginError> {
     const hashedPassword = CryptoJS.MD5(password).toString();
@@ -33,7 +28,7 @@ export class LoginService {
         if (response.Result) {
           this.indexedDbService.storeLoginResponse(response.Data)
             .then(() => {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/dashboard']); // Navigate on successful login
             })
             .catch((error) => console.error('Error storing login response:', error));
         } else {

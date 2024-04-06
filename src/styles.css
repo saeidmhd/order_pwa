@@ -14,9 +14,9 @@ body {
 body {
 	font-family: dana  !important;
 	direction: rtl;
-	background-color: #cdcdcd;
+	/* background-color: #cdcdcd; */
 	margin: 0;
-	height: 100dvh;
+	/* height: 100dvh; */
 }
 
 .mat-drawer-container {
@@ -26,6 +26,13 @@ body {
 .material-icons{
     font-family: 'Material Icons' !important;
 }
+
+.mat-toolbar.mat-primary  {
+	background: #369139 !important;
+}
+
+
+
 
 /* @media only screen and (min-width: 600px) {
 	body {
