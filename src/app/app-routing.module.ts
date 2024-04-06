@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'product-categories', component: ProductCategoriesComponent },
   { path: 'invoice', component: InvoiceComponent },
   { path: 'order-detail/:id', component: OrderDetailComponent },
-
+  
   // other routes...
 ];
   
