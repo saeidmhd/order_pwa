@@ -6,6 +6,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
 import { Observable, of } from 'rxjs';
 import { LoginError, LoginModel } from '../models/login-model';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class LoginService {
   private apiUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/login';
   snackBar: any;
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {}
+  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router, private utilityService: UtilityService) { }
 
   login(username: string, password: string): Observable<LoginModel | LoginError> {
     const hashedPassword = CryptoJS.MD5(password).toString();
@@ -28,6 +29,7 @@ export class LoginService {
         if (response.Result) {
           this.indexedDbService.storeLoginResponse(response.Data)
             .then(() => {
+              this.utilityService.showMenuFooter.next(true);
               this.router.navigate(['/dashboard']); // Navigate on successful login
             })
             .catch((error) => console.error('Error storing login response:', error));
