@@ -41,7 +41,7 @@
   </mat-drawer>
   <mat-drawer-content>
     <app-toolbar (draweClicked)="test()"></app-toolbar>
-    <router-outlet style="height: 100dvh;"></router-outlet>
+    <router-outlet style="height: 100dvh; margin-bottom: 3rem;"></router-outlet>
     <app-footer *ngIf="utilityService.showMenuFooter | async"></app-footer>
   </mat-drawer-content>
 </mat-drawer-container>
