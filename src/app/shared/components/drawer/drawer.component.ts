@@ -1,6 +1,7 @@
 import { ViewChild , Component } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { UtilityService } from '../../services/utility.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class DrawerComponent {
     this.drawer.open();
   }
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public utilityService: UtilityService) {
   }
 
   navigateToBasicInfo() {

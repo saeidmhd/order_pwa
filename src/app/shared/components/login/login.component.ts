@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { LoginService } from '../../../core/services/login.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,10 @@ export class LoginComponent {
   loginError: string = '';
   isLoading: boolean = false;
   isKeyboardOpen = false;
-
-  constructor(private loginService: LoginService) {}
+  
+  constructor(private loginService: LoginService, private utilityService: UtilityService) {
+    this.utilityService.showMenuFooter.next(false);
+  }
 
   @HostListener('window:resize')
   onResize() {
@@ -52,6 +55,6 @@ export class LoginComponent {
         this.loginError = 'Login failed. Please check your credentials.';
         this.isLoading = false; // Hide loading indicator on error
       }
-    });    
+    });
   }
 }

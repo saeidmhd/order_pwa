@@ -1,8 +1,8 @@
 <mat-toolbar class="drawer-toolbar" color="primary">
-  <button mat-icon-button (click)="openDrawer()">
+  <button mat-icon-button (click)="openDrawer()" *ngIf="utilityService.showMenuFooter | async">
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-icon-button (click)="goBack()">
+  <button mat-icon-button (click)="goBack()"  *ngIf="utilityService.showMenuFooter | async">
     <mat-icon>arrow_back</mat-icon>
   </button> 
 </mat-toolbar>
