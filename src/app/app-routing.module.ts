@@ -11,21 +11,22 @@ import { OrderListComponent } from './shared/components/order-list/order-list.co
 import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
+import { authGuard } from './shared/services/authorizing/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'people-list', component: PeopleListComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'basic-info', component: BasicInfoComponent },
-  { path: 'update-info', component: UpdateInfoComponent },
-  { path: 'bank-list', component: BankListComponent },
-  { path: 'product-list', component: ProductListComponent },
-  { path: 'product-list/:categoryId', component: ProductListComponent }, 
-  { path: 'order-list', component: OrderListComponent },
-  { path: 'product-categories', component: ProductCategoriesComponent },
-  { path: 'invoice', component: InvoiceComponent },
-  { path: 'order-detail/:id', component: OrderDetailComponent },
+  { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
+  { path: 'update-info', component: UpdateInfoComponent, canActivate: [authGuard] },
+  { path: 'bank-list', component: BankListComponent, canActivate: [authGuard] },
+  { path: 'product-list', component: ProductListComponent, canActivate: [authGuard] },
+  { path: 'product-list/:categoryId', component: ProductListComponent, canActivate: [authGuard] }, 
+  { path: 'order-list', component: OrderListComponent, canActivate: [authGuard] },
+  { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
+  { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
+  { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
   
   // other routes...
 ];
