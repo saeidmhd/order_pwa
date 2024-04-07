@@ -1,7 +1,7 @@
 import { ViewChild , Component } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { UtilityService } from '../../services/utility.service';
+import { UtilityService } from '../../services/common/utility.service';
 
 
 @Component({
@@ -48,6 +48,7 @@ export class DrawerComponent {
   }
 
   navigateTologin() {
+    localStorage.clear();
     this.drawer.close();
     this.router.navigate(['/login']);
     
