@@ -6,7 +6,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
 import { Observable, of } from 'rxjs';
 import { LoginError, LoginModel } from '../models/login-model';
-import { UtilityService } from 'src/app/shared/services/utility.service';
+import { UtilityService } from 'src/app/shared/services/common/utility.service';
 
 @Injectable({
   providedIn: 'root'
