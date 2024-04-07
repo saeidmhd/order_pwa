@@ -114,11 +114,16 @@ export class ProductListComponent implements OnInit {
     this.searchText = '';
   }
 
-  getProductImageUrl(product: Product): string | undefined { // Add getProductImageUrl method
+  getProductImageUrl(product: Product): string {
     const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
     const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
-    return picture ? 'https://mahakacc.mahaksoft.com' + picture.Url : undefined;
+    if (picture) {
+      return 'https://mahakacc.mahaksoft.com' + picture.Url;
+    } else {
+      return 'assets/img_empty_product.png'; // Path to the default image in your assets folder
+    }
   }
+  
 
 
   get filteredProducts() {

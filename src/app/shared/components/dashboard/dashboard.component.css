@@ -1,51 +1,40 @@
-/* Styles for the navigation rail */
-.sidenav-container {
-  height: 100%;
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full height of the viewport */
+  margin: 0; /* Remove default margin */
 }
 
-.sidenav {
-  width: 200px;
-}
-
-.sidenav .mat-toolbar {
-  background: #007bff; /* Updated color for the sidenav toolbar */
-  justify-content: space-between; /* Aligns the elements horizontally with space between */
-  border-radius: 0 10px 10px 0; /* Rounded border on the left side */
-}
-
-.sidenav-toolbar {
-  color: white;
-  display: flex; /* Enable flexbox layout for toolbar content */
-  align-items: center; /* Aligns items vertically center */
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-/* Highlight active link */
-.mat-list-item.active {
-  background-color: #007bff;
-  color: white;
-  border-radius: 25px;
-}
-
-/* Your existing styles for .container and .section */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid layout */
   gap: 1rem;
   padding: 1em;
+  margin-top: auto; /* Push the container to the bottom */
 }
 
+/* Your existing styles for .section and button */
 .section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Aligns items vertically with space between */
   padding: 1.5rem;
   border-radius: 0.5rem;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+button {
+  align-self: flex-start; /* Aligns the button to the start of the flex container */
+  display: block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #0077B6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .section:hover {
@@ -61,31 +50,6 @@ p {
   margin-bottom: 1rem;
 }
 
-button {
-  display: block;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.3rem;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
 button:hover {
   background-color: #0056b3;
 }
-
-.page-title {
-  margin-left: 1rem; /* Add some margin to separate the title from the menu button */
-}
-
-.mat-icon {
-  margin-left: 0.5rem; /* Add some margin to separate the icon from the text */
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-}
-

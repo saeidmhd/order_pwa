@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { tap, catchError } from 'rxjs/operators';
 import { IndexedDbService } from './indexed-db.service';
-import { LoginModel } from '../models/login-model';
 import { Observable, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoginError, LoginModel } from '../models/login-model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,14 @@ import { Observable, of } from 'rxjs';
 export class LoginService {
   private apiUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/login';
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private indexedDbService: IndexedDbService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string): Observable<LoginModel | LoginError> {
     const hashedPassword = CryptoJS.MD5(password).toString();
     const requestBody = {
       username: username,
@@ -25,34 +31,30 @@ export class LoginService {
     return this.http.post<any>(this.apiUrl, requestBody).pipe(
       tap((response) => {
         if (response.Result) {
-          // Successful login
           this.indexedDbService.storeLoginResponse(response.Data)
             .then(() => {
-              this.router.navigate(['/dashboard']); // Navigate on successful login
+              this.router.navigate(['/dashboard']);
             })
             .catch((error) => console.error('Error storing login response:', error));
         } else {
-          // Failed login
           console.error('Login error:', response.Message);
-          // Handle the error appropriately
-          // For example, display an error message to the user
+          this.snackBar.open(response.Message, 'بستن', {
+            duration: 5000,
+            verticalPosition: 'top'
+          });
         }
       }),
-      catchError((error) => {
+      catchError((error: HttpErrorResponse) => {
         console.error('Login error:', error);
-        // Handle the error appropriately
-        if (error.status) { // Check for HTTP status code errors
-          switch (error.status) {
-            case 401: // Unauthorized
-              return of({ Result: false, Message: 'Invalid username or password!', Data: {} as LoginModel['Data'] });
-            case 400: // Bad Request
-              return of({ Result: false, Message: 'Invalid login request!', Data: {} as LoginModel['Data'] });
-            default:
-              return of({ Result: false, Message: 'An unexpected error occurred!', Data: {} as LoginModel['Data'] });
-          }
-        } else {
-          return of({ Result: false, Message: 'Connection error! Please try again later.', Data: {} as LoginModel['Data'] });
+        let errorMessage = 'An unexpected error occurred!';
+        if (error.status === 0) {
+          errorMessage = 'اتصال اینترنت خود را بررسی بفرمایید، سپس دوباره تلاش کنید!';
         }
+        this.snackBar.open(errorMessage, 'بستن', {
+          duration: 5000,
+          verticalPosition: 'top'
+        });
+        return of({ Result: false, Message: errorMessage, Data: {} });
       })
     );
   }
