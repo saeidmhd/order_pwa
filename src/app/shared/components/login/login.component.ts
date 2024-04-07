@@ -1,6 +1,9 @@
 import { Component, HostListener } from '@angular/core';
+
 import { LoginService } from '../../../core/services/login.service';
-import { UtilityService } from '../../services/utility.service';
+import { UtilityService } from '../../services/common/utility.service';
+import { BazaraService } from '../../services/bazara/bazara.service';
+import { IBazaraLoginDTO } from '../../models/login-model/IBazaraLoginDTO';
 
 @Component({
   selector: 'app-login',
@@ -8,12 +11,15 @@ import { UtilityService } from '../../services/utility.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
   formData: { username: string, password: string } = { username: '', password: '' };
   loginError: string = '';
   isLoading: boolean = false;
   isKeyboardOpen = false;
-  
-  constructor(private loginService: LoginService, private utilityService: UtilityService) {
+
+  constructor(private loginService: LoginService,
+    private utilityService: UtilityService,
+    private bazaraService: BazaraService) {
     this.utilityService.showMenuFooter.next(false);
   }
 
@@ -42,19 +48,27 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    const { username, password } = this.formData;
-
     this.isLoading = true; // Show loading indicator
     this.loginError = ''; // Clear any previous error message
 
-    this.loginService.login(username, password).subscribe({
-      next: (response) => {
-        this.isLoading = false; // Hide loading indicator on success
-      },
-      error: (error) => {
-        this.loginError = 'Login failed. Please check your credentials.';
-        this.isLoading = false; // Hide loading indicator on error
-      }
+    let model: IBazaraLoginDTO = {
+      userName: this.formData.username,
+      password: this.formData.password
+    };
+    this.bazaraService.bazaraLogin(model).subscribe(res => {
+      console.log(res, 'result login chie');
+
     });
+
+    // Mr Mohamadi's Code
+    // this.loginService.login(username, password).subscribe({
+    //   next: (response) => {
+    //     this.isLoading = false; // Hide loading indicator on success
+    //   },
+    //   error: (error) => {
+    //     this.loginError = 'Login failed. Please check your credentials.';
+    //     this.isLoading = false; // Hide loading indicator on error
+    //   }
+    // });
   }
 }
