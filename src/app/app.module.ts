@@ -61,6 +61,7 @@ import { InvoiceComponent } from './shared/components/invoice/invoice.component'
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
 import { MapComponent } from './shared/components/map/map.component';
+import { MaterialModule } from './modules/material/material.module';
 
 
 
@@ -111,7 +112,7 @@ import { MapComponent } from './shared/components/map/map.component';
     MatDialogContent,
     MatSelectModule,
     MatTableModule,
-
+    MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
