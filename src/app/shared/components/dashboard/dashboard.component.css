@@ -57,7 +57,7 @@
   scroll-behavior: smooth;
   scrollbar-color: gray transparent;
   padding: 1.5rem 0;
-  background-color: #bfedc1;
+  background-color: #787878;
 }
 
 .section {
@@ -110,4 +110,3 @@ button:hover {
   display: flex;
   align-items: center;
 }
-
