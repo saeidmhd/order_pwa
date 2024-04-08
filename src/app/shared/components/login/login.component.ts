@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
 import { UtilityService } from '../../services/common/utility.service';
-import { IBazaraLoginDTO } from '../../models/login-model/IBazaraLoginDTO';
 import { AuthService } from '../../services/authorizing/auth.service';
+import { IBazaraLoginDTO } from '../../models/bazara-models/login-model/IBazaraLoginDTO';
 
 @Component({
   selector: 'app-login',

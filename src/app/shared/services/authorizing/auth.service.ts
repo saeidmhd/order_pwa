@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { BazaraService } from '../bazara/bazara.service';
-import { IBazaraLoginDTO } from '../../models/login-model/IBazaraLoginDTO';
-import { IndexedDbService } from '../indexed-db/generic-indexed-db.service';
-import { ILoginResult } from '../../models/login-model/ILoginResultDTO';
-import { UtilityService } from '../common/utility.service';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+import { BazaraService } from '../bazara/bazara.service';
+import { IndexedDbService } from '../indexed-db/generic-indexed-db.service';
+import { UtilityService } from '../common/utility.service';
+import { IBazaraLoginDTO } from '../../models/bazara-models/login-model/IBazaraLoginDTO';
+import { ILoginResult } from '../../models/bazara-models/login-model/ILoginResultDTO';
 
 @Injectable({
   providedIn: 'root'
