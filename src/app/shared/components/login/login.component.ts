@@ -1,9 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
-import { LoginService } from '../../../core/services/login.service';
 import { UtilityService } from '../../services/common/utility.service';
-import { BazaraService } from '../../services/bazara/bazara.service';
 import { IBazaraLoginDTO } from '../../models/login-model/IBazaraLoginDTO';
+import { AuthService } from '../../services/authorizing/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +16,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   isKeyboardOpen = false;
 
-  constructor(private loginService: LoginService,
-    private utilityService: UtilityService,
-    private bazaraService: BazaraService) {
+  constructor(private utilityService: UtilityService, private authService: AuthService) {
     this.utilityService.showMenuFooter.next(false);
   }
 
@@ -55,10 +52,8 @@ export class LoginComponent {
       userName: this.formData.username,
       password: this.formData.password
     };
-    this.bazaraService.bazaraLogin(model).subscribe(res => {
-      console.log(res, 'result login chie');
 
-    });
+    this.authService.loginToMobileOrdering(model).subscribe();
 
     // Mr Mohamadi's Code
     // this.loginService.login(username, password).subscribe({
