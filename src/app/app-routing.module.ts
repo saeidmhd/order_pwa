@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'dashboard' },
   
   // other routes...
 ];
