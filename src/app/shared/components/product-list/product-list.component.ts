@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../core/models/product';
 import { ProductCategory } from '../../../core/models/product-category';
-import { Picture } from '../../../core/models/picture'; // Import Picture model
-import { PhotoGallery } from '../../../core/models/photo-gallery'; // Import PhotoGallery model
+import { Picture } from '../../../core/models/picture';
+import { PhotoGallery } from '../../../core/models/photo-gallery';
 import { IndexedDbService } from '../../../core/services/indexed-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-
+import { MatChip } from '@angular/material/chips';
 
 @Component({
   selector: 'app-product-list',
@@ -14,39 +14,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  isSelectedCategory(categoryId: number): boolean {
+    return this.selectedCategories.includes(categoryId);
+  }
 
+  
+increaseQuantity(_t46: Product) {
+throw new Error('Method not implemented.');
+}
+decreaseQuantity(_t46: Product) {
+throw new Error('Method not implemented.');
+}
+goToProductCategories() {
+throw new Error('Method not implemented.');
+}
   selectedProducts: Product[] = [];
+  products: Product[] = [];
+  selectedCategory: number | null = null;
+  productCategories: ProductCategory[] = [];
+  selectedCategories: number[] = [];
+  pictures: Picture[] = [];
+  photoGalleries: PhotoGallery[] = [];
+  isLoading = false;
+  searchText = '';
 
   constructor(
     private indexedDbService: IndexedDbService,
     private route: ActivatedRoute,
-    private router: Router, // <-- Make sure to inject the Router service here,
+    private router: Router
   ) {}
-
-  increaseQuantity(product: Product): void {
-    if (typeof product.quantity === 'number' && !isNaN(product.quantity)) {
-      product.quantity++; // Increment the quantity
-    } else {
-      // If quantity is not a valid number, set it to 1
-      product.quantity = 1;
-    }
-  }
-  decreaseQuantity(product: Product): void {
-    if (typeof product.quantity === 'number' && !isNaN(product.quantity) && product.quantity > 0) {
-      product.quantity--; // Decrement the quantity if it's greater than 0
-    } else {
-      // If quantity is not a valid number or already 0, set it to 0
-      product.quantity = 0;
-    }
-  }
-  products: Product[] = [];
-  selectedCategory: number | null = null;
-  productCategories: ProductCategory[] = [];
-  pictures: Picture[] = []; // Add pictures array
-  photoGalleries: PhotoGallery[] = []; // Add photoGalleries array
-  //selectedCategory: ProductCategory | null = null;
-  isLoading = false;
-  searchText = '';
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -56,8 +52,8 @@ export class ProductListComponent implements OnInit {
         this.selectedCategory = +categoryId;
       }
       this.loadProducts();
-      //this.loadProductCategories();
-      this.loadPictures(); // Load pictures
+      this.loadProductCategories();
+      this.loadPictures();
       this.loadPhotoGalleries();
     });
   }
@@ -86,28 +82,41 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  goToProductCategories(): void {
-    this.router.navigate(['/product-categories']);
-  }
-
-
   loadProductCategories(): void {
     this.indexedDbService.getProductCategories().then(categories => {
       this.productCategories = categories;
     });
   }
 
-  loadPictures(): void { // Add loadPictures method
+  loadPictures(): void {
     this.indexedDbService.getPictures().then(pictures => {
       this.pictures = pictures;
     });
   }
 
-  loadPhotoGalleries(): void { // Add loadPhotoGalleries method
+  loadPhotoGalleries(): void {
     this.indexedDbService.getPhotoGalleries().then(photoGalleries => {
       this.photoGalleries = photoGalleries;
     });
   }
+
+  toggleCategory(categoryId: number): void {
+    const index = this.selectedCategories.indexOf(categoryId);
+    if (index === -1) {
+      this.selectedCategories.push(categoryId);
+    } else {
+      this.selectedCategories.splice(index, 1);
+    }
+  }
+
+  showAllProducts = true;
+
+toggleShowAllProducts(): void {
+  this.showAllProducts = !this.showAllProducts;
+  if (this.showAllProducts) {
+    this.selectedCategories = []; // Clear selected categories if showing all products
+  }
+}
 
 
   clearSearch(): void {
@@ -120,14 +129,19 @@ export class ProductListComponent implements OnInit {
     if (picture) {
       return 'https://mahakacc.mahaksoft.com' + picture.Url;
     } else {
-      return 'assets/img_empty_product.png'; // Path to the default image in your assets folder
+      return 'assets/img_empty_product.png';
     }
   }
-  
-
 
   get filteredProducts() {
     let filtered = this.products;
+
+    // Filter by selected categories
+    if (this.selectedCategories.length > 0) {
+      filtered = filtered.filter(product =>
+        this.selectedCategories.includes(product.ProductCategoryId)
+      );
+    }
 
     // Filter by search text
     if (this.searchText) {

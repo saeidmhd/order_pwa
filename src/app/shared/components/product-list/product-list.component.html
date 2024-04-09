@@ -5,11 +5,12 @@
 </div>
 
 <div class="container">
-  <div class="toolbar-container">
+  <!-- <div class="toolbar-container">
     <mat-toolbar>
       <mat-icon (click)="goToProductCategories()">menu</mat-icon>
     </mat-toolbar>
-  </div>
+  </div> -->
+
 
   <div class="search-bar">
     <mat-form-field appearance="outline" class="full-width">
@@ -19,7 +20,23 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+
+    <div class="category-chips">
+      <mat-chip *ngFor="let category of productCategories" 
+                [class.selected-chip]="isSelectedCategory(category.ProductCategoryId)" 
+                (click)="toggleCategory(category.ProductCategoryId)">
+        {{ category.Name }}
+      </mat-chip>
+    
+      <!-- Chip to show all products -->
+      <mat-chip [class.selected-chip]="showAllProducts" (click)="toggleShowAllProducts()">
+        Show All Products
+      </mat-chip>
+    </div>
+    
+
   </div>
+
 
   <div class="product-list-container">
     <div class="list-container" *ngIf="!isLoading && products">

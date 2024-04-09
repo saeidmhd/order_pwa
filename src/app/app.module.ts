@@ -48,6 +48,7 @@ import { PromptUpdateService } from './core/services/prompt-update.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 import {
@@ -109,6 +110,7 @@ import { DrawerComponent } from './shared/components/drawer/drawer.component';
     MatDialogContent,
     MatSelectModule,
     MatTableModule,
+    MatChipsModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
