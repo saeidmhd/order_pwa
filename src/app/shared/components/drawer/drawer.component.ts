@@ -1,7 +1,9 @@
-import { ViewChild , Component } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
+import { ViewChild, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UtilityService } from '../../services/utility.service';
+import { MatDrawer } from '@angular/material/sidenav';
+
+import { UtilityService } from '../../services/common/utility.service';
+import { AuthService } from '../../services/authorizing/auth.service';
 
 
 @Component({
@@ -16,8 +18,7 @@ export class DrawerComponent {
     this.drawer.open();
   }
 
-  constructor(private router: Router, public utilityService: UtilityService) {
-  }
+  constructor(private router: Router, public utilityService: UtilityService, private authService: AuthService) {}
 
   navigateToBasicInfo() {
     this.drawer.close();
@@ -27,29 +28,25 @@ export class DrawerComponent {
   navigateToOperations() {
     this.drawer.close();
     this.router.navigate(['/invoice']);
-   
   }
 
   navigateToReports() {
     this.drawer.close();
     this.router.navigate(['/order-list']);
-    
   }
 
   navigateToUpdateInfo() {
     this.drawer.close();
     this.router.navigate(['/update-info']);
-    
   }
+
   navigateToDashboard() {
     this.drawer.close();
     this.router.navigate(['/dashboard']);
-   
   }
 
   navigateTologin() {
     this.drawer.close();
-    this.router.navigate(['/login']);
-    
+    this.authService.logoutFromMobileOrdering()
   }
 }
