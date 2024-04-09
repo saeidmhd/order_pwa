@@ -18,17 +18,30 @@ export class ProductListComponent implements OnInit {
     return this.selectedCategories.includes(categoryId);
   }
 
-  
-increaseQuantity(_t46: Product) {
-throw new Error('Method not implemented.');
-}
-decreaseQuantity(_t46: Product) {
-throw new Error('Method not implemented.');
-}
-goToProductCategories() {
-throw new Error('Method not implemented.');
-}
   selectedProducts: Product[] = [];
+
+  constructor(
+    private indexedDbService: IndexedDbService,
+    private route: ActivatedRoute,
+    private router: Router, // <-- Make sure to inject the Router service here,
+  ) { }
+
+  increaseQuantity(product: Product): void {
+    if (typeof product.quantity === 'number' && !isNaN(product.quantity)) {
+      product.quantity++; // Increment the quantity
+    } else {
+      // If quantity is not a valid number, set it to 1
+      product.quantity = 1;
+    }
+  }
+  decreaseQuantity(product: Product): void {
+    if (typeof product.quantity === 'number' && !isNaN(product.quantity) && product.quantity > 0) {
+      product.quantity--; // Decrement the quantity if it's greater than 0
+    } else {
+      // If quantity is not a valid number or already 0, set it to 0
+      product.quantity = 0;
+    }
+  }
   products: Product[] = [];
   selectedCategory: number | null = null;
   productCategories: ProductCategory[] = [];
@@ -37,12 +50,6 @@ throw new Error('Method not implemented.');
   photoGalleries: PhotoGallery[] = [];
   isLoading = false;
   searchText = '';
-
-  constructor(
-    private indexedDbService: IndexedDbService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -82,6 +89,11 @@ throw new Error('Method not implemented.');
     });
   }
 
+  goToProductCategories(): void {
+    this.router.navigate(['/product-categories']);
+  }
+
+
   loadProductCategories(): void {
     this.indexedDbService.getProductCategories().then(categories => {
       this.productCategories = categories;
@@ -111,12 +123,12 @@ throw new Error('Method not implemented.');
 
   showAllProducts = true;
 
-toggleShowAllProducts(): void {
-  this.showAllProducts = !this.showAllProducts;
-  if (this.showAllProducts) {
-    this.selectedCategories = []; // Clear selected categories if showing all products
+  toggleShowAllProducts(): void {
+    this.showAllProducts = !this.showAllProducts;
+    if (this.showAllProducts) {
+      this.selectedCategories = []; // Clear selected categories if showing all products
+    }
   }
-}
 
 
   clearSearch(): void {
@@ -132,6 +144,8 @@ toggleShowAllProducts(): void {
       return 'assets/img_empty_product.png';
     }
   }
+
+
 
   get filteredProducts() {
     let filtered = this.products;
