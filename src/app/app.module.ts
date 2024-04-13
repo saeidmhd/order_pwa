@@ -49,6 +49,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import {MatChipsModule} from '@angular/material/chips';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 
 
 import {
@@ -61,6 +63,7 @@ import { UpdateConfirmationDialogComponent } from './shared/components/update-co
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
+import { BottomSheetCategoryComponent } from './shared/components/bottom-sheet-category/bottom-sheet-category.component';
 
 
 
@@ -81,7 +84,8 @@ import { DrawerComponent } from './shared/components/drawer/drawer.component';
     UpdateConfirmationDialogComponent,
     InvoiceComponent,
     FooterComponent,
-    DrawerComponent
+    DrawerComponent,
+    BottomSheetCategoryComponent
   ],
   exports: [
     FooterComponent
@@ -111,6 +115,7 @@ import { DrawerComponent } from './shared/components/drawer/drawer.component';
     MatSelectModule,
     MatTableModule,
     MatChipsModule,
+    MatButtonToggleModule,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),

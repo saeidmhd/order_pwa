@@ -1,4 +1,5 @@
 export interface ProductCategory {
+    selectedCategories: number[];
     ProductCategoryId: number;
     ProductCategoryClientId: number;
     ProductCategoryCode: number;

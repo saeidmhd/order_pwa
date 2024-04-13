@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../../core/models/product';
 import { ProductCategory } from '../../../core/models/product-category';
 import { Picture } from '../../../core/models/picture';
@@ -6,7 +6,8 @@ import { PhotoGallery } from '../../../core/models/photo-gallery';
 import { IndexedDbService } from '../../../core/services/indexed-db.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { MatChip } from '@angular/material/chips';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { BottomSheetCategoryComponent } from '../bottom-sheet-category/bottom-sheet-category.component';
 
 @Component({
   selector: 'app-product-list',
@@ -14,16 +15,16 @@ import { MatChip } from '@angular/material/chips';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  isSelectedCategory(categoryId: number): boolean {
-    return this.selectedCategories.includes(categoryId);
-  }
+
+  @ViewChild('productListContainer') productListContainer!: ElementRef;
 
   selectedProducts: Product[] = [];
 
   constructor(
     private indexedDbService: IndexedDbService,
     private route: ActivatedRoute,
-    private router: Router, // <-- Make sure to inject the Router service here,
+    private router: Router,
+    private _bottomSheet: MatBottomSheet // <-- Make sure to inject the Router service here,
   ) { }
 
   increaseQuantity(product: Product): void {
@@ -45,7 +46,6 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   selectedCategory: number | null = null;
   productCategories: ProductCategory[] = [];
-  selectedCategories: number[] = [];
   pictures: Picture[] = [];
   photoGalleries: PhotoGallery[] = [];
   isLoading = false;
@@ -93,12 +93,29 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['/product-categories']);
   }
 
-
   loadProductCategories(): void {
     this.indexedDbService.getProductCategories().then(categories => {
       this.productCategories = categories;
     });
   }
+
+  openBottomSheet(): void {
+    const bottomSheetRef = this._bottomSheet.open(BottomSheetCategoryComponent, {
+      data: {
+        selectedCategory: this.selectedCategory // Pass the currently selected category
+      }
+    });
+  
+    bottomSheetRef.afterDismissed().subscribe(selectedCategory => {
+      console.log(selectedCategory);
+      if (selectedCategory !== null && selectedCategory !== undefined) {
+        // Only update the selected category if a valid category is returned
+        this.selectedCategory = selectedCategory;
+        this.scrollToTop();
+      }
+    });
+  }
+  
 
   loadPictures(): void {
     this.indexedDbService.getPictures().then(pictures => {
@@ -112,25 +129,13 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  toggleCategory(categoryId: number): void {
-    const index = this.selectedCategories.indexOf(categoryId);
-    if (index === -1) {
-      this.selectedCategories.push(categoryId);
-    } else {
-      this.selectedCategories.splice(index, 1);
+
+  scrollToTop(): void {
+    if (this.productListContainer && this.productListContainer.nativeElement) {
+      this.productListContainer.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
-
-  showAllProducts = true;
-
-  toggleShowAllProducts(): void {
-    this.showAllProducts = !this.showAllProducts;
-    if (this.showAllProducts) {
-      this.selectedCategories = []; // Clear selected categories if showing all products
-    }
-  }
-
-
+  
   clearSearch(): void {
     this.searchText = '';
   }
@@ -149,20 +154,23 @@ export class ProductListComponent implements OnInit {
 
   get filteredProducts() {
     let filtered = this.products;
-
-    // Filter by selected categories
-    if (this.selectedCategories.length > 0) {
+  
+    // Filter by selected category if it's not null
+    if (this.selectedCategory !== null) {
       filtered = filtered.filter(product =>
-        this.selectedCategories.includes(product.ProductCategoryId)
+        product.ProductCategoryId === this.selectedCategory
       );
     }
-
+  
     // Filter by search text
     if (this.searchText) {
       filtered = filtered.filter(product =>
         product.Name.toLowerCase().includes(this.searchText.toLowerCase())
       );
     }
+  
     return filtered;
   }
+  
+  
 }
