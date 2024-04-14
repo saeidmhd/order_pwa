@@ -45,7 +45,7 @@ export class OrderListComponent implements OnInit {
 
   getOrderSum(order: Order): string {
     const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
-    const sum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Count1 * detail.Price), 0);
+    const sum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0);
     return sum.toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال';
   }
 
@@ -78,3 +78,4 @@ export class OrderListComponent implements OnInit {
 
 
 }
+

@@ -1,5 +1,5 @@
 export interface OrderDetail {
-    OrderDetailId: number;
+    OrderDetailId?: number;
     OrderDetailClientId: number;
     ItemType: number;
     OrderId: number;

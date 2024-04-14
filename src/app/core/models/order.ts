@@ -1,10 +1,10 @@
 export interface Order {
-    OrderId: number;
+    OrderId?: number;
     OrderClientId: number;
-    OrderCode: number;
+    OrderCode?: number;
     PersonId: number;
     VisitorId: number;
-    ReceiptId: number;
+    ReceiptId?: number;
     OrderType: number;
     OrderDate: string;
     DeliveryDate: string;
@@ -34,7 +34,7 @@ export interface Order {
     CreateSyncId: number;
     UpdateSyncId: number;
     RowVersion: number;
-    PersonClientId: number;
+    PersonClientId?: number;
     PersonCode: number;
     VisitorClientId: number;
     VisitorCode: number;
@@ -50,3 +50,4 @@ export interface OrdersResponse {
         };
     };
 }
+
