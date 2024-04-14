@@ -64,6 +64,7 @@ import { InvoiceComponent } from './shared/components/invoice/invoice.component'
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
 import { BottomSheetCategoryComponent } from './shared/components/bottom-sheet-category/bottom-sheet-category.component';
+import { RialCurrencyPipe } from './rial-currency.pipe';
 
 
 
@@ -85,7 +86,8 @@ import { BottomSheetCategoryComponent } from './shared/components/bottom-sheet-c
     InvoiceComponent,
     FooterComponent,
     DrawerComponent,
-    BottomSheetCategoryComponent
+    BottomSheetCategoryComponent,
+    RialCurrencyPipe
   ],
   exports: [
     FooterComponent

@@ -57,20 +57,23 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of invoiceItems; let i = index">
-        <td>{{ getProductName(item.ProductDetailId) }}</td>
-        <td>{{ item.Count1 }}</td>
-        <td>{{ item.Price }}</td>
+        <td class="align-right">{{ getProductName(item.ProductDetailId) }}</td>
+        <td class="align-right">{{ item.Count1 }}</td>
+        <td class="align-right">{{ item.Price }}</td>
         <td><button class="btn btn-danger" (click)="removeItemFromInvoice(i)">حذف</button></td>
       </tr>
     </tbody>
-  </table>
+</table>
+
 
   <!-- Subtotal, Tax, and Total -->
-  <div>
-    <p>جمع جزء: {{ subtotal | currency }}</p>
-    <p>مالیات ({{ (taxRate * 100) }}%): {{ subtotal * taxRate | currency }}</p>
-    <p>جمع کل: {{ total | currency }}</p>
-  </div>
+  <div class="total-section">
+    <p>جمع جزء: <span>{{ subtotal | rialCurrency }}</span></p>
+    <p>مالیات ({{ (taxRate * 100) }}%): <span>{{ subtotal * taxRate | rialCurrency }}</span></p>
+    <p>جمع کل: <span>{{ total | rialCurrency }}</span></p>
+</div>
+
+
 </div>
 
   <!-- Submit and Reset Buttons -->
