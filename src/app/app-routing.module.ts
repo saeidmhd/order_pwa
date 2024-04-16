@@ -12,6 +12,8 @@ import { ProductCategoriesComponent } from './shared/components/product-categori
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { authGuard } from './shared/services/authorizing/auth.guard';
+import { GetBazaraDataComponent } from './shared/components/get-bazara-data/get-bazara-data.component';
+import { ProductComponent } from './shared/components/product/product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -19,8 +21,10 @@ const routes: Routes = [
   { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
-  { path: 'update-info', component: UpdateInfoComponent, canActivate: [authGuard] },
+  // { path: 'update-info', component: UpdateInfoComponent, canActivate: [authGuard] },
+  { path: 'update-info', component: GetBazaraDataComponent, canActivate: [authGuard] },
   { path: 'bank-list', component: BankListComponent, canActivate: [authGuard] },
+  { path: 'product', component: ProductComponent, canActivate: [authGuard] },
   { path: 'product-list', component: ProductListComponent, canActivate: [authGuard] },
   { path: 'product-list/:categoryId', component: ProductListComponent, canActivate: [authGuard] }, 
   { path: 'order-list', component: OrderListComponent, canActivate: [authGuard] },

@@ -41,7 +41,8 @@ navigateToBanks() {
   this.router.navigate(['/bank-list']);
 }
 navigateToGoods() {
-  this.router.navigate(['/product-list']);
+  // this.router.navigate(['/product-list']);
+  this.router.navigate(['/product']);
 }
 navigateToPeople() {
   this.router.navigate(['/people-list']);
