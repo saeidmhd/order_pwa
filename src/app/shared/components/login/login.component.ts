@@ -48,12 +48,22 @@ export class LoginComponent {
     this.isLoading = true; // Show loading indicator
     this.loginError = ''; // Clear any previous error message
 
+    //clear visitor data from local storage 
+    this.authService.logoutFromMobileOrdering();
+
     let model: IBazaraLoginDTO = {
       userName: this.formData.username,
       password: this.formData.password
     };
 
-    this.authService.loginToMobileOrdering(model).subscribe();
+    this.authService.loginToMobileOrdering(model).subscribe(res => {      
+      //clear mat-progressbar on failed login
+      // if (!res) {
+      //   setTimeout(() => {
+      //     this.isLoading = false;          
+      //   }, 1000);
+      // }
+    });
 
     // Mr Mohamadi's Code
     // this.loginService.login(username, password).subscribe({
