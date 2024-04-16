@@ -1,28 +1,34 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { environment } from 'src/environments/environment.development';
-import { IBazaraLoginDTO } from '../../models/login-model/IBazaraLoginDTO';
-import { IApiResult } from '../../models/IApiResult';
-import { ILoginResult } from '../../models/login-model/ILoginResultDTO';
-import { IndexedDbService } from '../indexed-db/generic-indexed-db.service';
-import { UtilityService } from '../common/utility.service';
+import { IBazaraLoginDTO } from '../../models/bazara-models/login-model/IBazaraLoginDTO';
+import { IApiResult } from '../../models/bazara-models/get-all-data-DTOs/IApiResult';
+import { ILoginResult } from '../../models/bazara-models/login-model/ILoginResultDTO';
+import { IGetBazaraData } from '../../models/bazara-models/get-all-data-DTOs/IGetBazaraData';
+import { ISaveBazaraData } from '../../models/bazara-models/save-all-data-DTOs/ISaveBazaraData';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BazaraService {
 
-  // snackBar!: MatSnackBar;
+  headerOption = {
+    'Authorization': 'df',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json-patch+json'
+  }
+  
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService,
-    private utilityService: UtilityService, private router: Router,
-    private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient) {
+    this.headerOption = {
+      'Authorization': localStorage.getItem('UserToken')!,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json-patch+json'
+    };
+   }
 
   bazaraLogin(model: IBazaraLoginDTO): Observable<ILoginResult> {
     const hashedPassword = CryptoJS.MD5(model.password.trim()).toString();
@@ -32,7 +38,24 @@ export class BazaraService {
     };
     return this.http.post<ILoginResult>(environment.apiUrl + '/sync/login', requestBody);
   }
+
+  getBazaraData(model: IGetBazaraData): Observable<IApiResult> {    
+    return this.http.post<IApiResult>(environment.apiUrl + '/sync/GetAllData', model, {
+      headers: {'Authorization': localStorage.getItem('UserToken')!,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json-patch+json'}
+    });
+  }
+
+  saveBazaraData(model: ISaveBazaraData) {
+    return this.http.post<any>(environment.apiUrl + '/sync/SaveAllData', model, {
+      headers: {'Authorization': localStorage.getItem('UserToken')!,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json-patch+json'}
+    });
+  }
 }
+
 
 // Mr Mohamadi's code
 // return this.http.post<ILoginResult>(environment.apiUrl + '/sync/login', requestBody)
