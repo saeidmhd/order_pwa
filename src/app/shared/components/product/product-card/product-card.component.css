@@ -1,0 +1,15 @@
+.product-card {
+    margin: 1em;
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex; /* Ensure product card content is displayed in a column */
+    flex-direction: column; /* Set content direction to column */
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
