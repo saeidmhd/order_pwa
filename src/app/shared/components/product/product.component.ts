@@ -86,8 +86,8 @@ export class ProductComponent implements OnInit {
       switchMap(pds => from(pds)),
       mergeMap((pd) =>
         this.visitorProducts$.pipe(map((vp) => {
-          pd.Count1 = vp.find(x => x.ProductDetailId === pd.ProductDetailId)?.Count1!;
-          pd.Count2 = vp.find(x => x.ProductDetailId === pd.ProductDetailId)?.Count2!;
+          pd.Count1 = vp.find(x => x.ProductDetailId === pd.ProductDetailId && !x.Deleted)?.Count1!;
+          pd.Count2 = vp.find(x => x.ProductDetailId === pd.ProductDetailId && !x.Deleted)?.Count2!;
         }))
       )
     ).subscribe();
