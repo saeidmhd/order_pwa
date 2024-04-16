@@ -62,6 +62,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
 import { MapComponent } from './shared/components/map/map.component';
 import { MaterialModule } from './modules/material/material.module';
+import { CommonModule } from '@angular/common';
+import { ProductComponent } from './shared/components/product/product.component';
+import { ProductCardComponent } from './shared/components/product/product-card/product-card.component';
 
 
 
@@ -74,6 +77,8 @@ import { MaterialModule } from './modules/material/material.module';
     BasicInfoComponent,
     UpdateInfoComponent,
     BankListComponent,
+    ProductComponent,
+    ProductCardComponent,
     ProductListComponent,
     ProductCategoriesComponent,
     OrderListComponent,
@@ -90,6 +95,7 @@ import { MaterialModule } from './modules/material/material.module';
   ],
   imports: [
     AppRoutingModule,
+    CommonModule,
     RouterModule,
     BrowserModule,
     HttpClientModule,
