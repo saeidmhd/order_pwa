@@ -4,9 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 export class LogUpdateService {
 
   constructor(updates: SwUpdate) {
-    console.log("LogUpdateService1")
     updates.versionUpdates.subscribe(evt => {
-      console.log("LogUpdateService2")
       console.log("NO_NEW = " + evt.type)
       switch (evt.type) {
         case 'VERSION_DETECTED':

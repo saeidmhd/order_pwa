@@ -57,11 +57,8 @@ export class InvoiceComponent {
   }
 
   updateProductPrice(): void {
-    console.log("here2")
     const selectedProductId = this.invoiceForm.get('product')?.value.ProductId;
-    console.log(selectedProductId)
     this.selectedProductDetail = this.productDetails.find(detail => detail.ProductId === selectedProductId);
-    console.log(this.selectedProductDetail)
 
     if (this.selectedProductDetail) {
       // Clear existing prices
@@ -73,7 +70,6 @@ export class InvoiceComponent {
           this.productPrices.push(price);
         }
       }
-      console.log(this.productPrices)
       // Set the default price as the first option
       this.invoiceForm.get('price')?.setValue(this.productPrices[0]);
     }
@@ -132,7 +128,6 @@ export class InvoiceComponent {
         ProductDetailCode: 0
       };
       this.invoiceItems.push(orderDetail);
-      console.log(this.invoiceItems)
       this.calculateTotal();
       // this.invoiceForm.reset({ quantity: 1 });
     }
@@ -182,10 +177,10 @@ export class InvoiceComponent {
       OrderId: orderClientId, // Server-side order ID
       OrderClientId: orderClientId, // Client-side order ID
       PersonId: customerId, // Server-side customer ID
-      //PersonClientId: 0,
-      //OrderCode: 0,
+      PersonClientId: 0,
+      OrderCode: 0,
       VisitorId: visitorIdnum,
-      //ReceiptId: 0,
+      ReceiptId: 0,
       OrderType: 1,
       OrderDate: createDate,
       DeliveryDate: createDate,
@@ -207,7 +202,7 @@ export class InvoiceComponent {
       DriverCurrencyType: '',
       CarryingAsExpense: false,
       ReferenceOrderId: 0,
-      InvoiceTemplate: '',
+      //InvoiceTemplate: '',
       Deleted: false,
       DataHash: '',
       CreateDate: createDate,
@@ -261,16 +256,9 @@ export class InvoiceComponent {
       return orderDetail;
     });
 
-    // Implement logic to save the order (e.g., send to backend)
-    console.log('Submitted order:', order);
-    console.log('Submitted orderDetails:', orderDetails);
-
-
     try {
       // Store the order and order details in IndexedDB
       await this.indexedDbService.storeOrders([order]);
-      console.log(orderDetails + "dasdwewerwerwerwerwer");
-      console.log(orderDetails );
       await this.indexedDbService.storeOrderDetails(orderDetails);
       console.log('Successfully stored order and order details in IndexedDB');
     } catch (error) {

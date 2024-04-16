@@ -15,6 +15,25 @@ import { VisitorProduct } from '../models/visitor-product';
   providedIn: 'root'
 })
 export class IndexedDbService {
+  async updateOrder(orderClientId: number, updatedOrder: Order): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.OrderStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.OrderStoreName);
+  
+    return new Promise<void>((resolve, reject) => {
+      const key = `${this.getVisitorId()}-${orderClientId}`; // Use visitorId and OrderClientId as the key
+      const putRequest = objectStore.put(updatedOrder, key); // Use put to update the order
+  
+      putRequest.onsuccess = (event) => {
+        resolve();
+      };
+  
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to update order: ' + (event.target as any).error.message));
+      };
+    });
+  }
+  
 
 
   private dbName = 'OrderDatabase';
@@ -652,6 +671,65 @@ export class IndexedDbService {
       };
     });
   }
+
+
+  // Add this method to fetch orders with RowVersion 0
+async getOrdersWithZeroRowVersion(): Promise<Order[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.OrderStoreName], 'readonly');
+  const objectStore = transaction.objectStore(this.OrderStoreName);
+
+  return new Promise<Order[]>((resolve, reject) => {
+      const ordersWithZeroRowVersion: Order[] = [];
+      const cursorRequest = objectStore.openCursor();
+
+      cursorRequest.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+          if (cursor) {
+              if (cursor.value.RowVersion === 0) {
+                  ordersWithZeroRowVersion.push(cursor.value);
+              }
+              cursor.continue();
+          } else {
+            
+              resolve(ordersWithZeroRowVersion);
+          }
+      };
+
+      cursorRequest.onerror = (event) => {
+          reject(new Error('Failed to get orders with RowVersion 0: ' + (event.target as any).error.message));
+      };
+  });
+}
+
+// Add this method to fetch order details with RowVersion 0
+async getOrderDetailsWithZeroRowVersion(): Promise<OrderDetail[]> {
+  const db = await this.openDatabase();
+  const transaction = db.transaction([this.orderDetailStoreName], 'readonly');
+  const objectStore = transaction.objectStore(this.orderDetailStoreName);
+
+  return new Promise<OrderDetail[]>((resolve, reject) => {
+      const orderDetailsWithZeroRowVersion: OrderDetail[] = [];
+      const cursorRequest = objectStore.openCursor();
+
+      cursorRequest.onsuccess = (event) => {
+          const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
+          if (cursor) {
+              if (cursor.value.RowVersion === 0) {
+                  orderDetailsWithZeroRowVersion.push(cursor.value);
+              }
+              cursor.continue();
+          } else {
+              resolve(orderDetailsWithZeroRowVersion);
+          }
+      };
+
+      cursorRequest.onerror = (event) => {
+          reject(new Error('Failed to get order details with RowVersion 0: ' + (event.target as any).error.message));
+      };
+  });
+}
+
 
 
 }

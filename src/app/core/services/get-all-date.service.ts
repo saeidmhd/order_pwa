@@ -14,14 +14,12 @@ export class GetAllDataService<T> {
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {}
 
   getData(storeName: string, responsePropertyName: string, storeMethod: (data: T[]) => Promise<void>): Observable<T[]> {
-    console.log(1)
     return from(this.indexedDbService.getMaxRowVersion(storeName)).pipe(
       switchMap(fromVersion => this.makeRequest(fromVersion, responsePropertyName, storeMethod))
       
     );
   }
   private makeRequest(fromVersion: number, responsePropertyName: string, storeMethod: (data: T[]) => Promise<void>): Observable<T[]> {
-    console.log(fromVersion)
     const token = this.indexedDbService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const body = { fromVersion };
@@ -35,7 +33,6 @@ export class GetAllDataService<T> {
   private handleResponse(response: { Result: any; Data: { Objects: { [x: string]: any; }; }; }, responsePropertyName: string, storeMethod: (data: T[]) => Promise<void>): T[] {
     if (response.Result) {
       // Successful request
-      console.log(response.Data);
       storeMethod(response.Data.Objects[responsePropertyName])
         .then(() => console.log(`${responsePropertyName} data stored in IndexedDB`))
         .catch((error: any) => console.error(`Error storing ${responsePropertyName} data:`, error));

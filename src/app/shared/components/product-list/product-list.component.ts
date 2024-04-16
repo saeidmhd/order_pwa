@@ -107,7 +107,6 @@ export class ProductListComponent implements OnInit {
     });
   
     bottomSheetRef.afterDismissed().subscribe(selectedCategory => {
-      console.log(selectedCategory);
       if (selectedCategory !== null && selectedCategory !== undefined) {
         // Only update the selected category if a valid category is returned
         this.selectedCategory = selectedCategory;

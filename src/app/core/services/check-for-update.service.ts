@@ -22,7 +22,6 @@ export class CheckForUpdateService {
         if (updateFound) {
           const dialogRef = this.dialog.open(UpdateConfirmationDialogComponent);
           dialogRef.afterClosed().subscribe((result: any) => {
-            console.log(result)
             if (result) {
               document.location.reload();
               console.log('Update done!');

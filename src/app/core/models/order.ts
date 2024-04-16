@@ -1,3 +1,11 @@
+export interface SaveResponse {
+    Result: boolean;
+    Index: number;
+    EntityId: number;
+    EntityClientId: number;
+    RowVersion: number;
+}
+
 export interface Order {
     OrderId?: number;
     OrderClientId: number;
@@ -26,7 +34,7 @@ export interface Order {
     DriverCurrencyType: string;
     CarryingAsExpense: boolean;
     ReferenceOrderId: number;
-    InvoiceTemplate: string;
+    InvoiceTemplate?: string;
     Deleted: boolean;
     DataHash: string;
     CreateDate: string;
@@ -40,14 +48,17 @@ export interface Order {
     VisitorCode: number;
     ReceiptClientId: number;
     ReceiptCode: number;
+    SaveResponse?: SaveResponse; // Added SaveResponse to Order interface
+}
+
+export interface Orders {
+    Orders: Order[];
+    Results?: SaveResponse[]; // Added Results to Orders interface
 }
 
 export interface OrdersResponse {
     Result: boolean;
     Data: {
-        Objects: {
-            Orders: Order[];
-        };
+        Objects: Orders;
     };
 }
-
