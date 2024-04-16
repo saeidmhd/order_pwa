@@ -1,4 +1,3 @@
-
-<section class="d-flex flex-row flex-wrap" style="display: felx; flex-direction: row; ; overflow-y: auto; width: 100vw;">
+<section class="product-container">
     <app-product-card style="margin: 2rem;" *ngFor="let productdetail of (productDetails$ | async)" [data]="productdetail"></app-product-card>
 </section>
