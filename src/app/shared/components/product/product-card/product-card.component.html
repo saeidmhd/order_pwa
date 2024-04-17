@@ -2,7 +2,7 @@
     <div class="list-container" *ngIf="!isLoading">
       <mat-card class="product-card">
         <div class="image-wrapper">
-          <img *ngIf="getProductImageUrl()" [src]="product.picUrl" alt="{{ product.Name }}" class="product-image">
+          <img [src]="product.picUrl" alt="{{ product.Name }}" class="product-image">
         </div>
         <mat-card-header>
           <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
