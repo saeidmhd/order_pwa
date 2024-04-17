@@ -11,6 +11,9 @@ import { IBazaraPerson } from '../../models/bazara-models/bazara-DTOs/IBazaraPer
 import { IBazaraProduct } from '../../models/bazara-models/bazara-DTOs/IBazaraProduct';
 import { IBazaraVisitorProduct } from '../../models/bazara-models/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraProductDetail } from '../../models/bazara-models/bazara-DTOs/IBazaraProductDetail';
+import { IBazaraPhotoGallery } from '../../models/bazara-models/bazara-DTOs/IBazaraPhotoGallery';
+import { IBazaraPicture } from '../../models/bazara-models/bazara-DTOs/IBazaraPicture';
+import { IBazaraProductDetailStoreAsset } from '../../models/bazara-models/bazara-DTOs/IBazaraProductDetailAssetStore';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -46,6 +49,15 @@ export class GetBazaraDataComponent implements OnInit {
     if (this.terminate == false) {
       await this.fetchProductDetail();
     }
+    if (this.terminate == false) {
+      await this.fetchPicture();
+    }
+    if (this.terminate == false) {
+      await this.fetchPhotoGallery();
+    }
+    if (this.terminate == false) {
+      await this.fetchProductDetailStoreAsset();
+    }
   }
 
   private async fetchPeople_VisitorPeople(): Promise<void> {
@@ -58,7 +70,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.maxRowVersionModel.fromVisitorPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorPerson');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {          
+        next: (res: IApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
             let people: IBazaraPerson[] = res.Data.Objects.People;
@@ -98,15 +110,18 @@ export class GetBazaraDataComponent implements OnInit {
       this.maxRowVersionModel.fromPersonAddressVersion = await this.genericIndexedDbService.getMaxRowVersion('PersonAddress');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {          
+        next: (res: IApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
-            obj.forEach(ele => {
-              ele.VisitorId = +visitorId;
-            });
+            
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
 
-            this.genericIndexedDbService.insertingToDb('PersonAddress', obj);
+              this.genericIndexedDbService.insertingToDb('PersonAddress', obj);
+            }
           }
         },
         error: (err) => {
@@ -126,18 +141,24 @@ export class GetBazaraDataComponent implements OnInit {
       this.maxRowVersionModel.fromVisitorProductVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorProduct');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {          
+        next: (res: IApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
 
             let products: IBazaraProduct[] = res.Data.Objects.Products;
             let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
-            products.forEach(ele => {
-              ele.VisitorId = +visitorId;
-            });
+            
+            if (products.length > 0) {
+              products.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
 
-            this.genericIndexedDbService.insertingToDb('Product', products);
-            this.genericIndexedDbService.insertingToDb('VisitorProduct', visitorProducts);
+              this.genericIndexedDbService.insertingToDb('Product', products);
+            }
+
+            if (visitorProducts.length > 0) {
+              this.genericIndexedDbService.insertingToDb('VisitorProduct', visitorProducts);
+            }
           }
         },
         error: (err) => {
@@ -156,15 +177,108 @@ export class GetBazaraDataComponent implements OnInit {
       this.maxRowVersionModel.fromProductDetailVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetail');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {          
+        next: (res: IApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
-            obj.forEach(ele => {
-              ele.VisitorId = +visitorId;
-            });
+            
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
 
-            this.genericIndexedDbService.insertingToDb('ProductDetail', obj);
+              this.genericIndexedDbService.insertingToDb('ProductDetail', obj);
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchPhotoGallery() {
+    try {
+      this.maxRowVersionModel.fromPhotoGalleryVersion = await this.genericIndexedDbService.getMaxRowVersion('PhotoGallery');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            const visitorId = localStorage.getItem(('VisitorId'))!;
+            let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
+            
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
+
+              this.genericIndexedDbService.insertingToDb('PhotoGallery', obj);
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchPicture() {
+    try {
+      this.maxRowVersionModel.fromPictureVersion = await this.genericIndexedDbService.getMaxRowVersion('Picture');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            const visitorId = localStorage.getItem(('VisitorId'))!;
+            let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
+            
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
+              
+              this.genericIndexedDbService.insertingToDb('Picture', obj);
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchProductDetailStoreAsset() {
+    try {
+      this.maxRowVersionModel.fromProductDetailStoreAssetVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            const visitorId = localStorage.getItem(('VisitorId'))!;
+            let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
+            
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                ele.VisitorId = +visitorId;
+              });
+
+              this.genericIndexedDbService.insertingToDb('ProductDetailStoreAsset', obj);
+            }
           }
         },
         error: (err) => {
