@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IBazaraProduct } from 'src/app/shared/models/bazara-models/bazara-DTOs/IBazaraProduct';
 import { IBazaraProductDetail } from 'src/app/shared/models/bazara-models/bazara-DTOs/IBazaraProductDetail';
 
 @Component({
@@ -8,12 +9,12 @@ import { IBazaraProductDetail } from 'src/app/shared/models/bazara-models/bazara
   styleUrl: './product-card.component.css'
 })
 export class ProductCardComponent {
-
-  @Input() data!: IBazaraProductDetail;
+ 
+  @Input() product!: IBazaraProduct;
   isLoading = false;
-  
+
   getProductImageUrl(): string {
-    console.log(this.data);
+
     // const photoGallery = this.photoGalleries.find(pg => pg.ItemCode === product.ProductId);
     // const picture = this.pictures.find(p => p.PictureId === photoGallery?.PictureId);
     // if (picture) {

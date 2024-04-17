@@ -2,16 +2,16 @@
     <div class="list-container" *ngIf="!isLoading">
       <mat-card class="product-card">
         <div class="image-wrapper">
-          <img *ngIf="getProductImageUrl()" [src]="getProductImageUrl()" alt="{{ data.ProductName }}" class="product-image">
+          <img *ngIf="getProductImageUrl()" [src]="product.picUrl" alt="{{ product.Name }}" class="product-image">
         </div>
         <mat-card-header>
-          <mat-card-title>({{data.ProductCode}}) {{data.ProductName}}</mat-card-title>
+          <mat-card-title>({{product.ProductCode}}) {{product.Name}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <p>
-            قیمت : {{data.Price1}}<br>
-            موجودی 1: {{ data.Count1 }} <br>
-            موجودی 2: {{ data.Count2 }}<br>
+            قیمت : {{product.price}}<br>
+            موجودی 1: {{ product.count1 }} <br>
+            موجودی 2: {{ product.count2 }}<br>
           </p>
         </mat-card-content>
         <div class="quantity-selection">
