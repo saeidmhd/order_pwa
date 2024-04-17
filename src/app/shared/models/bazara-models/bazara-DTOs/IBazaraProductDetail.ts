@@ -37,5 +37,5 @@ export interface IBazaraProductDetail {
     ProductClientId: number;
     ProductCode: number;
     VisitorId: number,
-    ProductName: string
+    ProductName?: string
 }

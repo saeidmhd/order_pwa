@@ -32,5 +32,7 @@ export interface IBazaraProduct {
     count1?: number;
     count2?: number;
     quantity: number;
-    VisitorId: number
+    VisitorId: number,
+    picUrl: string,
+    visitorDeleted: boolean
 }
