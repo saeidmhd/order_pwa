@@ -7,7 +7,7 @@ export class GeneratingIndexedDbService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 10;
+  private dbVersion = 1;
 
   constructor() {
     this.openDatabase().then(
@@ -119,6 +119,21 @@ export class GeneratingIndexedDbService {
         if (!this.db.objectStoreNames.contains('PersonAddress')) {
           this.db.createObjectStore('PersonAddress', {
             keyPath: ['VisitorId', 'PersonAddressId']
+          });
+        }
+        if (!this.db.objectStoreNames.contains('Picture')) {
+          this.db.createObjectStore('Picture', {
+            keyPath: ['VisitorId', 'PictureId']
+          });
+        }
+        if (!this.db.objectStoreNames.contains('PhotoGallery')) {
+          this.db.createObjectStore('PhotoGallery', {
+            keyPath: ['VisitorId', 'PhotoGalleryId']
+          });
+        }
+        if (!this.db.objectStoreNames.contains('ProductDetailAssetStore')) {
+          this.db.createObjectStore('ProductDetailStoreAsset', {
+            keyPath: ['VisitorId', 'ProductDetailStoreAssetId']
           });
         }
       };
