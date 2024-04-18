@@ -41,14 +41,15 @@ export class ProductComponent implements OnInit {
         const productDetail = val[1].find((x: IBazaraProductDetail) => x.ProductId == element.ProductId);
         const visitorProduct = val[2].find((x: IBazaraVisitorProduct) => x.ProductDetailId == productDetail.ProductDetailId);
         const photoGallery = val[4].find((pg: IBazaraPhotoGallery) => pg.ItemCode === element.ProductId);
-
+       
         if (!visitorProduct.Deleted) {
-          element.price = productDetail.Price1;
+          element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ';
           element.count1 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
           element.count2 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
 
           if (photoGallery != undefined) {
             const picture = val[5].find((x: IBazaraPicture) => x.PictureId === photoGallery?.PictureId);
+            
             if (picture)
               element.picUrl = `https://mahakacc.mahaksoft.com${picture.Url}`;
           }
