@@ -28,16 +28,9 @@ import { PeopleListComponent } from './shared/components/people-list/people-list
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DashboardComponent } from './shared/components/dashboard/dashboard.component';
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
-import { UpdateInfoComponent } from './shared/components/update-info/update-info.component';
-import { PeopleService } from './core/services/people.service';
-import { BanksService } from './core/services/banks.service';
 import { BankListComponent } from './shared/components/bank-list/bank-list.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ProductDetailService } from './core/services/product-detail.service';
-import { ProductService } from './core/services/product.service';
 import { ProductListComponent } from './shared/components/product-list/product-list.component';
-import { VisitorPeopleService } from './core/services/visitor-person.service';
-import { OrdersService } from './core/services/order.service';
 import { OrderListComponent } from './shared/components/order-list/order-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
@@ -75,7 +68,6 @@ import { ProductCardComponent } from './shared/components/product/product-card/p
     PeopleListComponent,
     DashboardComponent,
     BasicInfoComponent,
-    UpdateInfoComponent,
     BankListComponent,
     ProductComponent,
     ProductCardComponent,
@@ -126,7 +118,7 @@ import { ProductCardComponent } from './shared/components/product/product-card/p
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [LoginService, IndexedDbService, PeopleService, BanksService, ProductDetailService, ProductService, VisitorPeopleService, OrdersService, LogUpdateService, PromptUpdateService],
+  providers: [LoginService, IndexedDbService, LogUpdateService, PromptUpdateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
