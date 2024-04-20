@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
-import { PeopleService } from 'src/app/core/services/people.service';
-import { VisitorPeopleService } from 'src/app/core/services/visitor-person.service';
-import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
-import { IGetBazaraData } from '../../models/bazara-models/get-all-data-DTOs/IGetBazaraData';
-import { BazaraService } from '../../services/bazara/bazara.service';
-import { IBazaraPersonAddress } from '../../models/bazara-models/bazara-DTOs/IBazaraPersonAddress';
-import { IApiResult } from '../../models/bazara-models/get-all-data-DTOs/IApiResult';
-import { IBazaraPerson } from '../../models/bazara-models/bazara-DTOs/IBazaraPerson';
-import { IBazaraProduct } from '../../models/bazara-models/bazara-DTOs/IBazaraProduct';
-import { IBazaraVisitorProduct } from '../../models/bazara-models/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraProductDetail } from '../../models/bazara-models/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraPhotoGallery } from '../../models/bazara-models/bazara-DTOs/IBazaraPhotoGallery';
-import { IBazaraPicture } from '../../models/bazara-models/bazara-DTOs/IBazaraPicture';
-import { IBazaraProductDetailStoreAsset } from '../../models/bazara-models/bazara-DTOs/IBazaraProductDetailAssetStore';
+
+import { GenericIndexedDbService } from '../../../shared/services/indexed-db/generic-indexed-db.service';
+import { IGetBazaraData } from '../../../shared/models/bazara-models/get-all-data-DTOs/IGetBazaraData';
+import { BazaraService } from '../../../shared/services/bazara/bazara.service';
+import { IBazaraPersonAddress } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPersonAddress';
+import { IApiResult } from '../../../shared/models/bazara-models/get-all-data-DTOs/IApiResult';
+import { IBazaraPerson } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPerson';
+import { IBazaraProduct } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProduct';
+import { IBazaraVisitorProduct } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraVisitorProduct';
+import { IBazaraProductDetail } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProductDetail';
+import { IBazaraPhotoGallery } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPhotoGallery';
+import { IBazaraPicture } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPicture';
+import { IBazaraProductDetailStoreAsset } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProductDetailAssetStore';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -27,10 +25,7 @@ export class GetBazaraDataComponent implements OnInit {
   terminate: boolean = false;
   maxRowVersionModel: IGetBazaraData = {};
 
-  constructor(private peopleService: PeopleService,
-    private visitorPeopleService: VisitorPeopleService,
-    private genericIndexedDbService: GenericIndexedDbService,
-    private bazaraService: BazaraService) { }
+  constructor(private genericIndexedDbService: GenericIndexedDbService, private bazaraService: BazaraService) { }
 
   ngOnInit(): void {
     this.fetchAllData();
@@ -96,7 +91,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchVisitorPeople(): Promise<void> {
     try {
-      await firstValueFrom(this.visitorPeopleService.getVisitorPeople());
+      // await firstValueFrom(this.visitorPeopleService.getVisitorPeople());
       // await this.visitorPeopleService.getVisitorPeople();
       // this.visitorPeopleReceived = true;
     } catch (error) {

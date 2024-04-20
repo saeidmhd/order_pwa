@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 
-import { UtilityService } from '../../services/common/utility.service';
-import { AuthService } from '../../services/authorizing/auth.service';
-import { IBazaraLoginDTO } from '../../models/bazara-models/login-model/IBazaraLoginDTO';
+import { UtilityService } from '../../../shared/services/common/utility.service';
+import { AuthService } from '../../../shared/services/authorizing/auth.service';
+import { IBazaraLoginDTO } from '../../../shared/models/bazara-models/login-model/IBazaraLoginDTO';
 
 @Component({
   selector: 'app-login',
@@ -56,24 +56,7 @@ export class LoginComponent {
       password: this.formData.password
     };
 
-    this.authService.loginToMobileOrdering(model).subscribe(res => {      
-      //clear mat-progressbar on failed login
-      // if (!res) {
-      //   setTimeout(() => {
-      //     this.isLoading = false;          
-      //   }, 1000);
-      // }
+    this.authService.loginToMobileOrdering(model).subscribe(res => {
     });
-
-    // Mr Mohamadi's Code
-    // this.loginService.login(username, password).subscribe({
-    //   next: (response) => {
-    //     this.isLoading = false; // Hide loading indicator on success
-    //   },
-    //   error: (error) => {
-    //     this.loginError = 'Login failed. Please check your credentials.';
-    //     this.isLoading = false; // Hide loading indicator on error
-    //   }
-    // });
   }
 }
