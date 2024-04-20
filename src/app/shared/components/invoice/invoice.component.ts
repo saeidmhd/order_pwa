@@ -5,8 +5,8 @@ import { Person } from 'src/app/core/models/Person';
 import { OrderDetail } from 'src/app/core/models/order-detail';
 import { Product } from 'src/app/core/models/product';
 import { ProductDetail } from 'src/app/core/models/product-detail';
-import { IndexedDbService } from 'src/app/core/services/indexed-db.service';
-import { PersonSelectionService } from 'src/app/core/services/person-selection.service';
+// import { IndexedDbService } from 'src/app/core/services/indexed-db.service';
+// import { PersonSelectionService } from 'src/app/core/services/person-selection.service';
 
 
 @Component({
@@ -39,7 +39,7 @@ selectPerson() {
 
   constructor(
     private formBuilder: FormBuilder,
-    private personSelectionService: PersonSelectionService,
+    // private personSelectionService: PersonSelectionService,
     private router : Router,
 
   ) {
@@ -50,9 +50,9 @@ selectPerson() {
       quantity: [1, [Validators.required, Validators.min(1)]]
     });
 
-     this.personSelectionService.selectedPerson$.subscribe((person: Person | null) => {
-      this.selectedCustomer = person;
-    });
+    //  this.personSelectionService.selectedPerson$.subscribe((person: Person | null) => {
+    //   this.selectedCustomer = person;
+    // });
   
   }
 
