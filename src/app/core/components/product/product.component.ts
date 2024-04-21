@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GenericIndexedDbService } from '../../../shared/services/indexed-db/generic-indexed-db.service';
+import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
 import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
 import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';

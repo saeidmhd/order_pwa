@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { BazaraService } from '../bazara/bazara.service';
 import { GenericIndexedDbService } from '../indexed-db/generic-indexed-db.service';
 import { UtilityService } from '../common/utility.service';
-import { IBazaraLoginDTO } from '../../../core/models/bazara/login-model/IBazaraLoginDTO';
-import { ILoginResult } from '../../../core/models/bazara/login-model/ILoginResultDTO';
-import { IBazaraLogin } from '../../../core/models/bazara/bazara-DTOs/IBazaraLogin';
+import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
+import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
+import { IBazaraLogin } from '../../models/bazara/bazara-DTOs/IBazaraLogin';
 
 @Injectable({
   providedIn: 'root'

@@ -4,11 +4,11 @@ import { Observable, of } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 
 import { environment } from 'src/environments/environment.development';
-import { IBazaraLoginDTO } from '../../../core/models/bazara/login-model/IBazaraLoginDTO';
-import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
-import { ILoginResult } from '../../../core/models/bazara/login-model/ILoginResultDTO';
-import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
-import { ISaveBazaraData } from '../../../core/models/bazara/save-all-data-DTOs/ISaveBazaraData';
+import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
+import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
+import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
+import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
+import { ISaveBazaraData } from '../../models/bazara/save-all-data-DTOs/ISaveBazaraData';
 
 @Injectable({
   providedIn: 'root'

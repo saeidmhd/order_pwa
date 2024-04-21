@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GenericIndexedDbService } from '../../../shared/services/indexed-db/generic-indexed-db.service';
+import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
 import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
-import { BazaraService } from '../../../shared/services/bazara/bazara.service';
+import { BazaraService } from '../../services/bazara/bazara.service';
 import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
 import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
 import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';

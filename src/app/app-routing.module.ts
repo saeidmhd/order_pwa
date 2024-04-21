@@ -10,7 +10,7 @@ import { OrderListComponent } from './shared/components/order-list/order-list.co
 import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
-import { authGuard } from './shared/services/authorizing/auth.guard';
+import { authGuard } from './core/services/authorizing/auth.guard';
 import { GetBazaraDataComponent } from './core/components/get-bazara-data/get-bazara-data.component';
 import { ProductComponent } from './core/components/product/product.component';
 

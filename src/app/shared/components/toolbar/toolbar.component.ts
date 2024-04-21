@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
-import { UtilityService } from '../../services/common/utility.service';
+import { UtilityService } from '../../../core/services/common/utility.service';
 
 
 @Component({

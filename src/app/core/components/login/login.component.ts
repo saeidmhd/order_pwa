@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 
-import { UtilityService } from '../../../shared/services/common/utility.service';
-import { AuthService } from '../../../shared/services/authorizing/auth.service';
+import { UtilityService } from '../../services/common/utility.service';
+import { AuthService } from '../../services/authorizing/auth.service';
 import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
 
 @Component({
