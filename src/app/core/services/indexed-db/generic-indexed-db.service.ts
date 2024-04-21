@@ -6,8 +6,6 @@ import { GeneratingIndexedDbService } from './generating-indexed-db.service';
 })
 export class GenericIndexedDbService {
 
-  private visitorId!: string;
-
   constructor(private generatingIndexedDb: GeneratingIndexedDbService) { }
 
   getVisitorId(): number {
@@ -15,7 +13,6 @@ export class GenericIndexedDbService {
   }
 
   setVisitorId(visitorId: string): void {
-    this.visitorId = visitorId;
     localStorage.setItem('VisitorId', visitorId);
   }
 
@@ -27,7 +24,7 @@ export class GenericIndexedDbService {
     // // Use a key range to get all storeData for the specific visitorId
     // const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
     const keyRange = IDBKeyRange.bound([this.getVisitorId(), 0], [this.getVisitorId(), 2147483647]);
-    
+
     return new Promise<T[]>((resolve, reject) => {
       const getRequest = objectStore.getAll(keyRange);
       getRequest.onsuccess = (event: any) => {
@@ -42,42 +39,35 @@ export class GenericIndexedDbService {
     });
   }
 
-  async addOrEdit<T>(storeName: string, data: T): Promise<T> {
+  async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
       await this.generatingIndexedDb.waitForDb();
 
       const db = await this.generatingIndexedDb.openDatabase();
       const transaction = db.transaction(storeName, 'readwrite');
       const objectStore = transaction.objectStore(storeName);
-      
-      if (storeName === 'Login') {
-        const putRequest = objectStore.put(data, this.getVisitorId());
-      }
-      else {
-        const putRequest = objectStore.put(data);  
-      }
-      //  some action may be needed later
 
-      // await new Promise<void>((resolve, reject) => {
-      //   putRequest.onsuccess = (event: any) => {
-      //     resolve();
-      //   };
+      const putRequest = objectStore.put(data, key);
+      await new Promise<void>((resolve, reject) => {
+        putRequest.onsuccess = (event) => {
+          resolve();
+        };
 
-      //   putRequest.onerror = (event: any) => {
-      //     reject(new Error('Failed to store person data: ' + (event.target as any).error.message));
-      //   };
-      // });
+        putRequest.onerror = (event) => {
+          reject(new Error('Failed to store data: ' + (event.target as any).error.message));
+        };
+      });
     }
     catch (error) {
       console.log(error);
     }
-    
+
     return data;
   }
 
-  async insertingToDb<T>(storeName: string, data: T[]) {
+  async insertingToDb<T>(storeName: string, data: T[], key: IDBValidKey) {
     data.forEach(async (element: T) => {
-      await this.addOrEdit(storeName, element);
+      await this.addOrEdit(storeName, element, key);
     });
   }
 

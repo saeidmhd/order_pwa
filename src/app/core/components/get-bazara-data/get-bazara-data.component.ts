@@ -24,6 +24,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   terminate: boolean = false;
   maxRowVersionModel: IGetBazaraData = {};
+  visitorId = localStorage.getItem(('VisitorId'))!;
 
   constructor(private genericIndexedDbService: GenericIndexedDbService, private bazaraService: BazaraService) { }
 
@@ -74,7 +75,7 @@ export class GetBazaraDataComponent implements OnInit {
               ele.VisitorId = visitorId
             });
 
-            this.genericIndexedDbService.insertingToDb('Person', people);
+            // this.genericIndexedDbService.insertingToDb('Person', people);
           }
         },
         error: (err) => {
@@ -107,15 +108,13 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
-                ele.VisitorId = +visitorId;
+                const key: IDBValidKey = [+this.visitorId, ele.PersonAddressId];
+                this.genericIndexedDbService.addOrEdit('PersonAddress', ele, key);
               });
-
-              this.genericIndexedDbService.insertingToDb('PersonAddress', obj);
             }
           }
         },
@@ -138,21 +137,21 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
-
             let products: IBazaraProduct[] = res.Data.Objects.Products;
             let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
             
             if (products.length > 0) {
               products.forEach(ele => {
-                ele.VisitorId = +visitorId;
+                const key: IDBValidKey = [+this.visitorId, ele.ProductId];
+                this.genericIndexedDbService.addOrEdit('Product', ele, key);
               });
-
-              this.genericIndexedDbService.insertingToDb('Product', products);
             }
 
             if (visitorProducts.length > 0) {
-              this.genericIndexedDbService.insertingToDb('VisitorProduct', visitorProducts);
+              visitorProducts.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.VisitorProductId];
+                this.genericIndexedDbService.addOrEdit('VisitorProduct', ele, key);
+              });
             }
           }
         },
@@ -174,15 +173,13 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
-                ele.VisitorId = +visitorId;
+                const key: IDBValidKey = [+this.visitorId, ele.ProductDetailId];
+                this.genericIndexedDbService.addOrEdit('ProductDetail', ele, key);
               });
-
-              this.genericIndexedDbService.insertingToDb('ProductDetail', obj);
             }
           }
         },
@@ -204,15 +201,13 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
-                ele.VisitorId = +visitorId;
+                const key: IDBValidKey = [+this.visitorId, ele.PhotoGalleryId];
+                this.genericIndexedDbService.addOrEdit('PhotoGallery', ele, key);
               });
-
-              this.genericIndexedDbService.insertingToDb('PhotoGallery', obj);
             }
           }
         },
@@ -234,15 +229,13 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
-                ele.VisitorId = +visitorId;
-              });
-              
-              this.genericIndexedDbService.insertingToDb('Picture', obj);
+                const key: IDBValidKey = [+this.visitorId, ele.PictureId];
+                this.genericIndexedDbService.addOrEdit('Picture', ele, key);
+              });             
             }
           }
         },
@@ -264,15 +257,13 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
-                ele.VisitorId = +visitorId;
+                const key: IDBValidKey = [+this.visitorId, ele.ProductDetailStoreAssetId];
+                this.genericIndexedDbService.addOrEdit('ProductDetailStoreAsset', ele, key);
               });
-
-              this.genericIndexedDbService.insertingToDb('ProductDetailStoreAsset', obj);
             }
           }
         },

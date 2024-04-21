@@ -7,17 +7,13 @@ export class GeneratingIndexedDbService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 1;
+  private dbVersion = 2;
 
   constructor() {
-    this.openDatabase().then(
-      // console.log('salam')
-
-    );
+    this.openDatabase();
   }
 
   async openDatabase(): Promise<IDBDatabase> {
-    // const vistorId: string = localStorage.getItem('VisitorId')!.toString();
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.dbVersion);
 
@@ -27,114 +23,74 @@ export class GeneratingIndexedDbService {
           this.db.createObjectStore('Login');
         }
         if (!this.db.objectStoreNames.contains('Bank')) {
-          this.db.createObjectStore('Bank', {
-            keyPath: ['VisitorId', 'BanklId']
-          });
+          this.db.createObjectStore('Bank');
         }
         if (!this.db.objectStoreNames.contains('Product')) {
-          this.db.createObjectStore('Product', {
-            keyPath: ['VisitorId', 'ProductId']
-          });
+          this.db.createObjectStore('Product');
+          //if defination of keyPath is necessary
+          // this.db.createObjectStore('Product', {
+          //   keyPath: ['VisitorId', 'ProductId']
+          // });
         }
         if (!this.db.objectStoreNames.contains('ProductDetail')) {
-          this.db.createObjectStore('ProductDetail', {
-            keyPath: ['VisitorId', 'ProductDetailId']
-          });
+          this.db.createObjectStore('ProductDetail');
         }
         if (!this.db.objectStoreNames.contains('VisitorProduct')) {
-          this.db.createObjectStore('VisitorProduct', {
-            keyPath: ['VisitorId', 'VisitorProductId']
-          });
+          this.db.createObjectStore('VisitorProduct');
         }
         if (!this.db.objectStoreNames.contains('VisitorPerson')) {
-          this.db.createObjectStore('VisitorPerson', {
-            keyPath: ['VisitorId', 'VisitorPersonId']
-          });
+          this.db.createObjectStore('VisitorPerson');
         }
         if (!this.db.objectStoreNames.contains('Cash')) {
-          this.db.createObjectStore('Cash', {
-            keyPath: ['VisitorId', 'CashId']
-          });
+          this.db.createObjectStore('Cash');
         }
         if (!this.db.objectStoreNames.contains('CheckList')) {
-          this.db.createObjectStore('CheckList', {
-            keyPath: ['VisitorId', 'CheckListId']
-          });
+          this.db.createObjectStore('CheckList');
         }
         if (!this.db.objectStoreNames.contains('Cheque')) {
-          this.db.createObjectStore('Cheque', {
-            keyPath: ['VisitorId', 'ChequeId']
-          });
+          this.db.createObjectStore('Cheque');
         }
         if (!this.db.objectStoreNames.contains('CompanyInfo')) {
-          this.db.createObjectStore('CompanyInfo', {
-            keyPath: ['VisitorId', 'CompanyInfoId']
-          });
+          this.db.createObjectStore('CompanyInfo');
         }
         if (!this.db.objectStoreNames.contains('CostLevelName')) {
-          this.db.createObjectStore('CostLevelName', {
-            keyPath: ['VisitorId', 'CostLevelNameId']
-          });
+          this.db.createObjectStore('CostLevelName');
         }
         if (!this.db.objectStoreNames.contains('ExtraData')) {
-          this.db.createObjectStore('ExtraData', {
-            keyPath: ['VisitorId', 'ExtraDataId']
-          });
+          this.db.createObjectStore('ExtraData');
         }
         if (!this.db.objectStoreNames.contains('Income')) {
-          this.db.createObjectStore('Income', {
-            keyPath: ['VisitorId', 'IncomeId']
-          });
+          this.db.createObjectStore('Income');
         }
         if (!this.db.objectStoreNames.contains('IncomeGroup')) {
-          this.db.createObjectStore('IncomeGroup', {
-            keyPath: ['VisitorId', 'IncomeGroupId']
-          });
+          this.db.createObjectStore('IncomeGroup');
         }
         if (!this.db.objectStoreNames.contains('Mission')) {
-          this.db.createObjectStore('Mission', {
-            keyPath: ['VisitorId', 'MissionId']
-          });
+          this.db.createObjectStore('Mission');
         }
         if (!this.db.objectStoreNames.contains('MissionDetail')) {
-          this.db.createObjectStore('MissionDetail', {
-            keyPath: ['VisitorId', 'MissionDetailId']
-          });
+          this.db.createObjectStore('MissionDetail');
         }
         if (!this.db.objectStoreNames.contains('Order')) {
-          this.db.createObjectStore('Order', {
-            keyPath: ['VisitorId', 'OrderId']
-          });
+          this.db.createObjectStore('Order');
         }
         if (!this.db.objectStoreNames.contains('OrderDetail')) {
-          this.db.createObjectStore('OrderDetail', {
-            keyPath: ['VisitorId', 'OrderDetailId']
-          });
+          this.db.createObjectStore('OrderDetail');
         }
         if (!this.db.objectStoreNames.contains('Person')) {
-          this.db.createObjectStore('Person', {
-            keyPath: ['VisitorId', 'PersonId']
-          });
+          this.db.createObjectStore('Person');
         }
         if (!this.db.objectStoreNames.contains('PersonAddress')) {
-          this.db.createObjectStore('PersonAddress', {
-            keyPath: ['VisitorId', 'PersonAddressId']
-          });
+          this.db.createObjectStore('PersonAddress');
         }
         if (!this.db.objectStoreNames.contains('Picture')) {
-          this.db.createObjectStore('Picture', {
-            keyPath: ['VisitorId', 'PictureId']
-          });
+          this.db.createObjectStore('Picture');
         }
         if (!this.db.objectStoreNames.contains('PhotoGallery')) {
-          this.db.createObjectStore('PhotoGallery', {
-            keyPath: ['VisitorId', 'PhotoGalleryId']
-          });
+          this.db.createObjectStore('PhotoGallery');
         }
         if (!this.db.objectStoreNames.contains('ProductDetailAssetStore')) {
-          this.db.createObjectStore('ProductDetailStoreAsset', {
-            keyPath: ['VisitorId', 'ProductDetailStoreAssetId']
-          });
+          this.db.createObjectStore('ProductDetailStoreAsset');
         }
       };
 

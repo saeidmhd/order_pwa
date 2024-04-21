@@ -34,7 +34,7 @@ export class AuthService {
           
           let loginData: IBazaraLogin[] = [];
           loginData.push(res.Data!)
-          this.GenericIndexedDbService.insertingToDb('Login', loginData);
+          this.GenericIndexedDbService.addOrEdit('Login', loginData, res.Data!.VisitorId);
 
           this.utilityService.showMenuFooter.next(true);
 
