@@ -87,6 +87,12 @@ export class InvoiceComponent {
   // Add an item to the invoice
   // Add an item to the invoice
   addItemToInvoice(): void {
+
+    const now = new Date();
+    const iranTimeOffset = 3.5;
+    const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
+    const createDate = localTime.toISOString().replace('Z', '');
+
     const selectedProduct = this.invoiceForm.get('product')?.value as Product;
     const quantity = this.invoiceForm.get('quantity')?.value;
     const price = this.invoiceForm.get('price')?.value;
@@ -97,7 +103,7 @@ export class InvoiceComponent {
         ProductDetailId: this.selectedProductDetail.ProductDetailId,
         Count1: quantity,
         Price: totalPrice,
-        //OrderDetailId: 0,
+        OrderDetailId: 0,
         OrderDetailClientId: 0,
         ItemType: 0,
         OrderId: 0,
@@ -117,8 +123,8 @@ export class InvoiceComponent {
         RowId: 0,
         Deleted: false,
         DataHash: '',
-        CreateDate: '',
-        UpdateDate: '',
+        CreateDate: createDate,
+        UpdateDate: createDate,
         CreateSyncId: 0,
         UpdateSyncId: 0,
         RowVersion: 0,
@@ -244,8 +250,8 @@ export class InvoiceComponent {
         RowId: 0,
         Deleted: false,
         DataHash: '',
-        CreateDate: '',
-        UpdateDate: '',
+        CreateDate: createDate,
+        UpdateDate: createDate,
         CreateSyncId: 0,
         UpdateSyncId: 0,
         RowVersion: 0,

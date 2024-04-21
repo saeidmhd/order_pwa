@@ -14,7 +14,7 @@ import { SaveResponse } from '../models/save-response';
   providedIn: 'root'
 })
 export class OrdersService {
-  private apiUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/getalldata'; // Replace with your API URL
+  private apiUrl =  'https://mahakacc.mahaksoft.com/api/v3/sync/getalldata'; // Replace with your API URL
   private saveUrl = 'https://mahakacc.mahaksoft.com/api/v3/sync/SaveAllData'; // URL for saving data
 
   constructor(private http: HttpClient, private indexedDbService: IndexedDbService) { }
@@ -67,8 +67,8 @@ export class OrdersService {
                 if (result.Result) {
                   const orderIndex = orders.findIndex(order => order.OrderClientId === result.EntityClientId);
                   if (orderIndex !== -1) {
-                    orders[orderIndex].OrderId = result.EntityId;
-                    orders[orderIndex].OrderClientId = result.EntityClientId;
+                    //orders[orderIndex].OrderId = result.EntityId;
+                    //orders[orderIndex].OrderClientId = result.EntityClientId;
                     orders[orderIndex].RowVersion = result.RowVersion;
                     await this.indexedDbService.updateOrder(orders[orderIndex].OrderClientId, orders[orderIndex]);
                   }

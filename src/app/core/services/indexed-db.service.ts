@@ -33,6 +33,25 @@ export class IndexedDbService {
       };
     });
   }
+
+  async updateOrderDetail(orderDetailClientId: number, updatedOrderDetail: OrderDetail): Promise<void> {
+    const db = await this.openDatabase();
+    const transaction = db.transaction([this.orderDetailStoreName], 'readwrite');
+    const objectStore = transaction.objectStore(this.orderDetailStoreName);
+  
+    return new Promise<void>((resolve, reject) => {
+      const key = `${this.getVisitorId()}-${orderDetailClientId}`; // Use visitorId and OrderClientId as the key
+      console.log(" updatedOrderDetail =  "  + updatedOrderDetail);
+      const putRequest = objectStore.put(updatedOrderDetail, key); // Use put to update the order
+      putRequest.onsuccess = (event) => {
+        resolve();
+      };
+  
+      putRequest.onerror = (event) => {
+        reject(new Error('Failed to update order: ' + (event.target as any).error.message));
+      };
+    });
+  }
   
 
 

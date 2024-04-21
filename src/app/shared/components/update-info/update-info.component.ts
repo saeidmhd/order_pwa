@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, EMPTY } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { firstValueFrom, EMPTY, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { BanksService } from '../../../core/services/banks.service';
 import { PeopleService } from '../../../core/services/people.service';
@@ -33,6 +33,7 @@ export class UpdateInfoComponent implements OnInit {
     picturesReceived = false;
     visitorProductReceived = false;
     ordersSent = false;
+    orderDetailsSent = false;
 
     constructor(
         private banksService: BanksService,
@@ -51,17 +52,33 @@ export class UpdateInfoComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.fetchData();
-        this.saveOrdersToServer();
+        this.saveOrdersToServer().subscribe({
+            next: () => this.saveOrderDetailsToServer(),
+            error: err => console.error('Error saving orders to server:', err)
+          });
     }
-    private async saveOrdersToServer(): Promise<void> {
+    saveOrdersToServer(): Observable<any> {
+        return this.ordersService.saveOrders().pipe(
+          tap(() => {
+            this.ordersSent = true;
+            console.log('Orders saved to server successfully');
+          }),
+          catchError(error => {
+            console.error('Error saving orders to server:', error);
+            throw error;
+          })
+        );
+    }
+
+    private async saveOrderDetailsToServer(): Promise<void> {
         try {
-          await firstValueFrom(this.ordersService.saveOrders());
-          this.ordersSent = true
-          console.log('Orders saved to server successfully');
+            await firstValueFrom(this.orderDetailsService.saveOrderDetails());
+            this.orderDetailsSent = true
+            console.log('orderDetails saved to server successfully');
         } catch (error) {
-          console.error('Error saving orders to server:', error);
+            console.error('Error saving orderDetails to server:', error);
         }
-      }
+    }
 
     private fetchData(): void {
         this.fetchBanks();

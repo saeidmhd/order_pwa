@@ -31,9 +31,8 @@ export interface OrderDetail {
     OrderCode: number;
     ProductDetailClientId: number;
     ProductDetailCode: number;
-    SaveResponse?: SaveResponse; 
 }
-export interface OrderDetailsResponse {
+export interface GetOrderDetailsResponse {
     Result: boolean;
     Data: {
         Objects:OrderDetails
@@ -42,13 +41,4 @@ export interface OrderDetailsResponse {
 
 export interface OrderDetails {
     OrderDetails: OrderDetail[];
-    Results?: SaveResponse[]; // Added Results to Orders interface
-}
-
-export interface SaveResponse {
-    Result: boolean;
-    Index: number;
-    EntityId: number;
-    EntityClientId: number;
-    RowVersion: number;
 }
