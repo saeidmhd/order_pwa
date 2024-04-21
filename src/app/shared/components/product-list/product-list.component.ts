@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../../core/models/product';
-import { ProductCategory } from '../../../core/models/product-category';
-import { Picture } from '../../../core/models/picture'; // Import Picture model
-import { PhotoGallery } from '../../../core/models/photo-gallery'; // Import PhotoGallery model
-import { IndexedDbService } from '../../../core/services/indexed-db.service';
+import { Product } from '../../../core/models/old/product';
+import { ProductCategory } from '../../../core/models/old/product-category';
+import { Picture } from '../../../core/models/old/picture'; // Import Picture model
+import { PhotoGallery } from '../../../core/models/old/photo-gallery'; // Import PhotoGallery model
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -18,7 +17,6 @@ export class ProductListComponent implements OnInit {
   selectedProducts: Product[] = [];
 
   constructor(
-    private indexedDbService: IndexedDbService,
     private route: ActivatedRoute,
     private router: Router, // <-- Make sure to inject the Router service here,
   ) {}
@@ -63,27 +61,27 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.indexedDbService.getProducts().then(products => {
-      this.indexedDbService.getProductDetails().then(productDetails => {
-        this.indexedDbService.getVisitorProducts().then(visitorProducts => {
-          this.products = products.map(product => {
-            const productDetail = productDetails.find(detail => detail.ProductId === product.ProductId);
-            const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId && vp.Deleted == false);
-            return {
-              ...product,
-              price: parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ',
-              count1: visitorProduct?.Count1,
-              count2: visitorProduct?.Count2
-            };
-          }).filter(product =>
-            product.count1 !== undefined &&
-            product.count2 !== undefined &&
-            (!this.selectedCategory || product.ProductCategoryId === this.selectedCategory)
-          );
-          this.isLoading = false;
-        });
-      });
-    });
+    // this.indexedDbService.getProducts().then(products => {
+    //   this.indexedDbService.getProductDetails().then(productDetails => {
+    //     this.indexedDbService.getVisitorProducts().then(visitorProducts => {
+    //       this.products = products.map(product => {
+    //         const productDetail = productDetails.find(detail => detail.ProductId === product.ProductId);
+    //         const visitorProduct = visitorProducts.find(vp => vp.ProductDetailId === productDetail?.ProductDetailId && vp.Deleted == false);
+    //         return {
+    //           ...product,
+    //           price: parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ',
+    //           count1: visitorProduct?.Count1,
+    //           count2: visitorProduct?.Count2
+    //         };
+    //       }).filter(product =>
+    //         product.count1 !== undefined &&
+    //         product.count2 !== undefined &&
+    //         (!this.selectedCategory || product.ProductCategoryId === this.selectedCategory)
+    //       );
+    //       this.isLoading = false;
+    //     });
+    //   });
+    // });
   }
 
   goToProductCategories(): void {
@@ -92,21 +90,21 @@ export class ProductListComponent implements OnInit {
 
 
   loadProductCategories(): void {
-    this.indexedDbService.getProductCategories().then(categories => {
-      this.productCategories = categories;
-    });
+    // this.indexedDbService.getProductCategories().then(categories => {
+    //   this.productCategories = categories;
+    // });
   }
 
   loadPictures(): void { // Add loadPictures method
-    this.indexedDbService.getPictures().then(pictures => {
-      this.pictures = pictures;
-    });
+    // this.indexedDbService.getPictures().then(pictures => {
+    //   this.pictures = pictures;
+    // });
   }
 
   loadPhotoGalleries(): void { // Add loadPhotoGalleries method
-    this.indexedDbService.getPhotoGalleries().then(photoGalleries => {
-      this.photoGalleries = photoGalleries;
-    });
+    // this.indexedDbService.getPhotoGalleries().then(photoGalleries => {
+    //   this.photoGalleries = photoGalleries;
+    // });
   }
 
 

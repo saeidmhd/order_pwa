@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CheckForUpdateService } from 'src/app/core/services/check-for-update.service';
+import { CheckForUpdateService } from 'src/app/core/services/pwa_services/check-for-update.service';
 
 
 @Component({

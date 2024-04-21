@@ -1,10 +1,10 @@
 // order-list.component.ts
 import { Component, OnInit } from '@angular/core';
 
-import { OrderDetail } from '../../../core/models/order-detail';
-import { Person } from '../../../core/models/Person';
-import { IndexedDbService } from '../../../core/services/indexed-db.service';
-import { Order } from 'src/app/core/models/order';
+import { OrderDetail } from '../../../core/models/old/order-detail';
+import { Person } from '../../../core/models/old/Person';
+// import { IndexedDbService } from '../../../core/services/indexed-db.service';
+import { Order } from 'src/app/core/models/old/order';
 import * as moment from 'jalali-moment';
 
 
@@ -27,20 +27,22 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-  constructor(private indexedDbService: IndexedDbService) { }
+  constructor(
+    // private indexedDbService: IndexedDbService
+    ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
-    Promise.all([
-      this.indexedDbService.getOrders(),
-      this.indexedDbService.getOrderDetails(),
-      this.indexedDbService.getPeople()
-    ]).then(([orders, orderDetails, people]) => {
-      this.orders = orders.sort((a, b) => new Date(b.OrderDate).getTime() - new Date(a.OrderDate).getTime());
-      this.orderDetails = orderDetails;
-      this.people = people;
-      this.isLoading = false;
-    });
+    // Promise.all([
+    //   this.indexedDbService.getOrders(),
+    //   this.indexedDbService.getOrderDetails(),
+    //   this.indexedDbService.getPeople()
+    // ]).then(([orders, orderDetails, people]) => {
+    //   this.orders = orders.sort((a, b) => new Date(b.OrderDate).getTime() - new Date(a.OrderDate).getTime());
+    //   this.orderDetails = orderDetails;
+    //   this.people = people;
+    //   this.isLoading = false;
+    // });
   }
 
   getOrderSum(order: Order): string {

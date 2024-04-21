@@ -16,10 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 
 
-
-import { IndexedDbService } from './core/services/indexed-db.service';
-import { LoginService } from './core/services/login.service';
-import { LoginComponent } from './shared/components/login/login.component'; // Import the component
+import { LoginComponent } from './core/components/login/login.component'; // Import the component
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
@@ -36,8 +33,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { ToolbarComponent } from './shared/components/toolbar/toolbar.component';
-import { LogUpdateService } from './core/services/log-update.service';
-import { PromptUpdateService } from './core/services/prompt-update.service';
+import { LogUpdateService } from './core/services/pwa_services/log-update.service';
+import { PromptUpdateService } from './core/services/pwa_services/prompt-update.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -53,11 +50,11 @@ import { UpdateConfirmationDialogComponent } from './shared/components/update-co
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
-import { MapComponent } from './shared/components/map/map.component';
+import { MapComponent } from './core/components/map/map.component';
 import { MaterialModule } from './modules/material/material.module';
 import { CommonModule } from '@angular/common';
-import { ProductComponent } from './shared/components/product/product.component';
-import { ProductCardComponent } from './shared/components/product/product-card/product-card.component';
+import { ProductComponent } from './core/components/product/product.component';
+import { ProductCardComponent } from './core/components/product/product-card/product-card.component';
 
 
 
@@ -118,7 +115,9 @@ import { ProductCardComponent } from './shared/components/product/product-card/p
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [LoginService, IndexedDbService, PeopleService, BanksService, ProductDetailService, ProductService, VisitorPeopleService, OrdersService, LogUpdateService, PromptUpdateService],
+  providers: [
+    // LoginService, IndexedDbService, 
+    LogUpdateService, PromptUpdateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

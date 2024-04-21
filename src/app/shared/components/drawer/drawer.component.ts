@@ -2,8 +2,8 @@ import { ViewChild, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
 
-import { UtilityService } from '../../services/common/utility.service';
-import { AuthService } from '../../services/authorizing/auth.service';
+import { UtilityService } from '../../../core/services/common/utility.service';
+import { AuthService } from '../../../core/services/authorizing/auth.service';
 
 
 @Component({

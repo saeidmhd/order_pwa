@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductCategory } from '../../../core/models/product-category';
-import { IndexedDbService } from '../../../core/services/indexed-db.service';
+import { ProductCategory } from '../../../core/models/old/product-category';
+// import { IndexedDbService } from '../../../core/services/indexed-db.service';
 
 @Component({
   selector: 'app-product-categories',
@@ -12,7 +12,7 @@ export class ProductCategoriesComponent implements OnInit {
   productCategories: ProductCategory[] = [];
 
   constructor(
-    private indexedDbService: IndexedDbService,
+    // private indexedDbService: IndexedDbService,
     private router: Router
   ) {}
 
@@ -21,9 +21,9 @@ export class ProductCategoriesComponent implements OnInit {
   }
 
   loadProductCategories(): void {
-    this.indexedDbService.getProductCategories().then(categories => {
-      this.productCategories = categories;
-    });
+    // this.indexedDbService.getProductCategories().then(categories => {
+    //   this.productCategories = categories;
+    // });
   }
 
   selectCategory(category: ProductCategory): void {
