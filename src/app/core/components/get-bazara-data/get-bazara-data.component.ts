@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GenericIndexedDbService } from '../../../shared/services/indexed-db/generic-indexed-db.service';
-import { IGetBazaraData } from '../../../shared/models/bazara-models/get-all-data-DTOs/IGetBazaraData';
+import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../shared/services/bazara/bazara.service';
-import { IBazaraPersonAddress } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPersonAddress';
-import { IApiResult } from '../../../shared/models/bazara-models/get-all-data-DTOs/IApiResult';
-import { IBazaraPerson } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPerson';
-import { IBazaraProduct } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProduct';
-import { IBazaraVisitorProduct } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraProductDetail } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraPhotoGallery } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPhotoGallery';
-import { IBazaraPicture } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraPicture';
-import { IBazaraProductDetailStoreAsset } from '../../../shared/models/bazara-models/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
+import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
+import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
+import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
+import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';
+import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
+import { IBazaraPhotoGallery } from '../../models/bazara/bazara-DTOs/IBazaraPhotoGallery';
+import { IBazaraPicture } from '../../models/bazara/bazara-DTOs/IBazaraPicture';
+import { IBazaraProductDetailStoreAsset } from '../../models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 
 @Component({
   selector: 'app-get-bazara-data',

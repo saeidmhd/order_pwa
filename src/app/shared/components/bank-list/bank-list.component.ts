@@ -1,6 +1,5 @@
-// bank-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Bank } from '../../../core/models/Bank';
+import { Bank } from '../../../core/models/old/Bank';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 // import { BanksService } from '../../../core/services/banks.service';
 

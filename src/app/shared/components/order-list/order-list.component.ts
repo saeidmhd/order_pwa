@@ -1,10 +1,10 @@
 // order-list.component.ts
 import { Component, OnInit } from '@angular/core';
 
-import { OrderDetail } from '../../../core/models/order-detail';
-import { Person } from '../../../core/models/Person';
+import { OrderDetail } from '../../../core/models/old/order-detail';
+import { Person } from '../../../core/models/old/Person';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
-import { Order } from 'src/app/core/models/order';
+import { Order } from 'src/app/core/models/old/order';
 import * as moment from 'jalali-moment';
 
 

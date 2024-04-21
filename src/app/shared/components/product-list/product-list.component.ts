@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../../core/models/product';
-import { ProductCategory } from '../../../core/models/product-category';
-import { Picture } from '../../../core/models/picture'; // Import Picture model
-import { PhotoGallery } from '../../../core/models/photo-gallery'; // Import PhotoGallery model
+import { Product } from '../../../core/models/old/product';
+import { ProductCategory } from '../../../core/models/old/product-category';
+import { Picture } from '../../../core/models/old/picture'; // Import Picture model
+import { PhotoGallery } from '../../../core/models/old/photo-gallery'; // Import PhotoGallery model
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 

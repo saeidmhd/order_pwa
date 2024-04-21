@@ -1,6 +1,6 @@
 // people-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Person } from '../../../core/models/Person';
+import { Person } from '../../../core/models/old/Person';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 // import { PeopleService } from '../../../core/services/people.service';
 // import { PersonSelectionService } from 'src/app/core/services/person-selection.service';

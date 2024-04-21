@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
-import { Order } from 'src/app/core/models/order';
-import { Person } from 'src/app/core/models/Person';
-import { OrderDetail } from 'src/app/core/models/order-detail';
-import { Product } from 'src/app/core/models/product';
-import { ProductDetail } from 'src/app/core/models/product-detail';
+import { Order } from 'src/app/core/models/old/order';
+import { Person } from 'src/app/core/models/old/Person';
+import { OrderDetail } from 'src/app/core/models/old/order-detail';
+import { Product } from 'src/app/core/models/old/product';
+import { ProductDetail } from 'src/app/core/models/old/product-detail';
 
 @Component({
   selector: 'app-order-detail',
