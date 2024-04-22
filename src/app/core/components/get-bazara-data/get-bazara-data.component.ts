@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
+import { IndexedDbService } from '../../services/indexed-db/indexed-db.service';
 import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../services/bazara/bazara.service';
 import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
@@ -26,7 +26,7 @@ export class GetBazaraDataComponent implements OnInit {
   maxRowVersionModel: IGetBazaraData = {};
   visitorId = localStorage.getItem(('VisitorId'))!;
 
-  constructor(private genericIndexedDbService: GenericIndexedDbService, private bazaraService: BazaraService) { }
+  constructor(private indexedDbService: IndexedDbService, private bazaraService: BazaraService) { }
 
   ngOnInit(): void {
     this.fetchAllData();
@@ -62,8 +62,8 @@ export class GetBazaraDataComponent implements OnInit {
       // this.peopleReceived = true;
       // Store people in IndexedDB
 
-      this.maxRowVersionModel.fromPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('Person');
-      this.maxRowVersionModel.fromVisitorPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorPerson');
+      this.maxRowVersionModel.fromPersonVersion = await this.indexedDbService.getMaxRowVersion('Person');
+      this.maxRowVersionModel.fromVisitorPersonVersion = await this.indexedDbService.getMaxRowVersion('VisitorPerson');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -103,7 +103,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPersonAddresses() {
     try {
-      this.maxRowVersionModel.fromPersonAddressVersion = await this.genericIndexedDbService.getMaxRowVersion('PersonAddress');
+      this.maxRowVersionModel.fromPersonAddressVersion = await this.indexedDbService.getMaxRowVersion('PersonAddress');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -113,7 +113,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PersonAddressId];
-                this.genericIndexedDbService.addOrEdit('PersonAddress', ele, key);
+                this.indexedDbService.addOrEdit('PersonAddress', ele, key);
               });
             }
           }
@@ -131,8 +131,8 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProduct_VisitorProduct() {
     try {
-      this.maxRowVersionModel.fromProductVersion = await this.genericIndexedDbService.getMaxRowVersion('Product');
-      this.maxRowVersionModel.fromVisitorProductVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorProduct');
+      this.maxRowVersionModel.fromProductVersion = await this.indexedDbService.getMaxRowVersion('Product');
+      this.maxRowVersionModel.fromVisitorProductVersion = await this.indexedDbService.getMaxRowVersion('VisitorProduct');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -143,14 +143,14 @@ export class GetBazaraDataComponent implements OnInit {
             if (products.length > 0) {
               products.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductId];
-                this.genericIndexedDbService.addOrEdit('Product', ele, key);
+                this.indexedDbService.addOrEdit('Product', ele, key);
               });
             }
 
             if (visitorProducts.length > 0) {
               visitorProducts.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.VisitorProductId];
-                this.genericIndexedDbService.addOrEdit('VisitorProduct', ele, key);
+                this.indexedDbService.addOrEdit('VisitorProduct', ele, key);
               });
             }
           }
@@ -168,7 +168,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProductDetail() {
     try {
-      this.maxRowVersionModel.fromProductDetailVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetail');
+      this.maxRowVersionModel.fromProductDetailVersion = await this.indexedDbService.getMaxRowVersion('ProductDetail');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -178,7 +178,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductDetailId];
-                this.genericIndexedDbService.addOrEdit('ProductDetail', ele, key);
+                this.indexedDbService.addOrEdit('ProductDetail', ele, key);
               });
             }
           }
@@ -196,7 +196,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPhotoGallery() {
     try {
-      this.maxRowVersionModel.fromPhotoGalleryVersion = await this.genericIndexedDbService.getMaxRowVersion('PhotoGallery');
+      this.maxRowVersionModel.fromPhotoGalleryVersion = await this.indexedDbService.getMaxRowVersion('PhotoGallery');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -206,7 +206,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PhotoGalleryId];
-                this.genericIndexedDbService.addOrEdit('PhotoGallery', ele, key);
+                this.indexedDbService.addOrEdit('PhotoGallery', ele, key);
               });
             }
           }
@@ -224,7 +224,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPicture() {
     try {
-      this.maxRowVersionModel.fromPictureVersion = await this.genericIndexedDbService.getMaxRowVersion('Picture');
+      this.maxRowVersionModel.fromPictureVersion = await this.indexedDbService.getMaxRowVersion('Picture');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -234,7 +234,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PictureId];
-                this.genericIndexedDbService.addOrEdit('Picture', ele, key);
+                this.indexedDbService.addOrEdit('Picture', ele, key);
               });             
             }
           }
@@ -252,7 +252,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProductDetailStoreAsset() {
     try {
-      this.maxRowVersionModel.fromProductDetailStoreAssetVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
+      this.maxRowVersionModel.fromProductDetailStoreAssetVersion = await this.indexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
@@ -262,7 +262,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductDetailStoreAssetId];
-                this.genericIndexedDbService.addOrEdit('ProductDetailStoreAsset', ele, key);
+                this.indexedDbService.addOrEdit('ProductDetailStoreAsset', ele, key);
               });
             }
           }

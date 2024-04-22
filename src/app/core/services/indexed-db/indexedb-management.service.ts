@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GeneratingIndexedDbService {
+export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';

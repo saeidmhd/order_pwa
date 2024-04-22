@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { GeneratingIndexedDbService } from './generating-indexed-db.service';
+import { IndexedDbManagementService } from './indexedb-management.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class GenericIndexedDbService {
+export class IndexedDbService {
 
-  constructor(private generatingIndexedDb: GeneratingIndexedDbService) { }
+  constructor(private indexedDbManagementService: IndexedDbManagementService) { }
 
   getVisitorId(): number {
     return +localStorage.getItem('VisitorId')!;
@@ -17,8 +18,8 @@ export class GenericIndexedDbService {
   }
 
   async getAllData<T>(storeName: string): Promise<T[]> {
-    await this.generatingIndexedDb.waitForDb();
-    const transaction = this.generatingIndexedDb.db.transaction(storeName, 'readonly');
+    await this.indexedDbManagementService.waitForDb();
+    const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
     const objectStore = transaction.objectStore(storeName);
 
     // // Use a key range to get all storeData for the specific visitorId
@@ -41,9 +42,9 @@ export class GenericIndexedDbService {
 
   async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
-      await this.generatingIndexedDb.waitForDb();
+      await this.indexedDbManagementService.waitForDb();
 
-      const db = await this.generatingIndexedDb.openDatabase();
+      const db = await this.indexedDbManagementService.openDatabase();
       const transaction = db.transaction(storeName, 'readwrite');
       const objectStore = transaction.objectStore(storeName);
 
@@ -73,13 +74,13 @@ export class GenericIndexedDbService {
 
   async delete<T>(storeName: string, data: T) {
     // data.Delete = true;
-    await this.generatingIndexedDb.waitForDb();
-    await this.generatingIndexedDb.db.put(storeName, data);
+    await this.indexedDbManagementService.waitForDb();
+    await this.indexedDbManagementService.db.put(storeName, data);
     //  some action may be needed later
   }
 
   async getMaxRowVersion(storeName: string): Promise<number> {
-    const db = await this.generatingIndexedDb.openDatabase();
+    const db = await this.indexedDbManagementService.openDatabase();
     const transaction = db.transaction([storeName], 'readonly');
     const objectStore = transaction.objectStore(storeName);
 

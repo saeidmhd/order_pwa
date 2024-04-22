@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
+import { IndexedDbService } from '../../services/indexed-db/indexed-db.service';
 import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
 import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';
@@ -20,7 +20,7 @@ export class ProductComponent implements OnInit {
   data: any[] = [];
   products: IBazaraProduct[] = [];
 
-  constructor(private genericIndexedService: GenericIndexedDbService) { }
+  constructor(private genericIndexedService: IndexedDbService) { }
 
   ngOnInit(): void {
     this.getData().then(() => {

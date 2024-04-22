@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { BazaraService } from '../bazara/bazara.service';
-import { GenericIndexedDbService } from '../indexed-db/generic-indexed-db.service';
+import { IndexedDbService } from '../indexed-db/indexed-db.service';
 import { UtilityService } from '../common/utility.service';
 import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
 import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
@@ -21,7 +21,7 @@ export class AuthService {
   constructor(private router: Router,
     private utilityService: UtilityService,
     private bazaraService: BazaraService,
-    private GenericIndexedDbService: GenericIndexedDbService,
+    private GenericIndexedDbService: IndexedDbService,
     private snackBar: MatSnackBar) { }
 
   loginToMobileOrdering(model: IBazaraLoginDTO): Observable<boolean> {    
