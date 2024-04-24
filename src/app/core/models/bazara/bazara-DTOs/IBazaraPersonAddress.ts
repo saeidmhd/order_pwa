@@ -1,5 +1,25 @@
 export interface IBazaraPersonAddress {
-    VisitorId: number,
     PersonAddressId: number,
-    PersonId: number
+    PersonId: number,
+    PersonAddressClientId: number,
+    PersonAddressCode: number,
+    Title: string,
+    Description: string,
+    Address: string,
+    PostalCode: number,
+    Tel: number,
+    Mobile: number,
+    CityId: number,
+    Latitude: number,
+    Longitude: number,
+    IsDefault: boolean,
+    PersonClientId: number,
+    PersonCode: number,
+    Deleted: boolean,
+    DataHash: string,
+    CreateDate: string,
+    UpdateDate: string,
+    CreateSyncId: number,
+    UpdateSyncId: number,
+    RowVersion: number
 }
