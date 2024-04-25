@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './core/components/login/login.component'; // Import the component
+import { LoginComponent } from './shared/components/login/login.component'; // Import the component
 import { PeopleListComponent } from './shared/components/people-list/people-list.component';
 import { DashboardComponent } from './shared/components/dashboard/dashboard.component';
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
@@ -11,8 +11,8 @@ import { ProductCategoriesComponent } from './shared/components/product-categori
 import { OrderDetailComponent } from './shared/components/order-detail/order-detail.component';
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { authGuard } from './core/services/authorizing/auth.guard';
-import { GetBazaraDataComponent } from './core/components/get-bazara-data/get-bazara-data.component';
-import { ProductComponent } from './core/components/product/product.component';
+import { GetBazaraDataComponent } from './shared/components/get-bazara-data/get-bazara-data.component';
+import { ProductComponent } from './shared/components/product/product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
 import { BazaraService } from '../bazara/bazara.service';
 import { GenericIndexedDbService } from '../indexed-db/generic-indexed-db.service';
 import { UtilityService } from '../common/utility.service';
-import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
-import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
-import { IBazaraLogin } from '../../models/bazara/bazara-DTOs/IBazaraLogin';
+import { LoginData, LoginBody, LoginResult } from '../../models/bazara/bazara-DTOs/Login';
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +21,15 @@ export class AuthService {
     private GenericIndexedDbService: GenericIndexedDbService,
     private snackBar: MatSnackBar) { }
 
-  loginToMobileOrdering(model: IBazaraLoginDTO): Observable<boolean> {    
+  loginToMobileOrdering(model: LoginBody): Observable<boolean> {    
     this.bazaraService.bazaraLogin(model).subscribe({
-      next: (res: ILoginResult) => {
+      next: (res: LoginResult) => {
         if (res.Result) {          
           this.GenericIndexedDbService.setVisitorId(res.Data!.VisitorId.toString());
           localStorage.setItem('UserData', JSON.stringify(res.Data));
           localStorage.setItem('UserToken', res.Data!.UserToken);
           
-          let loginData: IBazaraLogin[] = [];
+          let loginData: LoginData[] = [];
           loginData.push(res.Data!)
           this.GenericIndexedDbService.addOrEdit('Login', loginData, res.Data!.VisitorId);
 
@@ -46,7 +43,7 @@ export class AuthService {
         else {
           this.isLoggedIn.next(false);
 
-          this.snackBar.open(res.Message, 'بستن', {
+          this.snackBar.open(res.Message!, 'بستن', {
             duration: 5000,
             verticalPosition: 'top'
           });

@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 
 
-import { LoginComponent } from './core/components/login/login.component'; // Import the component
+import { LoginComponent } from './shared/components/login/login.component'; // Import the component
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
@@ -50,11 +50,11 @@ import { UpdateConfirmationDialogComponent } from './shared/components/update-co
 import { InvoiceComponent } from './shared/components/invoice/invoice.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
-import { MapComponent } from './core/components/map/map.component';
-import { MaterialModule } from './modules/material/material.module';
+import { MapComponent } from './shared/components/map/map.component';
+import { MaterialModule } from './shared/material.module';
 import { CommonModule } from '@angular/common';
-import { ProductComponent } from './core/components/product/product.component';
-import { ProductCardComponent } from './core/components/product/product-card/product-card.component';
+import { ProductComponent } from './shared/components/product/product.component';
+import { ProductCardComponent } from './shared/components/product/product-card/product-card.component';
 
 
 

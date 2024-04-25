@@ -4,11 +4,10 @@ import { Observable, of } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 
 import { environment } from 'src/environments/environment.development';
-import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
 import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
-import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
 import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
-import { ISaveBazaraData } from '../../models/bazara/save-all-data-DTOs/ISaveBazaraData';
+
+import { LoginBody, LoginResult } from '../../models/bazara/bazara-DTOs/Login';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +29,13 @@ export class BazaraService {
     };
    }
 
-  bazaraLogin(model: IBazaraLoginDTO): Observable<ILoginResult> {
+  bazaraLogin(model: LoginBody): Observable<LoginResult> {
     const hashedPassword = CryptoJS.MD5(model.password.trim()).toString();
     const requestBody = {
       username: model.userName,
       password: hashedPassword
     };
-    return this.http.post<ILoginResult>(environment.apiUrl + '/sync/login', requestBody);
+    return this.http.post<LoginResult>(environment.apiUrl + '/sync/login', requestBody);
   }
 
   getBazaraData(model: IGetBazaraData): Observable<IApiResult> {    
@@ -47,7 +46,7 @@ export class BazaraService {
     });
   }
 
-  saveBazaraData(model: ISaveBazaraData) {
+  saveBazaraData(model: IGetBazaraData) {
     return this.http.post<any>(environment.apiUrl + '/sync/SaveAllData', model, {
       headers: {'Authorization': localStorage.getItem('UserToken')!,
       'Accept': 'application/json',

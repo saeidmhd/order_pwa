@@ -1,8 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 
-import { UtilityService } from '../../services/common/utility.service';
-import { AuthService } from '../../services/authorizing/auth.service';
-import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
+import { UtilityService } from '../../../core/services/common/utility.service';
+import { AuthService } from '../../../core/services/authorizing/auth.service';
+import { LoginBody } from 'src/app/core/models/bazara/bazara-DTOs/Login';
+
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,7 @@ export class LoginComponent {
     //clear visitor data from local storage 
     this.authService.logoutFromMobileOrdering();
 
-    let model: IBazaraLoginDTO = {
+    let model: LoginBody = {
       userName: this.formData.username,
       password: this.formData.password
     };

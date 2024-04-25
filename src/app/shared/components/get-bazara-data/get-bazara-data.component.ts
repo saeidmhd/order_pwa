@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
-import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
-import { BazaraService } from '../../services/bazara/bazara.service';
-import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
-import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
-import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
-import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
-import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraPhotoGallery } from '../../models/bazara/bazara-DTOs/IBazaraPhotoGallery';
-import { IBazaraPicture } from '../../models/bazara/bazara-DTOs/IBazaraPicture';
-import { IBazaraProductDetailStoreAsset } from '../../models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { GenericIndexedDbService } from '../../../core/services/indexed-db/generic-indexed-db.service';
+import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
+import { BazaraService } from '../../../core/services/bazara/bazara.service';
+import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
+import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
+import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
+import { Product } from '../../../core/models/bazara/bazara-DTOs/Product';
+import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/VisitorProduct';
+import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/ProductDetail';
+import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
+import { Picture } from '../../../core/models/bazara/bazara-DTOs/Picture';
+import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/ProductDetailAssetStore';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -69,11 +69,11 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
-            let people: IBazaraPerson[] = res.Data.Objects.People;
+            let people: Person[] = res.Data.Objects.People;
             // let visitorPeople: IBazaVisi
-            people.forEach(ele => {
-              ele.VisitorId = visitorId
-            });
+            // people.forEach(ele => {
+            //   ele.VisitorId = visitorId
+            // });
 
             // this.genericIndexedDbService.insertingToDb('Person', people);
           }
@@ -108,7 +108,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
+            let obj: PersonAddress[] = res.Data.Objects.PersonAddresses;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
@@ -137,8 +137,8 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let products: IBazaraProduct[] = res.Data.Objects.Products;
-            let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
+            let products: Product[] = res.Data.Objects.Products;
+            let visitorProducts: VisitorProduct[] = res.Data.Objects.VisitorProducts;
             
             if (products.length > 0) {
               products.forEach(ele => {
@@ -173,7 +173,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
+            let obj: ProductDetail[] = res.Data.Objects.ProductDetails;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
@@ -201,7 +201,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
+            let obj: PhotoGallery[] = res.Data.Objects.PhotoGalleries;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
@@ -229,7 +229,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
+            let obj: Picture[] = res.Data.Objects.Pictures;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
@@ -257,7 +257,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
+            let obj: ProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
             
             if (obj.length > 0) {
               obj.forEach(ele => {
