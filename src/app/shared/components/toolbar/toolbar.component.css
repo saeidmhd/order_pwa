@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between; /* This will position items at both ends */
   align-items: center; /* Align items vertically */
+  height: 64px;
 }
 
 .drawer-toolbar button {

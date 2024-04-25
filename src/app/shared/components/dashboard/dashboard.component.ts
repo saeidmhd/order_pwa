@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckForUpdateService } from 'src/app/core/services/pwa_services/check-for-update.service';
 
@@ -10,9 +10,19 @@ import { CheckForUpdateService } from 'src/app/core/services/pwa_services/check-
 })
 export class DashboardComponent implements OnInit {
 
+  manualHeight!: number;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.measureHeight();
+  }
+  
+  measureHeight() {
+    this.manualHeight = window.innerHeight - 128;
+  }
 
-  constructor(private router: Router , private checkForUpdate : CheckForUpdateService ) {
-   }
+  constructor(private router: Router, private checkForUpdate: CheckForUpdateService) {
+    this.manualHeight = window.innerHeight - 128;
+  }
 
   ngOnInit(): void {
     
@@ -32,5 +42,5 @@ export class DashboardComponent implements OnInit {
 
   navigateToUpdateInfo() {
     this.router.navigate(['/update-info']);
-    }
+  }
 }

@@ -1,4 +1,4 @@
-import { ViewChild, Component } from '@angular/core';
+import { ViewChild, Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
 
@@ -12,13 +12,25 @@ import { AuthService } from '../../../core/services/authorizing/auth.service';
   styleUrls: ['./drawer.component.css']
 })
 export class DrawerComponent {
+  manualHeight!: number;
   @ViewChild("drawer") drawer!: MatDrawer;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.measureHeight();
+  }
 
+  
+  constructor(private router: Router, public utilityService: UtilityService, private authService: AuthService) {
+    this.manualHeight = window.innerHeight - 64;
+  }
+  
+  measureHeight() {
+    this.manualHeight = window.innerHeight - 64;
+  }
+  
   test(): void {
     this.drawer.open();
   }
-
-  constructor(private router: Router, public utilityService: UtilityService, private authService: AuthService) {}
 
   navigateToBasicInfo() {
     this.drawer.close();
