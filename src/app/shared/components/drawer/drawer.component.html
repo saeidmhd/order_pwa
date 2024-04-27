@@ -43,6 +43,6 @@
     <app-toolbar (draweClicked)="test()"></app-toolbar>
     <!-- style="margin-bottom: 3rem;" -->
     <router-outlet></router-outlet>
-    <app-footer *ngIf="utilityService.showMenuFooter | async"></app-footer>
+    <app-footer *ngIf="(utilityService.showHeaderFooter | async) == '' ? false : true"></app-footer>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -1,26 +1,28 @@
-<mat-toolbar class="drawer-toolbar" color="primary">
-  <div class="right-side">
-    <button mat-icon-button (click)="openDrawer()" *ngIf="utilityService.showMenuFooter | async">
-      <mat-icon>menu</mat-icon>
-    </button>
+<mat-toolbar class="drawer-toolbar" color="primary" *ngIf="(utilityService.showHeaderFooter | async) == 'map'? false : true">
+  <div class="drawer-toolbar" *ngIf="(utilityService.showHeaderFooter | async) == ''? false : true">
+    <div class="right-side">
+      <button mat-icon-button (click)="openDrawer()">
+        <mat-icon>menu</mat-icon>
+      </button>
 
-    <div class="company-info">
-      <img src="/assets/icons/unknown_user.svg" alt="">
-      <span style="margin-right: 5px; font-size: 16px;">{{ userTitle }}</span>
+      <div class="company-info">
+        <img src="/assets/icons/unknown_user.svg" alt="">
+        <span style="margin-right: 5px; font-size: 16px;">{{ userTitle }}</span>
+      </div>
     </div>
-  </div>
 
-  <div>
-    <button mat-icon-button>
-      <img src="/assets/icons/sync.svg" alt="">
-    </button>
+    <div>
+      <button mat-icon-button>
+        <img src="/assets/icons/sync.svg" alt="">
+      </button>
 
-    <button mat-icon-button>
-      <img src="/assets/icons/notification.svg" alt="">
-    </button>
+      <button mat-icon-button>
+        <img src="/assets/icons/notification.svg" alt="">
+      </button>
 
-    <button mat-icon-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
   </div>
 </mat-toolbar>

@@ -5,6 +5,7 @@ import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
 import { GenericIndexedDbService } from '../../services/indexed-db/generic-indexed-db.service';
 import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
 import { IPeople_Addresses, IPersonAddress } from '../../models/bazara/result-DTOs/IPeople_Addresses';
+import { UtilityService } from '../../services/common/utility.service';
 
 @Component({
   selector: 'app-map',
@@ -31,7 +32,9 @@ export class MapComponent implements OnInit {
     ]
   };
 
-  constructor(private genericIndexedDbService: GenericIndexedDbService) { }
+  constructor(private genericIndexedDbService: GenericIndexedDbService, private utilityService: UtilityService) {
+    this.utilityService.showHeaderFooter.next('map');
+   }
   
   ngOnInit(): void {
     this.initMap();

@@ -13,6 +13,7 @@ import { InvoiceComponent } from './shared/components/invoice/invoice.component'
 import { authGuard } from './core/services/authorizing/auth.guard';
 import { GetBazaraDataComponent } from './core/components/get-bazara-data/get-bazara-data.component';
 import { ProductComponent } from './core/components/product/product.component';
+import { MapComponent } from './core/components/map/map.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,7 +21,7 @@ const routes: Routes = [
   { path: 'people-list', component: PeopleListComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'basic-info', component: BasicInfoComponent, canActivate: [authGuard] },
-  // { path: 'update-info', component: UpdateInfoComponent, canActivate: [authGuard] },
+  { path: 'map', component: MapComponent, canActivate: [authGuard] },
   { path: 'update-info', component: GetBazaraDataComponent, canActivate: [authGuard] },
   { path: 'bank-list', component: BankListComponent, canActivate: [authGuard] },
   { path: 'product', component: ProductComponent, canActivate: [authGuard] },

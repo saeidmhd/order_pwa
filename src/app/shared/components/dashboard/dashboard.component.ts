@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UtilityService } from 'src/app/core/services/common/utility.service';
 import { CheckForUpdateService } from 'src/app/core/services/pwa_services/check-for-update.service';
 
 
@@ -20,8 +21,9 @@ export class DashboardComponent implements OnInit {
     this.manualHeight = window.innerHeight - 128;
   }
 
-  constructor(private router: Router, private checkForUpdate: CheckForUpdateService) {
+  constructor(private router: Router, private checkForUpdate: CheckForUpdateService, private utilityService: UtilityService) {
     this.manualHeight = window.innerHeight - 128;
+    this.utilityService.showHeaderFooter.next('dashboard');
   }
 
   ngOnInit(): void {

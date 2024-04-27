@@ -17,7 +17,7 @@ export class LoginComponent {
   isKeyboardOpen = false;
 
   constructor(private utilityService: UtilityService, private authService: AuthService) {
-    this.utilityService.showMenuFooter.next(false);
+    this.utilityService.showHeaderFooter.next('');
   }
 
   @HostListener('window:resize')
@@ -45,6 +45,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    console.log(this.utilityService.showHeaderFooter.value, 'value utility service');
+    
     this.isLoading = true; // Show loading indicator
     this.loginError = ''; // Clear any previous error message
 
