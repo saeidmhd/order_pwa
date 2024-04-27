@@ -15,8 +15,11 @@ export class ToolbarComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav: MatSidenav | undefined; // Add this line
   drawer: any;
+  userTitle!: string;
 
-  constructor(private location: Location, public utilityService: UtilityService) {}
+  constructor(private location: Location, public utilityService: UtilityService) {
+    this.userTitle = JSON.parse(localStorage.getItem('UserData')!).UserTitle;
+  }
 
   ngOnInit(): void {
   }
