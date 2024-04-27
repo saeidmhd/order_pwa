@@ -1,14 +1,31 @@
 <div class="footer-container">
-  <div class="footer-item" routerLink="/dashboard">
-    <mat-icon>home</mat-icon>
-    <p>خانه</p>
+  <div class="footer-container" *ngIf="(utilityService.showHeaderFooter | async) != 'map' ? true : false">
+    <div class="footer-item" routerLink="/dashboard">
+      <mat-icon>home</mat-icon>
+      <p>خانه</p>
+    </div>
+    <div class="footer-item" routerLink="/order-list">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="local_mall"></mat-icon>
+      <p>سفارش ها</p>
+    </div>
+    <div class="footer-item" routerLink="/checkout/cart">
+      <mat-icon>shopping_cart</mat-icon>
+      <p>سبد خرید</p>
+    </div>
   </div>
-  <div class="footer-item" routerLink="/order-list">
-    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="local_mall"></mat-icon>
-    <p>سفارش ها</p>
-  </div>
-  <div class="footer-item" routerLink="/checkout/cart">
-    <mat-icon>shopping_cart</mat-icon>
-    <p>سبد خرید</p>
+
+  <div class="footer-container" *ngIf="(utilityService.showHeaderFooter | async) == 'map' ? true : false">
+    <div class="footer-item" routerLink="/dashboard">
+      <img src="/assets/icons/pre_invoice.svg" alt="">
+      <p>پیش فاکتور</p>
+    </div>
+    <div class="footer-item" routerLink="/order-list">
+      <img src="/assets/icons/invoice.svg" alt="">
+      <p>فاکتور</p>
+    </div>
+    <div class="footer-item" routerLink="/checkout/cart">
+      <img src="/assets/icons/income.svg" alt="">
+      <p>دریافتی</p>
+    </div>
   </div>
 </div>
