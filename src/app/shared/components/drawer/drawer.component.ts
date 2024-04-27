@@ -18,16 +18,22 @@ export class DrawerComponent {
   onResize() {
     this.measureHeight();
   }
-
   
   constructor(private router: Router, public utilityService: UtilityService, private authService: AuthService) {
-    this.manualHeight = window.innerHeight - 64;
+    this.measureHeight();
   }
-  
+
   measureHeight() {
-    this.manualHeight = window.innerHeight - 64;
+    this.utilityService.showHeaderFooter.subscribe(res => {
+      if (res == 'login') {
+        this.manualHeight = window.innerHeight;
+      }
+      else {
+        this.manualHeight = window.innerHeight - 64;
+      }
+    });
   }
-  
+
   test(): void {
     this.drawer.open();
   }

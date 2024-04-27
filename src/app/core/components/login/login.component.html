@@ -1,6 +1,6 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
 
-<div class="login-container">
+<div class="login-container" [style.height.px]="manualHeight">
   <div class="login-box">
     <h3 class="login-title">ورود به سامانه</h3>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="form-container">

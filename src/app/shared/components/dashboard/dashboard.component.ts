@@ -16,18 +16,18 @@ export class DashboardComponent implements OnInit {
   onResize() {
     this.measureHeight();
   }
-  
+
   measureHeight() {
     this.manualHeight = window.innerHeight - 128;
   }
 
   constructor(private router: Router, private checkForUpdate: CheckForUpdateService, private utilityService: UtilityService) {
-    this.manualHeight = window.innerHeight - 128;
+    this.measureHeight();
     this.utilityService.showHeaderFooter.next('dashboard');
   }
 
   ngOnInit(): void {
-    
+
   }
 
   navigateToBasicInfo() {

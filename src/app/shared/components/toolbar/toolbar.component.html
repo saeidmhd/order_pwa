@@ -1,5 +1,5 @@
-<mat-toolbar class="drawer-toolbar" color="primary" *ngIf="(utilityService.showHeaderFooter | async) == 'map'? false : true">
-  <div class="drawer-toolbar" *ngIf="(utilityService.showHeaderFooter | async) == ''? false : true">
+<mat-toolbar class="drawer-toolbar" color="primary" *ngIf="(utilityService.showHeaderFooter | async) == 'map' ? false : true">
+  <div class="drawer-toolbar" *ngIf="(utilityService.showHeaderFooter | async) == 'login' ? false : true">
     <div class="right-side">
       <button mat-icon-button (click)="openDrawer()">
         <mat-icon>menu</mat-icon>
