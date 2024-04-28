@@ -4,26 +4,32 @@ import { Location } from '@angular/common';
 
 import { UtilityService } from '../../../core/services/common/utility.service';
 
-
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css'
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
 
   @Output() draweClicked = new EventEmitter<void>();
 
   @ViewChild('sidenav') sidenav: MatSidenav | undefined; // Add this line
   drawer: any;
-  userTitle!: string;
+  userTitle: string = '';
 
   constructor(private location: Location, public utilityService: UtilityService) {
-    this.userTitle = JSON.parse(localStorage.getItem('UserData')!).UserTitle;
+    this.findUserTitle();
+  }
+  
+  findUserTitle() {
+    this.utilityService.showHeaderFooter.subscribe(res => {
+      if (res == 'login')
+        this.userTitle = '';
+      else
+        this.userTitle = JSON.parse(localStorage.getItem('UserData')!)?.UserTitle!;
+    });
   }
 
-  ngOnInit(): void {
-  }
   openDrawer(): void {
     this.draweClicked.emit();
   }

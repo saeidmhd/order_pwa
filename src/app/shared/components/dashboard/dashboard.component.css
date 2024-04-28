@@ -34,13 +34,7 @@
 
 /* Your existing styles for .container and .section */
 .container {
-  /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid layout */
-  /* gap: 1rem;
-  padding: 1em; */
-
-  /* display: flex;
-  flex-direction: column; */
+  width: 100%;
 }
 
 .map-container {

@@ -26,3 +26,8 @@
   width: 200px;
   padding: 7px;
 }
+
+.company-info span {
+  margin-right: 5px; 
+  font-size: 16px;
+}

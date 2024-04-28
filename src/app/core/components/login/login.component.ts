@@ -55,10 +55,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log(this.utilityService.showHeaderFooter.value, 'value utility service');
-
-    this.isLoading = true; // Show loading indicator
-    this.loginError = ''; // Clear any previous error message
+    this.isLoading = true;
+    this.loginError = '';
 
     //clear visitor data from local storage 
     this.authService.logoutFromMobileOrdering();
