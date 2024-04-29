@@ -3,6 +3,7 @@ import { IBazaraPersonAddress } from "../bazara-DTOs/IBazaraPersonAddress";
 
 export interface IPeople_Addresses {
     personId: number,
+    name: string,
     personAddresses: IPersonAddress[]
 }
 

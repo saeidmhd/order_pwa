@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import * as L from "leaflet";
 
 import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
@@ -6,6 +7,7 @@ import { GenericIndexedDbService } from '../../services/indexed-db/generic-index
 import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
 import { IPeople_Addresses, IPersonAddress } from '../../models/bazara/result-DTOs/IPeople_Addresses';
 import { UtilityService } from '../../services/common/utility.service';
+import { PersonDetailComponent } from './person-detail/person-detail.component';
 
 @Component({
   selector: 'app-map',
@@ -25,17 +27,18 @@ export class MapComponent implements OnInit {
 
   data: any[] = [];
   people: IPeople_Addresses[] = [];
-  el: IPeople_Addresses = {
+  person: IPeople_Addresses = {
     personId: 0,
+    name: '',
     personAddresses: [
       // { address: '', latitude: 0, longitude: 0, mobile: 0, personAddressId: 0, title: '' }
     ]
   };
 
-  constructor(private genericIndexedDbService: GenericIndexedDbService, private utilityService: UtilityService) {
+  constructor(private genericIndexedDbService: GenericIndexedDbService, private utilityService: UtilityService, private bottomSheet: MatBottomSheet) {
     this.utilityService.showHeaderFooter.next('map');
-   }
-  
+  }
+
   ngOnInit(): void {
     this.initMap();
     this.getData();
@@ -80,11 +83,12 @@ export class MapComponent implements OnInit {
 
   compoundData(val: any) {
     val[0].forEach((perosn: IBazaraPerson) => {
-      this.el = { personId: 0, personAddresses: [] }
-      this.el.personId = perosn.PersonId;
+      // this.el = { personId: 0, name: '', personAddresses: [] }
+      this.person.personId = perosn.PersonId;
+      this.person.name = perosn.FirstName + ' ' + perosn.LastName;
       val[1].forEach((personAddress: IBazaraPersonAddress) => {
         if (personAddress.PersonId == perosn.PersonId) {
-          this.el.personAddresses.push({
+          this.person.personAddresses.push({
             address: personAddress.Address,
             latitude: personAddress.Latitude,
             longitude: personAddress.Longitude,
@@ -94,18 +98,34 @@ export class MapComponent implements OnInit {
           });
         }
       });
-      this.people.push(this.el);
+      this.people.push(this.person);
     });
     this.setDataOnMap(this.people);
   }
 
   setDataOnMap(people: IPeople_Addresses[]) {
     people.forEach(el => {
-      console.log(el);
       el.personAddresses.forEach(element => {
         let _marker = new L.Marker([element.latitude, element.longitude], this.iconOption).addTo(this.map);
-        
+
+        _marker.on('click', event => {
+          // console.log(element);
+          // console.log(this.person);
+          this.person.personAddresses.filter(x => x.personAddressId == element.personAddressId);
+          // this.person.personId = el.personId;
+          // this.person.name = el.name;
+          // this.person.personAddresses(element);
+            this.openBottomSheet(this.person);
+        });
       });
     });
+  }
+
+  openBottomSheet(person: IPeople_Addresses) {
+    const config: MatBottomSheetConfig = {data: { person }
+      // , panelClass: 'bottomsheet-map'
+    }; 
+    const bottomSheetReef = this.bottomSheet.open(PersonDetailComponent, config);
+    
   }
 }
