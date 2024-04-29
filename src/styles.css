@@ -1,18 +1,20 @@
 @import url(fontiran.css);
 @import "~leaflet/dist/leaflet.css";
- /* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
+
+/* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
 body {
-	font-family: dana  !important;
+	font-family: dana !important;
 	direction: rtl;
 	margin: 0;
 }
+
 * {
 	font-family: dana !important;
 	direction: rtl;
 }
 
 body {
-	font-family: dana  !important;
+	font-family: dana !important;
 	direction: rtl;
 	/* background-color: #cdcdcd; */
 	margin: 0;
@@ -23,16 +25,23 @@ body {
 	height: 100%;
 }
 
-.material-icons{
-    font-family: 'Material Icons' !important;
+.material-icons {
+	font-family: 'Material Icons' !important;
 }
 
-.mat-toolbar.mat-primary  {
+.mat-toolbar.mat-primary {
+	border-top: white;
 	background: #369139 !important;
 }
 
+.mdc-linear-progress__bar-inner {
+	border-color: #369139 !important;
+}
 
-
+/***** input outline 
+/* ::ng-deep .mdc-text-field--focused {
+  border: 2px solid #369139 !important;
+} */
 
 /* @media only screen and (min-width: 600px) {
 	body {
@@ -40,4 +49,3 @@ body {
 	  margin: 0 auto;
 	}
   } */
-  
