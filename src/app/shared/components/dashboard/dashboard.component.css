@@ -35,27 +35,13 @@
 /* Your existing styles for .container and .section */
 .container {
   width: 100%;
-}
-
-.map-container {
-  height: 100%;
-  width: 100%;
-}
-
-.map-below {
-  /* height: 50vh; */
+  background: linear-gradient(#E2E4E6 0%,#E2E4E6 30%,#F5F6F7 30%,#F5F6F7 100%);
   display: flex;
-  justify-content: center;
-  max-width: 100%;
-  overflow-x: scroll;
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
-  scrollbar-color: gray transparent;
-  padding: 1.5rem 0;
-  background-color: #787878;
+  flex-direction: column;
+  align-items: center;
 }
 
-.section {
+/* .section {
   width: 250px;
   padding: 1.5rem;
   margin-left: 1.5rem;
@@ -68,7 +54,7 @@
 .section:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
+} */
 
 h2 {
   margin-bottom: 0.5rem;
@@ -104,4 +90,9 @@ button:hover {
 .nav-item {
   display: flex;
   align-items: center;
+}
+
+.section {
+  width: 90%; 
+  margin-top: 25px;
 }

@@ -1,10 +1,16 @@
 <div class="container" [style.height.px]="manualHeight">
-  <div class="map-container">
-    <!-- <app-map></app-map> -->
+  <div class="section">
+    <app-mini-report></app-mini-report>
+  </div>
+  <div class="section">
+    <app-operation-section></app-operation-section>
+  </div>
+  <div class="section">
+    <app-mission></app-mission>
   </div>
 
   <!-- <div class="map-below"> -->
-    <!-- <div class="section" style="background-color: #f0f0f0;">
+  <!-- <div class="section" style="background-color: #f0f0f0;">
       <h2>بروزرسانی اطلاعات</h2>
       <p>اینجا برای بروزرسانی اطلاعات</p>
       <button (click)="navigateToUpdateInfo()">برو به بروزرسانی اطلاعات</button>

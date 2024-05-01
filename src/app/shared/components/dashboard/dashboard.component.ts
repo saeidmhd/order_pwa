@@ -9,7 +9,7 @@ import { CheckForUpdateService } from 'src/app/core/services/pwa_services/check-
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
   manualHeight!: number;
   @HostListener('window:resize', ['$event'])
@@ -26,23 +26,20 @@ export class DashboardComponent implements OnInit {
     this.utilityService.showHeaderFooter.next('dashboard');
   }
 
-  ngOnInit(): void {
+  // ************** transfer to other component
+  // navigateToBasicInfo() {
+  //   this.router.navigate(['/basic-info']);
+  // }
 
-  }
+  // navigateToOperations() {
+  //   this.router.navigate(['/invoice']);
+  // }
 
-  navigateToBasicInfo() {
-    this.router.navigate(['/basic-info']);
-  }
+  // navigateToReports() {
+  //   this.router.navigate(['/order-list']);
+  // }
 
-  navigateToOperations() {
-    this.router.navigate(['/invoice']);
-  }
-
-  navigateToReports() {
-    this.router.navigate(['/order-list']);
-  }
-
-  navigateToUpdateInfo() {
-    this.router.navigate(['/update-info']);
-  }
+  // navigateToUpdateInfo() {
+  //   this.router.navigate(['/update-info']);
+  // }
 }

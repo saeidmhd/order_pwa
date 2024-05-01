@@ -55,8 +55,10 @@ import { MaterialModule } from './modules/material/material.module';
 import { CommonModule } from '@angular/common';
 import { ProductComponent } from './core/components/product/product.component';
 import { ProductCardComponent } from './core/components/product/product-card/product-card.component';
-
-
+import { MiniReportComponent } from './shared/components/dashboard/mini-report/mini-report.component';
+import { MissionComponent } from './shared/components/dashboard/mission/mission.component';
+import { OperationSectionComponent } from './shared/components/dashboard/operation-section/operation-section.component';
+import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,11 @@ import { ProductCardComponent } from './core/components/product/product-card/pro
     InvoiceComponent,
     FooterComponent,
     DrawerComponent,
-    MapComponent
+    MapComponent,
+    MiniReportComponent,
+    MissionComponent,
+    OperationSectionComponent,
+    MissionCardComponent
   ],
   exports: [
     FooterComponent
