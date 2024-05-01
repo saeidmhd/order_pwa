@@ -21,6 +21,10 @@ body {
 	/* height: 100dvh; */
 }
 
+::-webkit-scrollbar {
+	scrollbar-width: 2px;
+}
+
 .mat-drawer-container {
 	height: 100%;
 }
