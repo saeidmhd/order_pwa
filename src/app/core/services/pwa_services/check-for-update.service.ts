@@ -4,11 +4,12 @@ import { SwUpdate } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { UpdateConfirmationDialogComponent } from 'src/app/shared/components/update-confirmation-dialog/update-confirmation-dialog.component';
+import { UtilityService } from '../common/utility.service';
 
 @Injectable({ providedIn: 'root' })
 export class CheckForUpdateService {
 
-  constructor(appRef: ApplicationRef, updates: SwUpdate, private dialog: MatDialog) {
+  constructor(appRef: ApplicationRef, updates: SwUpdate, private dialog: MatDialog, utilityService: UtilityService) {
     // Allow the app to stabilize first, before starting
     // polling for updates with `interval()`.
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
@@ -25,7 +26,9 @@ export class CheckForUpdateService {
             console.log(result)
             if (result) {
               document.location.reload();
-              console.log('Update done!');
+            }
+            else {
+              utilityService.updateExist.next(true);
             }
           });
         }

@@ -11,6 +11,7 @@ import { UtilityService } from '../../../core/services/common/utility.service';
 })
 export class ToolbarComponent {
 
+  msgNumber: number = 0;
   @Output() draweClicked = new EventEmitter<void>();
 
   @ViewChild('sidenav') sidenav: MatSidenav | undefined; // Add this line
@@ -19,8 +20,9 @@ export class ToolbarComponent {
 
   constructor(private location: Location, public utilityService: UtilityService) {
     this.findUserTitle();
+    this.detectMessageNumber();
   }
-  
+
   findUserTitle() {
     this.utilityService.showHeaderFooter.subscribe(res => {
       if (res == 'login')
@@ -30,8 +32,18 @@ export class ToolbarComponent {
     });
   }
 
+  detectMessageNumber() {
+    this.utilityService.updateExist.subscribe(res => {
+      this.msgNumber = ++this.msgNumber;
+    });
+  }
+
   openDrawer(): void {
     this.draweClicked.emit();
+  }
+
+  updatingSoftware() {
+    window.location.reload();
   }
 
   goBack(): void {

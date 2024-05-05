@@ -7,7 +7,5 @@ import { BehaviorSubject } from 'rxjs';
 export class UtilityService {
 
   showHeaderFooter: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
-  constructor() { }
-
+  updateExist: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 }
