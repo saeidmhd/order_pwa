@@ -15,15 +15,25 @@ export class LoginComponent {
   loginError: string = '';
   isLoading: boolean = false;
   isKeyboardOpen = false;
+  manualHeight!: number;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.measureHeight();
+    // this.adjustLayout();
+  }
+
+  measureHeight() {
+    this.manualHeight = window.innerHeight - 67;
+  }
 
   constructor(private utilityService: UtilityService, private authService: AuthService) {
-    this.utilityService.showMenuFooter.next(false);
+    this.measureHeight();
+    this.utilityService.showHeaderFooter.next('login');
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    this.adjustLayout();
-  }
+  // @HostListener('window:resize')
+  // onResize() {
+  // }
 
   adjustLayout() {
     // Adjust your layout based on whether the keyboard is open
@@ -45,8 +55,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.isLoading = true; // Show loading indicator
-    this.loginError = ''; // Clear any previous error message
+    this.isLoading = true;
+    this.loginError = '';
 
     //clear visitor data from local storage 
     this.authService.logoutFromMobileOrdering();

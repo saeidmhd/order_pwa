@@ -1,10 +1,69 @@
 .drawer-toolbar {
   display: flex;
-  justify-content: space-between; /* This will position items at both ends */
-  align-items: center; /* Align items vertically */
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  padding: 0;
+  width: 100%;
 }
 
 .drawer-toolbar button {
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.right-side {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.company-info {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #88AA8B;
+  border-radius: 50px;
+  width: 200px;
+  padding: 7px;
+}
+
+.company-info span {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.message-alert-container {
+  padding: 5px 15px;
+  font-weight: 400;
+  font-size: small;
+}
+
+.update-software-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.update-alert-container span {
+  flex-wrap: wrap;
+}
+
+.btn-update-software {
+  width: 100px;
+  height: 30px;
+}
+
+.no-message {
+  padding: 5px 15px;
+  font-weight: 400;
+  font-size: small;
+}
+
+mat-divider {
+  margin: 10px 0 !important;
+}
+
+@media (max-width: 768px) {
+  .company-info {
+    display: none;
+  }
 }

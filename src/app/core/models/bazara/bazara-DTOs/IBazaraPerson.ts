@@ -1,4 +1,6 @@
 export interface IBazaraPerson {    
     VisitorId: string,
-    PersonId: number
+    PersonId: number,
+    FirstName: string,
+    LastName: string
 }

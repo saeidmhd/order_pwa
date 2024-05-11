@@ -6,8 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UtilityService {
 
-  showMenuFooter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
-  constructor() { }
-
+  showHeaderFooter: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  updateExist: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 }

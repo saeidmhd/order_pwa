@@ -36,7 +36,7 @@ export class AuthService {
           loginData.push(res.Data!)
           this.GenericIndexedDbService.addOrEdit('Login', loginData, res.Data!.VisitorId);
 
-          this.utilityService.showMenuFooter.next(true);
+          this.utilityService.showHeaderFooter.next('dashboard');
 
           this.isLoggedIn.next(true);
 

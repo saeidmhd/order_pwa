@@ -1,8 +1,56 @@
-<mat-toolbar class="drawer-toolbar" color="primary">
-  <button mat-icon-button (click)="openDrawer()" *ngIf="utilityService.showMenuFooter | async">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <button mat-icon-button (click)="goBack()"  *ngIf="utilityService.showMenuFooter | async">
-    <mat-icon>arrow_back</mat-icon>
-  </button> 
+<mat-toolbar class="drawer-toolbar" color="primary"
+  *ngIf="(utilityService.showHeaderFooter | async) == 'map' ? false : true">
+  <div class="drawer-toolbar" *ngIf="(utilityService.showHeaderFooter | async) == 'login' ? false : true">
+    <div class="right-side">
+      <button mat-icon-button (click)="openDrawer()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class="company-info">
+        <img src="/assets/icons/unknown_user.svg" alt="">
+        <span>{{ userTitle }}</span>
+      </div>
+    </div>
+
+    <div>
+      <button mat-icon-button>
+        <img src="/assets/icons/sync.svg" alt="">
+      </button>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <div [matBadge]="msgNumber > 0 ? msgNumber : null" matBadgeColor="warn">
+          <img src="/assets/icons/notification.svg" alt="">
+        </div>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <div *ngIf="msgNumber > 0; else elseCondition" class="message-alert-container">
+          <div class="update-software-container">
+            <span>آپدیت جدید نرم افزار را دریافت کنید.</span>
+            <button class="btn-update-software" (click)="updatingSoftware()">
+              بروز رسانی
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <div>
+            پیغام های دیگر - یک
+          </div>
+          <mat-divider></mat-divider>
+          <div>
+            پیغام های دیگر - دو
+          </div>
+        </div>
+
+        <ng-template #elseCondition>
+          <div class="no-message">
+            پیام جدیدی موجود نیست
+          </div>
+        </ng-template>
+      </mat-menu>
+
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-toolbar>

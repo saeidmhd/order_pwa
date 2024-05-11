@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25.579" height="27" viewBox="0 0 25.579 27">
+  <g id="Group_77" data-name="Group 77" transform="translate(-47 -263)">
+    <g id="icons8_card_wallet_5" transform="translate(44 261)">
+      <path id="Path_119" data-name="Path 119" d="M24.316,7.684H15.789V2H10.105V7.684H7.263A4.263,4.263,0,0,0,3,11.947V24.737A4.263,4.263,0,0,0,7.263,29H24.316a4.263,4.263,0,0,0,4.263-4.263V11.947A4.263,4.263,0,0,0,24.316,7.684Z" transform="translate(0 0)" fill="#626c7b" opacity="0.35"/>
+      <circle id="Ellipse_27" data-name="Ellipse 27" cx="2" cy="2" r="2" transform="translate(21.579 16)" fill="#626c7b"/>
+      <path id="Path_120" data-name="Path 120" d="M6,4.842V7.684h4.263V2H8.842A2.841,2.841,0,0,0,6,4.842Z" transform="translate(1.263 0)" fill="#626c7b"/>
+      <path id="Path_121" data-name="Path 121" d="M11,7.684h7.105V4.842A2.841,2.841,0,0,0,15.263,2H11Z" transform="translate(3.368 0)" fill="#626c7b"/>
+    </g>
+    <path id="Path_122" data-name="Path 122" d="M6.113,10.123a1.113,1.113,0,0,1-.787-1.9l4.9-4.9A1.113,1.113,0,1,1,11.8,4.9L6.9,9.8A1.108,1.108,0,0,1,6.113,10.123Z" transform="translate(68.027 278.881) rotate(135)" fill="#626c7b"/>
+    <path id="Path_123" data-name="Path 123" d="M6.822,15.681H3.445A.445.445,0,0,1,3,15.235V11.858a.445.445,0,0,1,.76-.315l3.377,3.377A.445.445,0,0,1,6.822,15.681Z" transform="translate(70.543 282.967) rotate(135)" fill="#626c7b"/>
+  </g>
+</svg>

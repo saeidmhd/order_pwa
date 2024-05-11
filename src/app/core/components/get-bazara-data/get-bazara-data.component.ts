@@ -6,6 +6,7 @@ import { BazaraService } from '../../services/bazara/bazara.service';
 import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
 import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
 import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
+import { IBazaraVisitorPerson } from '../../models/bazara/bazara-DTOs/IBazaraVisitorPerson';
 import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
 import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
@@ -34,7 +35,7 @@ export class GetBazaraDataComponent implements OnInit {
 
   async fetchAllData() {
     if (this.terminate == false) {
-      // await this.fetchPeople_VisitorPeople();
+      await this.fetchPeople_VisitorPeople();
     }
     if (this.terminate == false) {
       await this.fetchPersonAddresses();
@@ -58,45 +59,32 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPeople_VisitorPeople(): Promise<void> {
     try {
-      // await firstValueFrom(this.peopleService.getPeople());
-      // this.peopleReceived = true;
-      // Store people in IndexedDB
-
       this.maxRowVersionModel.fromPersonVersion = await this.indexedDbService.getMaxRowVersion('Person');
       this.maxRowVersionModel.fromVisitorPersonVersion = await this.indexedDbService.getMaxRowVersion('VisitorPerson');
 
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            const visitorId = localStorage.getItem(('VisitorId'))!;
             let people: IBazaraPerson[] = res.Data.Objects.People;
-            // let visitorPeople: IBazaVisi
             people.forEach(ele => {
-              ele.VisitorId = visitorId
+              const key: IDBValidKey = [+this.visitorId, ele.PersonId];
+              this.indexedDbService.addOrEdit('Person', ele, key);
             });
 
-            // this.genericIndexedDbService.insertingToDb('Person', people);
+            let VisitorPeople: IBazaraVisitorPerson[] = res.Data.Objects.VisitorPeople;
+            VisitorPeople.forEach(ele => {
+              const key: IDBValidKey = [+this.visitorId, ele.VisitorPersonId];
+              this.indexedDbService.addOrEdit('VisitorPerson', ele, key);
+            })
           }
         },
         error: (err) => {
           console.log(err);
         }
       });
-
     } catch (error) {
       console.error('Error fetching people:', error);
       // if (error.Message == 'Unauthorized')
-      this.terminate = true;
-    }
-  }
-
-  private async fetchVisitorPeople(): Promise<void> {
-    try {
-      // await firstValueFrom(this.visitorPeopleService.getVisitorPeople());
-      // await this.visitorPeopleService.getVisitorPeople();
-      // this.visitorPeopleReceived = true;
-    } catch (error) {
-      console.error('Error fetching visitor people:', error);
       this.terminate = true;
     }
   }
@@ -109,7 +97,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
-            
+
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PersonAddressId];
@@ -139,7 +127,7 @@ export class GetBazaraDataComponent implements OnInit {
           if (res.Result) {
             let products: IBazaraProduct[] = res.Data.Objects.Products;
             let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
-            
+
             if (products.length > 0) {
               products.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductId];
@@ -174,7 +162,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
-            
+
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductDetailId];
@@ -202,7 +190,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
-            
+
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PhotoGalleryId];
@@ -230,7 +218,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
-            
+
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PictureId];
@@ -258,7 +246,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
-            
+
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductDetailStoreAssetId];

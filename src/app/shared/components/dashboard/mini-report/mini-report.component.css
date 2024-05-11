@@ -1,0 +1,27 @@
+.aggregate-report {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.mat-expansion-panel-header {
+    height: 100px;
+}
+
+.header-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.extended-panel {
+    display: flex; 
+    justify-content: space-around; 
+    margin: 25px 0;
+}
+
+mat-divider {
+    margin: 0 5px;
+}

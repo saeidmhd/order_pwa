@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25.58" height="27" viewBox="0 0 18 19">
+  <g id="Group_2" data-name="Group 2" transform="translate(23734 23393)">
+    <g id="icons8_card_wallet_4" transform="translate(-23737 -23395)">
+      <path id="Path_19" data-name="Path 19" d="M18,6H12V2H8V6H6A3,3,0,0,0,3,9v9a3,3,0,0,0,3,3H18a3,3,0,0,0,3-3V9A3,3,0,0,0,18,6Z" fill="#626c7b" opacity="0.35"/>
+      <circle id="Ellipse_12" data-name="Ellipse 12" cx="1.5" cy="1.5" r="1.5" transform="translate(16 12)" fill="#626c7b"/>
+      <path id="Path_20" data-name="Path 20" d="M6,4V6H9V2H8A2,2,0,0,0,6,4Z" fill="#626c7b"/>
+      <path id="Path_21" data-name="Path 21" d="M11,6h5V4a2,2,0,0,0-2-2H11Z" fill="#626c7b"/>
+    </g>
+    <g id="icons8_enlarge" transform="translate(-23738.941 -23387.777) rotate(-45)">
+      <path id="Path_23" data-name="Path 23" d="M6.375,10.586,3.536,13.425l-.768-.768a.442.442,0,0,0-.755.31L2,15.76a.639.639,0,0,0,.642.642l2.792-.013a.442.442,0,0,0,.31-.755l-.768-.768,2.839-2.839Z" transform="translate(0)" fill="#626c7b"/>
+    </g>
+  </g>
+</svg>
