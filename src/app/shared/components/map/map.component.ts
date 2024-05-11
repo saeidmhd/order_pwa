@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import * as L from "leaflet";
 
-import { IBazaraPerson } from '../../models/bazara/bazara-DTOs/IBazaraPerson';
-import { IBazaraPersonAddress } from '../../models/bazara/bazara-DTOs/IBazaraPersonAddress';
-import { IPeople_Addresses, IPersonAddress } from '../../models/bazara/result-DTOs/IPeople_Addresses';
-import { UtilityService } from '../../services/common/utility.service';
+import { IBazaraPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraPerson';
+import { IBazaraPersonAddress } from '../../../core/models/bazara/bazara-DTOs/IBazaraPersonAddress';
+import { IPeople_Addresses, IPersonAddress } from '../../../core/models/bazara/result-DTOs/IPeople_Addresses';
+import { UtilityService } from '../../../core/services/common/utility.service';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
-import { IndexedDbService } from '../../services/indexed-db/indexed-db.service';
+import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
 
 @Component({
   selector: 'app-map',

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IndexedDbService } from '../../services/indexed-db/indexed-db.service';
-import { IBazaraProduct } from '../../models/bazara/bazara-DTOs/IBazaraProduct';
-import { IBazaraProductDetail } from '../../models/bazara/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraVisitorProduct } from '../../models/bazara/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraPicture } from '../../models/bazara/bazara-DTOs/IBazaraPicture';
-import { IBazaraPhotoGallery } from '../../models/bazara/bazara-DTOs/IBazaraPhotoGallery';
-import { IBazaraProductDetailStoreAsset } from '../../models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
+import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
+import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
+import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
+import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
+import { IBazaraPhotoGallery } from '../../../core/models/bazara/bazara-DTOs/IBazaraPhotoGallery';
+import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 
 @Component({
   selector: 'app-product',

@@ -2,10 +2,11 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+    padding-bottom: 15px; 
 }
 
 .mat-expansion-panel-header {
-    height: 100px;
+    height: 150px;
 }
 
 .header-panel {
