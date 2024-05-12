@@ -59,6 +59,7 @@ import { MiniReportComponent } from './shared/components/dashboard/mini-report/m
 import { MissionComponent } from './shared/components/dashboard/mission/mission.component';
 import { OperationSectionComponent } from './shared/components/dashboard/operation-section/operation-section.component';
 import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
+import { RialCurrencyPipe } from './rial-currency.pipe';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { MissionCardComponent } from './shared/components/dashboard/mission/miss
     MiniReportComponent,
     MissionComponent,
     OperationSectionComponent,
-    MissionCardComponent
+    MissionCardComponent,
+    RialCurrencyPipe
   ],
   exports: [
     FooterComponent

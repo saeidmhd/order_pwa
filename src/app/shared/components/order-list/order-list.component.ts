@@ -6,6 +6,7 @@ import { Person } from '../../../core/models/old/Person';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 import { Order } from 'src/app/core/models/old/order';
 import * as moment from 'jalali-moment';
+import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
 
 @Component({
@@ -27,28 +28,31 @@ export class OrderListComponent implements OnInit {
     );
   }
 
-  constructor(
-    // private indexedDbService: IndexedDbService
-    ) { }
+  constructor(private indexedDbService: IndexedDbService) { }
 
   ngOnInit(): void {
     this.isLoading = true;
-    // Promise.all([
-    //   this.indexedDbService.getOrders(),
-    //   this.indexedDbService.getOrderDetails(),
-    //   this.indexedDbService.getPeople()
-    // ]).then(([orders, orderDetails, people]) => {
-    //   this.orders = orders.sort((a, b) => new Date(b.OrderDate).getTime() - new Date(a.OrderDate).getTime());
-    //   this.orderDetails = orderDetails;
-    //   this.people = people;
-    //   this.isLoading = false;
-    // });
-  }
+    Promise.all([
+      this.indexedDbService.getAllData<Order>("Order"),
+      this.indexedDbService.getAllData<OrderDetail>("OrderDetail"),
+      this.indexedDbService.getAllData<Person>("Person")
+    ]).then(([orders, orderDetails, people]) => {
+      console.log();
+      
+      this.orders = orders.sort((a, b) => new Date(b.OrderDate).getTime() - new Date(a.OrderDate).getTime());
+      this.orderDetails = orderDetails;
+      this.people = people;
+      this.isLoading = false;
+    }).catch(error => {
+      console.error('Error getting data from IndexedDB:', error);
+      // Handle the error appropriately (e.g., display a user-friendly message)
+    });
+}
 
-  getOrderSum(order: Order): string {
+
+  getOrderSum(order: Order): number {
     const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
-    const sum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Count1 * detail.Price), 0);
-    return sum.toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال';
+    return relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0);
   }
 
 
