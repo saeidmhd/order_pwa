@@ -3,32 +3,21 @@
 
   <form [formGroup]="invoiceForm" mat-dialog-content>
 
-    <!-- Select Person Button -->
-    <button mat-button color="primary" (click)="selectPerson()">
-      <span *ngIf="selectedCustomer">تغییر مشتری</span>
-      <span *ngIf="!selectedCustomer">انتخاب مشتری</span>
-    </button>
+    <!-- Customer Selection -->
+    <mat-form-field>
+      <mat-label>مشتری</mat-label>
+      <mat-select formControlName="customer">
+        <mat-option *ngFor="let person of people" [value]="person">{{ person.FirstName }} {{ person.LastName }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <!-- Display Selected Person -->
-    <div *ngIf="selectedCustomer" class="selected-person">
-      <p>مشتری: {{ selectedCustomer.FirstName }} {{ selectedCustomer.LastName }}</p>
-    </div>
-
-    <!-- Select Product Button -->
-  <button mat-button color="primary" (click)="selectProducts()">
-    <span *ngIf="selectedProducts && selectedProducts.length > 0">تغییر محصول</span>
-    <span *ngIf="!selectedProducts || selectedProducts.length === 0">انتخاب محصول</span>
-  </button>
-
-  <!-- Display Selected Products -->
-  <div *ngIf="selectedProducts && selectedProducts.length > 0" class="selected-products">
-    <p>محصولات انتخابی:</p>
-    <ul>
-      <li *ngFor="let product of selectedProducts">
-        {{ product.Name }} - {{ product.quantity }}
-      </li>
-    </ul>
-  </div>
+    <!-- Product Selection -->
+    <mat-form-field>
+      <mat-label>محصول</mat-label>
+      <mat-select formControlName="product" (selectionChange)="updateProductPrice()">
+        <mat-option *ngFor="let product of products" [value]="product">{{ product.Name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <!-- Price Selection -->
     <mat-form-field>
@@ -47,46 +36,50 @@
     <!-- Add Item Button -->
     <div class="form-group row">
       <div class="col-sm-10 offset-sm-2">
-        <button mat-raised-button color="primary" type="button" (click)="addItemToInvoice()">اضافه کردن مورد</button>
+        <button mat-raised-button color="primary" type="button" (click)="addItemToInvoice()">افزودن به سبد خرید</button>
       </div>
     </div>
 
   </form>
 
   <!-- Invoice Items -->
-  <div *ngIf="invoiceItems.length > 0">
-    <h3>موارد فاکتور</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>محصول</th>
-          <th>تعداد</th>
-          <th>قیمت</th>
-          <th>عملیات</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of invoiceItems; let i = index">
-          <td>{{ getProductName(item.ProductDetailId) }}</td>
-          <td>{{ item.Count1 }}</td>
-          <td>{{ item.Price }}</td>
-          <td><button class="btn btn-danger" (click)="removeItemFromInvoice(i)">حذف</button></td>
-        </tr>
-      </tbody>
-    </table>
+ <!-- Invoice Items -->
+ <div *ngIf="invoiceItems.length > 0">
+  <h3>موارد فاکتور</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>محصول</th>
+        <th>تعداد</th>
+        <th>قیمت</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of invoiceItems; let i = index">
+        <td class="align-right">{{ getProductName(item.ProductDetailId) }}</td>
+        <td class="align-right">{{ item.Count1 }}</td>
+        <td class="align-right">{{ item.Price }}</td>
+        <td><button class="btn btn-danger" (click)="removeItemFromInvoice(i)">حذف</button></td>
+      </tr>
+    </tbody>
+</table>
 
-    <!-- Subtotal, Tax, and Total -->
-    <div>
-      <p>جمع جزء: {{ subtotal | currency }}</p>
-      <p>مالیات ({{ (taxRate * 100) }}%): {{ subtotal * taxRate | currency }}</p>
-      <p>جمع کل: {{ total | currency }}</p>
-    </div>
-  </div>
+
+  <!-- Subtotal, Tax, and Total -->
+  <div class="total-section">
+    <p>جمع جزء: <span>{{ subtotal | rialCurrency }}</span></p>
+    <p>مالیات ({{ (taxRate * 100) }}%): <span>{{ subtotal * taxRate | rialCurrency }}</span></p>
+    <p>جمع کل: <span>{{ total | rialCurrency }}</span></p>
+</div>
+
+
+</div>
 
   <!-- Submit and Reset Buttons -->
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
-      <button mat-raised-button color="accent" (click)="submitInvoice()">ارسال فاکتور</button>
+      <button mat-raised-button color="accent" (click)="submitInvoice()">ثبت فاکتور</button>
       <button mat-raised-button color="warn" (click)="resetInvoice()">بازنشانی</button>
     </div>
   </div>

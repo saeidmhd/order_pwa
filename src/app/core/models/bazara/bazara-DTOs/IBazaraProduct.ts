@@ -28,7 +28,7 @@ export interface IBazaraProduct {
     RowVersion: number;
     ProductCategoryClientId: number;
     ProductCategoryCode: number;
-    price?: string;
+    price: number;
     count1?: number;
     count2?: number;
     quantity: number;
