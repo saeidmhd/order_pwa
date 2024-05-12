@@ -26,7 +26,7 @@ import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
 export class GetBazaraDataComponent implements OnInit {
 
   terminate: boolean = false;
-  dataStatus!: ReceivedBazaraData;
+  dataStatus: ReceivedBazaraData = {};
   maxRowVersionModel: IGetBazaraData = {};
   visitorId = localStorage.getItem(('VisitorId'))!;
 
@@ -39,24 +39,31 @@ export class GetBazaraDataComponent implements OnInit {
   async fetchAllData() {
     if (this.terminate == false) {
       await this.fetchPeople_VisitorPeople();
+      this.dataStatus.visitorPeopleReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPersonAddresses();
+      this.dataStatus.personAddressesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProduct_VisitorProduct();
+      this.dataStatus.visitorProductReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProductDetail();
+      this.dataStatus.productDetailsReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPicture();
+      this.dataStatus.picturesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPhotoGallery();
+      this.dataStatus.photoGalleriesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
+      this.dataStatus.productDetailStoreAssetsReceived = true;
     } 
       if (this.terminate == false) {
       await this.fetchBank();
