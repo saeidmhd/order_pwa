@@ -1,73 +1,103 @@
 .container {
-    margin: 0 auto;
-    max-width: 800px;
-  }
-  
-  mat-form-field {
-    width: 100%;
-  }
-  
-  .form-group {
-    margin: 20px 0;
-  }
-  
-  .mat-elevation-z8 {
-    overflow: auto;
-    max-height: 500px;
-  }
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 24px;
-  }
-  
-  .form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .table {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .btn-primary {
-    margin-right: 10px;
-  }
-  
-  .btn-secondary {
-    margin-left: 10px;
-  }
-  
-  /* Style for even and odd rows in the table */
-  .table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .table tbody tr:hover {
-    background-color: #e2e2e2;
-  }
+  margin: 0 auto;
+  max-width: 800px;
+}
 
-  
+mat-form-field {
+  width: 100%;
+}
+
+.form-group {
+  margin: 20px 0;
+}
+
+.mat-elevation-z8 {
+  overflow: auto;
+  max-height: 500px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+.form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  margin-right: 10px;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+}
+
+/* Style for even and odd rows in the table */
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+  background-color: #e2e2e2;
+}
+.total-section {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.total-section p {
+  margin: 5px 0;
+}
+
+.total-section span {
+  font-weight: bold;
+  color: #007bff; /* Change color as needed */
+}
+.table {
+width: 100%;
+margin-top: 20px;
+}
+
+.table th,
+.table td {
+text-align: right;
+padding: 8px; /* Adjust padding as needed */
+}
+
+.align-right {
+text-align: right;
+}
+
+

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbManagementService } from './indexedb-management.service';
+import { Person } from '../../models/old/Person';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndexedDbService {
+  personStoreName: any;
 
   constructor(private indexedDbManagementService: IndexedDbManagementService) { }
 
@@ -24,7 +26,8 @@ export class IndexedDbService {
 
     // // Use a key range to get all storeData for the specific visitorId
     // const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-    const keyRange = IDBKeyRange.bound([this.getVisitorId(), 0], [this.getVisitorId(), 2147483647]);
+    const max_int = Number.MAX_SAFE_INTEGER
+    const keyRange = IDBKeyRange.bound([this.getVisitorId(), 0], [this.getVisitorId(), max_int]);
 
     return new Promise<T[]>((resolve, reject) => {
       const getRequest = objectStore.getAll(keyRange);

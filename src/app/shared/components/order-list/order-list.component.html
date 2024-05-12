@@ -34,7 +34,7 @@
         <mat-card-subtitle>تاریخ فاکتور : {{ getFormattedPersianDate(order.OrderDate) }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>مبلغ فاکتور: {{ getOrderSum(order) }}</p>
+        <p>مبلغ فاکتور: {{ getOrderSum(order) | rialCurrency }}</p>
       </mat-card-content>
       <!-- Order Detail Button -->
       <button mat-raised-button color="primary" [routerLink]="['/order-detail', order.OrderId]"

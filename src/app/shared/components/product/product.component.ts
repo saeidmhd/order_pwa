@@ -43,7 +43,7 @@ export class ProductComponent implements OnInit {
         const photoGallery = val[4].find((pg: IBazaraPhotoGallery) => pg.ItemCode === element.ProductId);
        
         if (!visitorProduct.Deleted) {
-          element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]).toLocaleString('fa-IR', { style: 'decimal' }) + ' ریال ';
+          element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]);
           element.count1 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
           element.count2 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
 
