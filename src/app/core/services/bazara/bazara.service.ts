@@ -4,10 +4,10 @@ import { Observable, of } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 
 import { environment } from 'src/environments/environment.development';
-import { IApiResult } from '../../models/bazara/get-all-data-DTOs/IApiResult';
-import { IGetBazaraData } from '../../models/bazara/get-all-data-DTOs/IGetBazaraData';
+import { ApiResult } from '../../models/get-all-data/GetDataResponse';
+import { GetDataBody } from '../../models/get-all-data/GetDataBody';
 
-import { LoginBody, LoginResult } from '../../models/bazara/bazara-DTOs/Login';
+import { LoginBody, LoginResult } from '../../models/models/Login';
 
 @Injectable({
   providedIn: 'root'
@@ -38,15 +38,15 @@ export class BazaraService {
     return this.http.post<LoginResult>(environment.apiUrl + '/sync/login', requestBody);
   }
 
-  getBazaraData(model: IGetBazaraData): Observable<IApiResult> {    
-    return this.http.post<IApiResult>(environment.apiUrl + '/sync/GetAllData', model, {
+  getBazaraData(model: GetDataBody): Observable<ApiResult> {    
+    return this.http.post<ApiResult>(environment.apiUrl + '/sync/GetAllData', model, {
       headers: {'Authorization': localStorage.getItem('UserToken')!,
       'Accept': 'application/json',
       'Content-Type': 'application/json-patch+json'}
     });
   }
 
-  saveBazaraData(model: IGetBazaraData) {
+  saveBazaraData(model: GetDataBody) {
     return this.http.post<any>(environment.apiUrl + '/sync/SaveAllData', model, {
       headers: {'Authorization': localStorage.getItem('UserToken')!,
       'Accept': 'application/json',

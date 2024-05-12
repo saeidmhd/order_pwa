@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Product } from 'src/app/core/models/bazara/bazara-DTOs/Product';
+import { Product } from 'src/app/core/models/models/Product';
 
 @Component({
   selector: 'app-product-card',

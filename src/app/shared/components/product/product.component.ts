@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GenericIndexedDbService } from '../../../core/services/indexed-db/generic-indexed-db.service';
-import { Product } from '../../../core/models/bazara/bazara-DTOs/Product';
-import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/ProductDetail';
-import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/VisitorProduct';
-import { Picture } from '../../../core/models/bazara/bazara-DTOs/Picture';
-import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
-import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/ProductDetailAssetStore';
+import { Product } from '../../../core/models/models/Product';
+import { ProductDetail } from '../../../core/models/models/ProductDetail';
+import { VisitorProduct } from '../../../core/models/models/VisitorProduct';
+import { Picture } from '../../../core/models/models/Picture';
+import { PhotoGallery } from '../../../core/models/models/PhotoGallery';
+import { ProductDetailStoreAsset } from '../../../core/models/models/ProductDetailAssetStore';
 
 @Component({
   selector: 'app-product',

@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 
 import { UtilityService } from '../../../core/services/common/utility.service';
 import { AuthService } from '../../../core/services/authorizing/auth.service';
-import { LoginBody } from 'src/app/core/models/bazara/bazara-DTOs/Login';
+import { LoginBody } from 'src/app/core/models/models/Login';
 
 
 @Component({

@@ -1,4 +1,5 @@
-export interface IGetBazaraData {
+export interface GetDataBody {
+
     fromPersonGroupVersion?: number,
     fromPersonVersion?: number,
     fromPersonAddressVersion?: number,

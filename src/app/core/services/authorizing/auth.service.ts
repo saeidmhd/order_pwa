@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BazaraService } from '../bazara/bazara.service';
 import { GenericIndexedDbService } from '../indexed-db/generic-indexed-db.service';
 import { UtilityService } from '../common/utility.service';
-import { LoginData, LoginBody, LoginResult } from '../../models/bazara/bazara-DTOs/Login';
+import { LoginData, LoginBody, LoginResult } from '../../models/models/Login';
 
 @Injectable({
   providedIn: 'root'

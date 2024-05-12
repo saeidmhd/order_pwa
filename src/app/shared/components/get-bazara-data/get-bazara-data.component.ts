@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GenericIndexedDbService } from '../../../core/services/indexed-db/generic-indexed-db.service';
-import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
+import { GetDataBody } from '../../../core/models/get-all-data/GetDataBody';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
-import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
-import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
-import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
-import { Product } from '../../../core/models/bazara/bazara-DTOs/Product';
-import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/VisitorProduct';
-import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/ProductDetail';
-import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
-import { Picture } from '../../../core/models/bazara/bazara-DTOs/Picture';
-import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/ProductDetailAssetStore';
+import { PersonAddress } from '../../../core/models/models/PersonAddress';
+import { ApiResult } from '../../../core/models/get-all-data/GetDataResponse';
+import { Person } from '../../../core/models/models/Person';
+import { Product } from '../../../core/models/models/Product';
+import { VisitorProduct } from '../../../core/models/models/VisitorProduct';
+import { ProductDetail } from '../../../core/models/models/ProductDetail';
+import { PhotoGallery } from '../../../core/models/models/PhotoGallery';
+import { Picture } from '../../../core/models/models/Picture';
+import { ProductDetailStoreAsset } from '../../../core/models/models/ProductDetailAssetStore';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -23,7 +23,7 @@ import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs
 export class GetBazaraDataComponent implements OnInit {
 
   terminate: boolean = false;
-  maxRowVersionModel: IGetBazaraData = {};
+  getDataBody: GetDataBody = {};
   visitorId = localStorage.getItem(('VisitorId'))!;
 
   constructor(private genericIndexedDbService: GenericIndexedDbService, private bazaraService: BazaraService) { }
@@ -62,11 +62,11 @@ export class GetBazaraDataComponent implements OnInit {
       // this.peopleReceived = true;
       // Store people in IndexedDB
 
-      this.maxRowVersionModel.fromPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('Person');
-      this.maxRowVersionModel.fromVisitorPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorPerson');
+      this.getDataBody.fromPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('Person');
+      this.getDataBody.fromVisitorPersonVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorPerson');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             const visitorId = localStorage.getItem(('VisitorId'))!;
             let people: Person[] = res.Data.Objects.People;
@@ -103,10 +103,10 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPersonAddresses() {
     try {
-      this.maxRowVersionModel.fromPersonAddressVersion = await this.genericIndexedDbService.getMaxRowVersion('PersonAddress');
+      this.getDataBody.fromPersonAddressVersion = await this.genericIndexedDbService.getMaxRowVersion('PersonAddress');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let obj: PersonAddress[] = res.Data.Objects.PersonAddresses;
             
@@ -131,11 +131,11 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProduct_VisitorProduct() {
     try {
-      this.maxRowVersionModel.fromProductVersion = await this.genericIndexedDbService.getMaxRowVersion('Product');
-      this.maxRowVersionModel.fromVisitorProductVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorProduct');
+      this.getDataBody.fromProductVersion = await this.genericIndexedDbService.getMaxRowVersion('Product');
+      this.getDataBody.fromVisitorProductVersion = await this.genericIndexedDbService.getMaxRowVersion('VisitorProduct');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let products: Product[] = res.Data.Objects.Products;
             let visitorProducts: VisitorProduct[] = res.Data.Objects.VisitorProducts;
@@ -168,10 +168,10 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProductDetail() {
     try {
-      this.maxRowVersionModel.fromProductDetailVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetail');
+      this.getDataBody.fromProductDetailVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetail');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let obj: ProductDetail[] = res.Data.Objects.ProductDetails;
             
@@ -196,10 +196,10 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPhotoGallery() {
     try {
-      this.maxRowVersionModel.fromPhotoGalleryVersion = await this.genericIndexedDbService.getMaxRowVersion('PhotoGallery');
+      this.getDataBody.fromPhotoGalleryVersion = await this.genericIndexedDbService.getMaxRowVersion('PhotoGallery');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let obj: PhotoGallery[] = res.Data.Objects.PhotoGalleries;
             
@@ -224,10 +224,10 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchPicture() {
     try {
-      this.maxRowVersionModel.fromPictureVersion = await this.genericIndexedDbService.getMaxRowVersion('Picture');
+      this.getDataBody.fromPictureVersion = await this.genericIndexedDbService.getMaxRowVersion('Picture');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let obj: Picture[] = res.Data.Objects.Pictures;
             
@@ -252,10 +252,10 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchProductDetailStoreAsset() {
     try {
-      this.maxRowVersionModel.fromProductDetailStoreAssetVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
+      this.getDataBody.fromProductDetailStoreAssetVersion = await this.genericIndexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
 
-      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
-        next: (res: IApiResult) => {
+      this.bazaraService.getBazaraData(this.getDataBody!).subscribe({
+        next: (res: ApiResult) => {
           if (res.Result) {
             let obj: ProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
             
