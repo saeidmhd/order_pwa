@@ -13,6 +13,8 @@ import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IB
 import { IBazaraPhotoGallery } from '../../../core/models/bazara/bazara-DTOs/IBazaraPhotoGallery';
 import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
+import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -24,6 +26,7 @@ import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/baza
 export class GetBazaraDataComponent implements OnInit {
 
   terminate: boolean = false;
+  dataStatus: ReceivedBazaraData = {};
   maxRowVersionModel: IGetBazaraData = {};
   visitorId = localStorage.getItem(('VisitorId'))!;
 
@@ -36,24 +39,35 @@ export class GetBazaraDataComponent implements OnInit {
   async fetchAllData() {
     if (this.terminate == false) {
       await this.fetchPeople_VisitorPeople();
+      this.dataStatus.visitorPeopleReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPersonAddresses();
+      this.dataStatus.personAddressesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProduct_VisitorProduct();
+      this.dataStatus.visitorProductReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProductDetail();
+      this.dataStatus.productDetailsReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPicture();
+      this.dataStatus.picturesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPhotoGallery();
+      this.dataStatus.photoGalleriesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
+      this.dataStatus.productDetailStoreAssetsReceived = true;
+    } 
+      if (this.terminate == false) {
+      await this.fetchBank();
+      this.dataStatus.banksReceived = true;
     }
   }
 
@@ -251,6 +265,34 @@ export class GetBazaraDataComponent implements OnInit {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.ProductDetailStoreAssetId];
                 this.indexedDbService.addOrEdit('ProductDetailStoreAsset', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchBank() {
+    try {
+      this.maxRowVersionModel.fromBankVersion = await this.indexedDbService.getMaxRowVersion('Bank');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            let obj: Bank[] = res.Data.Objects.Banks;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.BankId];
+                this.indexedDbService.addOrEdit('Bank', ele, key);
               });
             }
           }
