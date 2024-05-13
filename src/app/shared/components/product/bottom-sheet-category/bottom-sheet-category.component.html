@@ -1,0 +1,14 @@
+<div class="category-chips">
+    <mat-chip-listbox aria-label="Product Categories">
+      <!-- Option to show all products -->
+      <mat-chip-option [selected]="showAllProducts" (click)="toggleShowAllProducts()">
+        تمام کالاها
+      </mat-chip-option>
+      <!-- Display each category chip -->
+      <mat-chip-option *ngFor="let category of productCategories" 
+                       [selected]="isSelectedCategory(category.ProductCategoryId)" 
+                       (click)="toggleCategory(category.ProductCategoryId)">
+        {{ category.Name }}
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
