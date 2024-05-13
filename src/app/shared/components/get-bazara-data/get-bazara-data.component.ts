@@ -15,6 +15,8 @@ import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraP
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
 import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
+import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
+import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/MissionDetail';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -46,28 +48,36 @@ export class GetBazaraDataComponent implements OnInit {
       this.dataStatus.personAddressesReceived = true;
     }
     if (this.terminate == false) {
-      await this.fetchProduct_VisitorProduct();
+      await this.fetchProduct_VisitorProducts();
       this.dataStatus.visitorProductReceived = true;
     }
     if (this.terminate == false) {
-      await this.fetchProductDetail();
+      await this.fetchProductDetails();
       this.dataStatus.productDetailsReceived = true;
     }
     if (this.terminate == false) {
-      await this.fetchPicture();
+      await this.fetchPictures();
       this.dataStatus.picturesReceived = true;
     }
     if (this.terminate == false) {
-      await this.fetchPhotoGallery();
+      await this.fetchPhotoGalleries();
       this.dataStatus.photoGalleriesReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
       this.dataStatus.productDetailStoreAssetsReceived = true;
-    } 
-      if (this.terminate == false) {
-      await this.fetchBank();
+    }
+    if (this.terminate == false) {
+      await this.fetchBanks();
       this.dataStatus.banksReceived = true;
+    }
+    if (this.terminate == false) {
+      await this.fetchMissions();
+      this.dataStatus.missionsReceived = true;
+    }
+    if (this.terminate == false) {
+      await this.fetchMissionDetails();
+      this.dataStatus.missionDetailsReceived = true;
     }
   }
 
@@ -131,7 +141,7 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 
-  private async fetchProduct_VisitorProduct() {
+  private async fetchProduct_VisitorProducts() {
     try {
       this.maxRowVersionModel.fromProductVersion = await this.indexedDbService.getMaxRowVersion('Product');
       this.maxRowVersionModel.fromVisitorProductVersion = await this.indexedDbService.getMaxRowVersion('VisitorProduct');
@@ -168,7 +178,7 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 
-  private async fetchProductDetail() {
+  private async fetchProductDetails() {
     try {
       this.maxRowVersionModel.fromProductDetailVersion = await this.indexedDbService.getMaxRowVersion('ProductDetail');
 
@@ -196,7 +206,7 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 
-  private async fetchPhotoGallery() {
+  private async fetchPhotoGalleries() {
     try {
       this.maxRowVersionModel.fromPhotoGalleryVersion = await this.indexedDbService.getMaxRowVersion('PhotoGallery');
 
@@ -224,7 +234,7 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 
-  private async fetchPicture() {
+  private async fetchPictures() {
     try {
       this.maxRowVersionModel.fromPictureVersion = await this.indexedDbService.getMaxRowVersion('Picture');
 
@@ -237,7 +247,7 @@ export class GetBazaraDataComponent implements OnInit {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PictureId];
                 this.indexedDbService.addOrEdit('Picture', ele, key);
-              });             
+              });
             }
           }
         },
@@ -280,7 +290,7 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 
-  private async fetchBank() {
+  private async fetchBanks() {
     try {
       this.maxRowVersionModel.fromBankVersion = await this.indexedDbService.getMaxRowVersion('Bank');
 
@@ -293,6 +303,62 @@ export class GetBazaraDataComponent implements OnInit {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.BankId];
                 this.indexedDbService.addOrEdit('Bank', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchMissions () {
+    try {
+      this.maxRowVersionModel.fromMissionVersion = await this.indexedDbService.getMaxRowVersion('Mission');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            let obj: Mission[] = res.Data.Objects.Missions;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.MissionId];
+                this.indexedDbService.addOrEdit('Mission', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchMissionDetails() {
+    try {
+      this.maxRowVersionModel.fromMissionDetailVersion = await this.indexedDbService.getMaxRowVersion('MissionDetail');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            let obj: MissionDetail[] = res.Data.Objects.MissionDetails;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.MissionDetailId];
+                this.indexedDbService.addOrEdit('Mission', ele, key);
               });
             }
           }
