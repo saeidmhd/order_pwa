@@ -1,5 +1,4 @@
-<div class="product-list-container">
-    <div class="list-container" *ngIf="!isLoading">
+<div class="list-container" *ngIf="!isLoading">
       <mat-card class="product-card">
         <div class="image-wrapper">
           <img [src]="product.picUrl" alt="{{ product.Name }}" class="product-image">
@@ -11,7 +10,7 @@
           <p>
             قیمت : {{product.price | rialCurrency}}<br>
             موجودی 1: {{ product.count1 }} {{ product.UnitName }} <br>
-            <!-- موجودی 2: {{ product.count2 }} {{ product.UnitName2 }} <br> -->
+            موجودی 2: {{ product.count2 }} {{ product.UnitName2 }} <br> 
           </p>
         </mat-card-content>
         <div class="quantity-selection">
@@ -26,4 +25,3 @@
       </mat-card>
       
     </div>
-  </div>

@@ -38,6 +38,7 @@ import { PromptUpdateService } from './core/services/pwa_services/prompt-update.
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 import {
@@ -60,6 +61,7 @@ import { MissionComponent } from './shared/components/dashboard/mission/mission.
 import { OperationSectionComponent } from './shared/components/dashboard/operation-section/operation-section.component';
 import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
 import { RialCurrencyPipe } from './rial-currency.pipe';
+import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { RialCurrencyPipe } from './rial-currency.pipe';
     MissionComponent,
     OperationSectionComponent,
     MissionCardComponent,
-    RialCurrencyPipe
+    RialCurrencyPipe,
+    BottomSheetCategoryComponent,
   ],
   exports: [
     FooterComponent
@@ -115,6 +118,7 @@ import { RialCurrencyPipe } from './rial-currency.pipe';
     MatDialogContent,
     MatSelectModule,
     MatTableModule,
+    MatChipsModule,
     MaterialModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),

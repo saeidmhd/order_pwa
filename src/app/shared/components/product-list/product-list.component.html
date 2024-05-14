@@ -4,24 +4,20 @@
   <div class="loading-text">بارگذاری کالاها ...</div>
 </div>
 
-<div class="container">
-  <div class="toolbar-container">
-    <mat-toolbar>
-      <mat-icon (click)="goToProductCategories()">menu</mat-icon>
-    </mat-toolbar>
-  </div>
-
+<div class="container" #productListContainer>
   <div class="search-bar">
     <mat-form-field appearance="outline" class="full-width">
       <mat-icon matPrefix>search</mat-icon>
       <input matInput [(ngModel)]="searchText" placeholder="جستجو در کالاها" aria-label="Search">
-      <button mat-button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+
+    
   </div>
 
-  <div class="product-list-container">
+  <div >
     <div class="list-container" *ngIf="!isLoading && products">
       <mat-card *ngFor="let product of filteredProducts" class="product-card">
         <div class="image-wrapper">
@@ -47,7 +43,18 @@
           </button>
         </div>
       </mat-card>
-      
     </div>
   </div>
+  
 </div>
+
+<div class="footer-container">
+ 
+  <div class="footer-item" (click)="openBottomSheet()">
+    <mat-icon>category</mat-icon>
+    <p>دسته بندی</p>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,27 @@
+.category-chips {
+    margin-top: 10px; /* Add some top margin */
+  }
+  
+  .mat-chip-listbox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .mat-chip-option {
+    margin: 5px; /* Add margin around each chip */
+    background-color: #e0e0e0; /* Background color for chips */
+    color: #333; /* Text color */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color change */
+  }
+  
+  .mat-chip-option:hover {
+    background-color: #ccc; /* Change background color on hover */
+  }
+  
+  .mat-chip-option.mat-accent.mat-selected {
+    background-color: #1976d2; /* Change background color for selected chip */
+    color: #fff; /* Change text color for selected chip */
+  }
+  

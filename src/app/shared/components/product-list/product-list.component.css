@@ -96,3 +96,50 @@ body {
   background-color: #f0f0f0;
   border-radius: 50%;
 }
+.mat-chip {
+  background-color: #df9921; /* Change the background color to your desired color */
+  color: #000000;
+}
+
+.mat-chip.selected-chip {
+  /* Styles for selected chips */
+  background-color: #b2ebf2; /* Change the background color to your desired color */
+  color: #000000; /* Change the text color to ensure readability */
+}
+
+.footer-button {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to position the button as desired */
+  right: 20px; /* Adjust this value to position the button as desired */
+  z-index: 1000; /* Ensure the button is above other elements */
+}
+
+.footer-container {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #bab6b6;
+  padding: 10px 0;
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+  bottom: 0; /* Ensures the footer is positioned at the bottom of the viewport */
+  z-index: 1000; /* Ensure the footer is above other elements */
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #4f4e4e; /* Adjusted text color for better visibility */
+  font-size: 12px; /* Adjusted font size for better readability */
+}
+
+.footer-item p {
+  margin-top: 2px; /* Added margin between icon and text */
+}
+
+mat-icon {
+  font-size: 24px; /* Adjusted icon size for better visibility */
+}
