@@ -39,35 +39,34 @@ export class GetBazaraDataComponent implements OnInit {
   async fetchAllData() {
     if (this.terminate == false) {
       await this.fetchPeople_VisitorPeople();
-      this.dataStatus.visitorPeopleReceived = true;
     }
     if (this.terminate == false) {
       await this.fetchPersonAddresses();
-      this.dataStatus.personAddressesReceived = true;
+    
     }
     if (this.terminate == false) {
       await this.fetchProduct_VisitorProduct();
-      this.dataStatus.visitorProductReceived = true;
+      
     }
     if (this.terminate == false) {
       await this.fetchProductDetail();
-      this.dataStatus.productDetailsReceived = true;
+      
     }
     if (this.terminate == false) {
       await this.fetchPicture();
-      this.dataStatus.picturesReceived = true;
+    
     }
     if (this.terminate == false) {
       await this.fetchPhotoGallery();
-      this.dataStatus.photoGalleriesReceived = true;
+      
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
-      this.dataStatus.productDetailStoreAssetsReceived = true;
+      
     } 
       if (this.terminate == false) {
       await this.fetchBank();
-      this.dataStatus.banksReceived = true;
+      
     }
   }
 
@@ -79,6 +78,8 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+            this.dataStatus.peopleReceived = true;
+            this.dataStatus.visitorPeopleReceived = true;
             let people: IBazaraPerson[] = res.Data.Objects.People;
             people.forEach(ele => {
               const key: IDBValidKey = [+this.visitorId, ele.PersonId];
@@ -110,6 +111,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+            this.dataStatus.personAddressesReceived = true;
             let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
 
             if (obj.length > 0) {
@@ -139,6 +141,10 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+
+            this.dataStatus.productsReceived = true;
+            this.dataStatus.visitorProductsReceived = true;
+
             let products: IBazaraProduct[] = res.Data.Objects.Products;
             let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
 
@@ -175,6 +181,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+            this.dataStatus.productDetailsReceived = true;
             let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
 
             if (obj.length > 0) {
@@ -203,6 +210,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+            this.dataStatus.photoGalleriesReceived = true;
             let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
 
             if (obj.length > 0) {
@@ -231,6 +239,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+            this.dataStatus.picturesReceived = true;
             let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
 
             if (obj.length > 0) {
@@ -259,6 +268,9 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+
+            this.dataStatus.productDetailStoreAssetsReceived = true;
+
             let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
 
             if (obj.length > 0) {
@@ -287,6 +299,9 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
+
+            this.dataStatus.banksReceived = true;
+            
             let obj: Bank[] = res.Data.Objects.Banks;
 
             if (obj.length > 0) {
