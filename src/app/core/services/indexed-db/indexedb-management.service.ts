@@ -7,7 +7,7 @@ export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 2;
+  private dbVersion = 3;
 
   constructor() {
     this.openDatabase();
@@ -27,10 +27,9 @@ export class IndexedDbManagementService {
         }
         if (!this.db.objectStoreNames.contains('Product')) {
           this.db.createObjectStore('Product');
-          //if defination of keyPath is necessary
-          // this.db.createObjectStore('Product', {
-          //   keyPath: ['VisitorId', 'ProductId']
-          // });
+        }
+        if (!this.db.objectStoreNames.contains('ProductCategory')) {
+          this.db.createObjectStore('ProductCategory');
         }
         if (!this.db.objectStoreNames.contains('ProductDetail')) {
           this.db.createObjectStore('ProductDetail');

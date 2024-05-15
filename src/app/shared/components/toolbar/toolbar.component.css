@@ -23,13 +23,13 @@
   align-items: center;
   background-color: #88AA8B;
   border-radius: 50px;
-  width: 200px;
   padding: 7px;
 }
 
 .company-info span {
   margin-right: 5px;
   font-size: 16px;
+  padding: 0 5px;
 }
 
 .message-alert-container {

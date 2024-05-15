@@ -17,6 +17,7 @@ import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs
 import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
 import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
 import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/MissionDetail';
+import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -46,42 +47,37 @@ export class GetBazaraDataComponent implements OnInit {
       await this.fetchPeople_VisitorPeople();
     }
     if (this.terminate == false) {
-      await this.fetchPersonAddresses();
-    
+      await this.fetchProduct_VisitorProducts();
     }
     if (this.terminate == false) {
-      await this.fetchProduct_VisitorProducts();
-      
+      await this.fetchProductCategory();
     }
     if (this.terminate == false) {
       await this.fetchProductDetails();
-      
     }
     if (this.terminate == false) {
       await this.fetchPictures();
-    
     }
     if (this.terminate == false) {
       await this.fetchPhotoGalleries();
-      
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
-      
-    } 
+    }
     if (this.terminate == false) {
       await this.fetchMissions();
     }
     if (this.terminate == false) {
       await this.fetchMissionDetails();
     }
+    if (this.terminate == false) {
+      await this.fetchPersonAddresses();
+    }
   }
-
   private async fetchPeople_VisitorPeople(): Promise<void> {
     try {
       this.maxRowVersionModel.fromPersonVersion = await this.indexedDbService.getMaxRowVersion('Person');
       this.maxRowVersionModel.fromVisitorPersonVersion = await this.indexedDbService.getMaxRowVersion('VisitorPerson');
-
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
@@ -110,7 +106,30 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
+  private async fetchProductCategory(): Promise<void> {
+    try {
+      this.maxRowVersionModel.fromProductCategoryVersion = await this.indexedDbService.getMaxRowVersion('ProductCategory');
+      console.log(this.maxRowVersionModel.fromProductCategoryVersion);
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            this.dataStatus.productCategoriesReceived = true;
+            let productCategory: ProductCategory[] = res.Data.Objects.ProductCategories;
+            productCategory.forEach(ele => {
+              const key: IDBValidKey = [+this.visitorId, ele.ProductCategoryId];
+              this.indexedDbService.addOrEdit('ProductCategory', ele, key);
+            });
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching productCategory:', error);
+      this.terminate = true;
+    }
+  }
   private async fetchPersonAddresses() {
     try {
       this.maxRowVersionModel.fromPersonAddressVersion = await this.indexedDbService.getMaxRowVersion('PersonAddress');
@@ -120,7 +139,6 @@ export class GetBazaraDataComponent implements OnInit {
           if (res.Result) {
             this.dataStatus.personAddressesReceived = true;
             let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
-
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PersonAddressId];
@@ -139,7 +157,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchProduct_VisitorProducts() {
     try {
       this.maxRowVersionModel.fromProductVersion = await this.indexedDbService.getMaxRowVersion('Product');
@@ -180,7 +197,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchProductDetails() {
     try {
       this.maxRowVersionModel.fromProductDetailVersion = await this.indexedDbService.getMaxRowVersion('ProductDetail');
@@ -209,7 +225,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchPhotoGalleries() {
     try {
       this.maxRowVersionModel.fromPhotoGalleryVersion = await this.indexedDbService.getMaxRowVersion('PhotoGallery');
@@ -238,7 +253,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchPictures() {
     try {
       this.maxRowVersionModel.fromPictureVersion = await this.indexedDbService.getMaxRowVersion('Picture');
@@ -267,7 +281,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchProductDetailStoreAsset() {
     try {
       this.maxRowVersionModel.fromProductDetailStoreAssetVersion = await this.indexedDbService.getMaxRowVersion('ProductDetailStoreAsset');
@@ -298,7 +311,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchBanks() {
     try {
       this.maxRowVersionModel.fromBankVersion = await this.indexedDbService.getMaxRowVersion('Bank');
@@ -308,7 +320,7 @@ export class GetBazaraDataComponent implements OnInit {
           if (res.Result) {
 
             this.dataStatus.banksReceived = true;
-            
+
             let obj: Bank[] = res.Data.Objects.Banks;
 
             if (obj.length > 0) {
@@ -329,8 +341,7 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
-  private async fetchMissions () {
+  private async fetchMissions() {
     try {
       this.maxRowVersionModel.fromMissionVersion = await this.indexedDbService.getMaxRowVersion('Mission');
 
@@ -358,7 +369,6 @@ export class GetBazaraDataComponent implements OnInit {
       this.terminate = true;
     }
   }
-
   private async fetchMissionDetails() {
     try {
       this.maxRowVersionModel.fromMissionDetailVersion = await this.indexedDbService.getMaxRowVersion('MissionDetail');

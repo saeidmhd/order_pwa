@@ -31,12 +31,12 @@ button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.3rem;
-  background-color: #369139;
+  background-color: #007bff;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #c6eec7;
+  background-color: #0056b3;
 }
