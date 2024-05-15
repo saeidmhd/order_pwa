@@ -13,5 +13,7 @@ export interface ReceivedBazaraData {
     picturesReceived?: boolean,
     visitorProductsReceived?: boolean,
     ordersSent?: boolean,
-    orderDetailsSent?: boolean
+    orderDetailsSent?: boolean,
+    missionsReceived?: boolean,
+    missionDetailsReceived?: boolean
 }

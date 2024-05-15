@@ -8,6 +8,8 @@ import { IBazaraProductDetail } from "../bazara-DTOs/IBazaraProductDetail"
 import { IBazaraProductDetailStoreAsset } from "../bazara-DTOs/IBazaraProductDetailAssetStore"
 import { IBazaraVisitorPerson } from "../bazara-DTOs/IBazaraVisitorPerson"
 import { IBazaraVisitorProduct } from "../bazara-DTOs/IBazaraVisitorProduct"
+import { Mission } from "../bazara-DTOs/Mission"
+import { MissionDetail } from "../bazara-DTOs/MissionDetail"
 
 export interface IApiResult {
     Data: IObject,
@@ -28,5 +30,7 @@ export interface IBazaraData {
     VisitorProducts: IBazaraVisitorProduct[],
     PhotoGalleries: IBazaraPhotoGallery[],
     Pictures: IBazaraPicture[],
-    ProductDetailStoreAssets: IBazaraProductDetailStoreAsset[]
+    ProductDetailStoreAssets: IBazaraProductDetailStoreAsset[],
+    Missions: Mission[],
+    MissionDetails: MissionDetail[]
 }
