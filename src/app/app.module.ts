@@ -62,6 +62,7 @@ import { OperationSectionComponent } from './shared/components/dashboard/operati
 import { MissionCardComponent } from './shared/components/dashboard/mission/mission-card/mission-card.component';
 import { RialCurrencyPipe } from './rial-currency.pipe';
 import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
+import { PersianDatePipe } from './persian-date.pipe';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { BottomSheetCategoryComponent } from './shared/components/product/bottom
     OperationSectionComponent,
     MissionCardComponent,
     RialCurrencyPipe,
+    PersianDatePipe,
     BottomSheetCategoryComponent,
   ],
   exports: [

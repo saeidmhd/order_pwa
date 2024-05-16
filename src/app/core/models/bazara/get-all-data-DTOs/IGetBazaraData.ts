@@ -23,4 +23,7 @@ export interface IGetBazaraData {
   
     fromMissionVersion?: number,
     fromMissionDetailVersion?: number,
+
+    fromOrderVersion?: number,
+    fromOrderDetailVersion?: number,
 }

@@ -19,8 +19,6 @@
     width: 280px;
 }
 
-
-
 @media (max-width: 389px) {
     .container:last-child {
         margin-bottom: 25px;

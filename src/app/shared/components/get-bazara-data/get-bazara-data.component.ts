@@ -18,6 +18,8 @@ import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
 import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
 import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/MissionDetail';
 import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
+import { Order } from 'src/app/core/models/old/order';
+import { OrderDetail } from 'src/app/core/models/old/order-detail';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -60,6 +62,12 @@ export class GetBazaraDataComponent implements OnInit {
     }
     if (this.terminate == false) {
       await this.fetchPhotoGalleries();
+    }
+    if (this.terminate == false) {
+      await this.fetchOrders();
+    }
+    if (this.terminate == false) {
+      await this.fetchOrderDetails();
     }
     if (this.terminate == false) {
       await this.fetchProductDetailStoreAsset();
@@ -382,7 +390,7 @@ export class GetBazaraDataComponent implements OnInit {
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.MissionDetailId];
-                this.indexedDbService.addOrEdit('Mission', ele, key);
+                this.indexedDbService.addOrEdit('MissionDetail', ele, key);
               });
             }
           }
@@ -394,6 +402,63 @@ export class GetBazaraDataComponent implements OnInit {
     }
     catch (error) {
       console.error('Error fetching visitor people:', error);
+      this.terminate = true;
+    }
+  }
+  private async fetchOrders() {
+    try {
+      this.maxRowVersionModel.fromOrderVersion = await this.indexedDbService.getMaxRowVersion('Order');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            this.dataStatus.ordersReceived = true;
+            let obj: Order[] = res.Data.Objects.Orders;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.OrderId];
+                this.indexedDbService.addOrEdit('Order', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching orders:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchOrderDetails() {
+    try {
+      this.maxRowVersionModel.fromOrderDetailVersion = await this.indexedDbService.getMaxRowVersion('OrderDetail');
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            this.dataStatus.orderDetailsReceived = true;
+            let obj: OrderDetail[] = res.Data.Objects.OrderDetails;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.OrderDetailId];
+                this.indexedDbService.addOrEdit('OrderDetail', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching order detials:', error);
       this.terminate = true;
     }
   }

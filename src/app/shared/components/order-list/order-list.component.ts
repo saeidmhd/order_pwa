@@ -1,11 +1,11 @@
 // order-list.component.ts
 import { Component, OnInit } from '@angular/core';
 
-import { OrderDetail } from '../../../core/models/old/order-detail';
-import { Person } from '../../../core/models/old/Person';
-// import { IndexedDbService } from '../../../core/services/indexed-db.service';
-import { Order } from 'src/app/core/models/old/order';
+
 import * as moment from 'jalali-moment';
+import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
+import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
+import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
 
@@ -37,8 +37,6 @@ export class OrderListComponent implements OnInit {
       this.indexedDbService.getAllData<OrderDetail>("OrderDetail"),
       this.indexedDbService.getAllData<Person>("Person")
     ]).then(([orders, orderDetails, people]) => {
-      console.log();
-      
       this.orders = orders.sort((a, b) => new Date(b.OrderDate).getTime() - new Date(a.OrderDate).getTime());
       this.orderDetails = orderDetails;
       this.people = people;
