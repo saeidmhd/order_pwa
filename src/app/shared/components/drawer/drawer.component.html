@@ -31,6 +31,12 @@
           <span class="mat-line">گزارشات</span>
         </div>
       </a>
+      <a mat-list-item (click)="navigateToOrersReports()" [routerLinkActive]="['active']">
+        <div class="nav-item">
+          <mat-icon>assessment</mat-icon> <!-- Add your icon here -->
+          <span class="mat-line">گزارشات جدید</span>
+        </div>
+      </a>
       <a mat-list-item (click)="navigateTologin()" [routerLinkActive]="['active']">
         <div class="nav-item">
           <mat-icon>logout</mat-icon> <!-- Add your icon here -->
