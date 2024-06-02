@@ -1,35 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/property-description';
 import { Person } from 'src/app/core/models/old/Person';
 import { Order } from 'src/app/core/models/old/order';
 import { OrderDetail } from 'src/app/core/models/old/order-detail';
 import { Product } from 'src/app/core/models/old/product';
 import { ProductDetail } from 'src/app/core/models/old/product-detail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
-// import { IndexedDbService } from 'src/app/core/services/indexed-db.service';
-// import { PersonSelectionService } from 'src/app/core/services/person-selection.service';
-
 
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.css']
 })
-export class InvoiceComponent {
+export class InvoiceComponent implements OnInit {
   invoiceForm: FormGroup;
-  people: Person[] = []; // Assuming customer data is available
-  products: Product[] = []; // Assuming product data is available
-  productDetails: ProductDetail[] = []; // Product details
+  people: Person[] = [];
+  products: Product[] = [];
+  productDetails: ProductDetail[] = [];
+  propertyDescriptions: PropertyDescription[] = [];
   selectedCustomer: Person | null = null;
   invoiceItems: OrderDetail[] = [];
   subtotal: number = 0;
-  taxRate: number = 0; // Example tax rate (10%)
+  taxRate: number = 0;
   total: number = 0;
-  productPrices: number[] = []; // Array to hold product prices
-  selectedProductDetail: ProductDetail | undefined = undefined; // Selected product detail
+  productPrices: number[] = [];
+  selectedProductDetails: ProductDetail[] = [];
+  selectedProductProperties: { C: string, V: string }[] = [];
+  selectedProductDetail: ProductDetail | undefined = undefined;
   displayedColumns: string[] = ['product', 'quantity', 'price', 'action'];
-  visitorId = localStorage.getItem(('VisitorId'))!;
+  visitorId = localStorage.getItem('VisitorId')!;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,48 +38,103 @@ export class InvoiceComponent {
     this.invoiceForm = this.formBuilder.group({
       customer: [null, Validators.required],
       product: [null, Validators.required],
+      productDetail: [null, Validators.required],
+      productProperty: [null, Validators.required],
       price: [null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]]
     });
+  }
 
+  ngOnInit(): void {
     this.fetchProductsAndProductDetails();
     this.fetchPeople();
+    this.fetchPropertyDescriptions();
   }
+
   fetchPeople() {
     this.indexedDbService.getAllData<Person>("Person").then((people: Person[]) => {
       this.people = people;
     });
-}
+  }
 
+  fetchProductsAndProductDetails(): void {
+    this.indexedDbService.getAllData<Product>("Product").then((products: Product[]) => {
+      this.products = products;
+    });
 
-fetchProductsAndProductDetails(): void {
-  this.indexedDbService.getAllData<Product>("Product").then((products: Product[]) => {
-    this.products = products;
-  });
+    this.indexedDbService.getAllData<ProductDetail>("ProductDetail").then((productDetails: ProductDetail[]) => {
+      this.productDetails = productDetails;
+    });
+  }
 
-  this.indexedDbService.getAllData<ProductDetail>("ProductDetail").then((productDetails: ProductDetail[]) => {
-    this.productDetails = productDetails;
-  });
-}
+  fetchPropertyDescriptions(): void {
+    this.indexedDbService.getAllData<PropertyDescription>("PropertyDescription").then((propertyDescriptions: PropertyDescription[]) => {
+      this.propertyDescriptions = propertyDescriptions;
+    });
+  }
 
-
-  updateProductPrice(): void {
+  updateProductDetails(): void {
     const selectedProductId = this.invoiceForm.get('product')?.value.ProductId;
-    this.selectedProductDetail = this.productDetails.find(detail => detail.ProductId === selectedProductId);
+    this.selectedProductDetails = this.productDetails.filter(detail => detail.ProductId === selectedProductId);
 
+    if (this.selectedProductDetails.length > 0) {
+      this.invoiceForm.get('productDetail')?.setValue(this.selectedProductDetails[0]);
+      this.onProductDetailChange();
+
+      // If there is only one product detail, ensure the price is updated
+      if (this.selectedProductDetails.length === 1) {
+        this.updateProductPrice({ C: '', V: '' });
+      }
+    }
+  }
+
+  onProductDetailChange(): void {
+    this.selectedProductDetail = this.invoiceForm.get('productDetail')?.value;
     if (this.selectedProductDetail) {
-      // Clear existing prices
+      this.selectedProductProperties = this.parseProperties(this.selectedProductDetail.Properties);
+      if (this.selectedProductProperties.length > 0) {
+        this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties[0]);
+        this.onProductPropertyChange();
+      } else {
+        // If there are no properties, call updateProductPrice directly
+        this.updateProductPrice({ C: '', V: '' });
+      }
+    }
+  }
+
+  onProductPropertyChange(): void {
+    const selectedProperty = this.invoiceForm.get('productProperty')?.value;
+    if (this.selectedProductDetail && selectedProperty) {
+      // Update price based on the selected property
+      this.updateProductPrice(selectedProperty);
+    }
+  }
+
+  updateProductPrice(_selectedProperty: { C: string, V: string }): void {
+    if (this.selectedProductDetail) {
       this.productPrices = [];
-      // Add prices from Price1 to Price10 to the productPrices array
       for (let i = 1; i <= 10; i++) {
         const price = this.selectedProductDetail[`Price${i}`];
         if (price !== null && !isNaN(price)) {
           this.productPrices.push(price);
         }
       }
-      // Set the default price as the first option
       this.invoiceForm.get('price')?.setValue(this.productPrices[0]);
     }
+  }
+
+  parseProperties(propertiesString: string | null | undefined): { C: string, V: string }[] {
+    if (!propertiesString) return [];
+    try {
+      return JSON.parse(propertiesString) as { C: string, V: string }[];
+    } catch (error) {
+      console.error('Error parsing properties:', error);
+      return [];
+    }
+  }
+
+  getProductDetailDescription(productDetail: ProductDetail): string {
+    return productDetail.Properties || 'No Description';
   }
 
   getProductName(productDetailId: number): string {
@@ -91,23 +146,20 @@ fetchProductsAndProductDetails(): void {
     return 'Unknown';
   }
 
-  // Add an item to the invoice
-  // Add an item to the invoice
   addItemToInvoice(): void {
-
     const now = new Date();
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
     const createDate = localTime.toISOString().replace('Z', '');
 
-    const selectedProduct = this.invoiceForm.get('product')?.value as Product;
+    const selectedProductDetail = this.invoiceForm.get('productDetail')?.value as ProductDetail;
     const quantity = this.invoiceForm.get('quantity')?.value;
     const price = this.invoiceForm.get('price')?.value;
 
-    if (this.selectedProductDetail && typeof price === 'number') {
+    if (selectedProductDetail && typeof price === 'number') {
       const totalPrice = price * quantity;
       const orderDetail: OrderDetail = {
-        ProductDetailId: this.selectedProductDetail.ProductDetailId,
+        ProductDetailId: selectedProductDetail.ProductDetailId,
         Count1: quantity,
         Price: totalPrice,
         OrderDetailId: 0,
@@ -142,25 +194,20 @@ fetchProductsAndProductDetails(): void {
       };
       this.invoiceItems.push(orderDetail);
       this.calculateTotal();
-      // this.invoiceForm.reset({ quantity: 1 });
     }
-
   }
 
-  // Remove an item from the invoice
   removeItemFromInvoice(index: number): void {
     this.invoiceItems.splice(index, 1);
     this.calculateTotal();
   }
 
-  // Calculate subtotal, tax, and total
   calculateTotal(): void {
     this.subtotal = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
     const tax = this.subtotal * this.taxRate;
     this.total = this.subtotal + tax;
   }
 
-  // Reset the form and invoice
   resetInvoice(): void {
     this.invoiceForm.reset({ quantity: 1 });
     this.invoiceItems = [];
@@ -168,9 +215,7 @@ fetchProductsAndProductDetails(): void {
     this.total = 0;
   }
 
-  // Submit the invoice
-  async submitInvoice(): Promise<void>  {
-
+  async submitInvoice(): Promise<void> {
     const orderClientId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 
     const now = new Date();
@@ -180,16 +225,16 @@ fetchProductsAndProductDetails(): void {
 
     const customerId = this.invoiceForm.get('customer')?.value.PersonId;
 
-    const visitorId = this.indexedDbService.getVisitorId()
+    const visitorId = this.indexedDbService.getVisitorId();
     let visitorIdnum = 0;
     if (visitorId !== undefined) {
-       visitorIdnum = Number(visitorId);
+      visitorIdnum = Number(visitorId);
     }
-      
+
     const order: Order = {
-      OrderId: orderClientId, // Server-side order ID
-      OrderClientId: orderClientId, // Client-side order ID
-      PersonId: customerId, // Server-side customer ID
+      OrderId: orderClientId,
+      OrderClientId: orderClientId,
+      PersonId: customerId,
       PersonClientId: 0,
       OrderCode: 0,
       VisitorId: visitorIdnum,
@@ -215,7 +260,7 @@ fetchProductsAndProductDetails(): void {
       DriverCurrencyType: '',
       CarryingAsExpense: false,
       ReferenceOrderId: 0,
-      //InvoiceTemplate: '',
+      InvoiceTemplate: '',
       Deleted: false,
       DataHash: '',
       CreateDate: createDate,
@@ -227,16 +272,15 @@ fetchProductsAndProductDetails(): void {
       VisitorClientId: 0,
       VisitorCode: 0,
       ReceiptClientId: 0,
-      ReceiptCode: 0,
-      InvoiceTemplate: ''
+      ReceiptCode: 0
     };
 
     const orderDetails = this.invoiceItems.map(item => {
       const orderDetailClientId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
       const orderDetail: OrderDetail = {
-        OrderDetailId: orderDetailClientId, // Server-side order detail ID
-        OrderDetailClientId: orderDetailClientId, // Client-side order detail ID
-        ProductDetailId: item.ProductDetailId, // Server-side product detail ID
+        OrderDetailId: orderDetailClientId,
+        OrderDetailClientId: orderDetailClientId,
+        ProductDetailId: item.ProductDetailId,
         ProductDetailClientId: 0,
         ItemType: 0,
         OrderClientId: orderClientId,
@@ -271,12 +315,10 @@ fetchProductsAndProductDetails(): void {
     });
 
     try {
-      // Store the order in IndexedDB
       const order_key: IDBValidKey = [+this.visitorId, order.OrderClientId];
       await this.indexedDbService.addOrEdit<Order>("Order", order, order_key);
       console.log('Successfully stored order in IndexedDB');
-    
-      // Store the order details in IndexedDB
+
       for (let detail of orderDetails) {
         const orderDetail_key: IDBValidKey = [+this.visitorId, detail.OrderDetailClientId];
         await this.indexedDbService.addOrEdit<OrderDetail>("OrderDetail", detail, orderDetail_key);
@@ -284,11 +326,8 @@ fetchProductsAndProductDetails(): void {
       console.log('Successfully stored order details in IndexedDB');
     } catch (error) {
       console.error('Error storing order and order details in IndexedDB:', error);
-      // Handle the error appropriately (e.g., display a user-friendly message)
     }
-    
 
     this.resetInvoice();
   }
-
 }
