@@ -71,7 +71,9 @@ export class IndexedDbManagementService {
           this.db.createObjectStore('MissionDetail');
         }
         if (!this.db.objectStoreNames.contains('Order')) {
-          this.db.createObjectStore('Order');
+          const orderStore = this.db.createObjectStore('Order');
+          
+          orderStore.createIndex('by-client-id', 'OrderClientId');
         }
         if (!this.db.objectStoreNames.contains('OrderDetail')) {
           this.db.createObjectStore('OrderDetail');

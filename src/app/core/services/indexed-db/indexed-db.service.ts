@@ -43,6 +43,27 @@ export class IndexedDbService {
     });
   }
 
+  async getByIndex<T>(storeName: string, indexName: string, searchData: string | number): Promise<T> {
+    await this.indexedDbManagementService.waitForDb();
+    const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
+    const objectStore = transaction.objectStore(storeName);
+    const index = objectStore.index(indexName);
+
+    return new Promise((resolve, reject) => {
+      // const request = index.get(1053028123466);
+      const request = index.openCursor(IDBKeyRange.only(searchData));
+      request.onsuccess = function () {
+        const cursor = request.result;
+        if (cursor) {
+          resolve(cursor.value);
+          cursor.continue();
+        } else {
+        }
+      };
+
+    });
+  }
+
   async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
       await this.indexedDbManagementService.waitForDb();
