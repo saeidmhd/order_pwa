@@ -17,7 +17,7 @@
     </mat-form-field>
 
     <!-- Show product details only if there are more than one -->
-    <div *ngIf="selectedProductDetails.length > 1">
+    <div *ngIf="selectedProductDetails.length > 0">
       <mat-form-field>
         <mat-label>جزئیات محصول</mat-label>
         <mat-select formControlName="productDetail" (selectionChange)="onProductDetailChange()">
@@ -31,10 +31,13 @@
       <mat-form-field>
         <mat-label>ویژگی محصول</mat-label>
         <mat-select formControlName="productProperty" (selectionChange)="onProductPropertyChange()">
-          <mat-option *ngFor="let property of selectedProductProperties" [value]="property">{{ property.V }}</mat-option>
+          <mat-option *ngFor="let detail of selectedProductDetails" [value]="parseProperties(detail.Properties)">
+            {{ parseProperties(detail.Properties) }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+    
 
     <mat-form-field>
       <mat-label>قیمت</mat-label>

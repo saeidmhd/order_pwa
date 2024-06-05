@@ -14,6 +14,12 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.se
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent implements OnInit {
+  getPropertyTitle(propertyCode: string): string {
+  const propertyCodeNumber = Number(propertyCode);
+  const property = this.propertyDescriptions.find(desc => desc.PropertyDescriptionCode === propertyCodeNumber);
+  return property ? property.Title : 'Unknown Property';
+}
+
   invoiceForm: FormGroup;
   people: Person[] = [];
   products: Product[] = [];
@@ -26,7 +32,7 @@ export class InvoiceComponent implements OnInit {
   total: number = 0;
   productPrices: number[] = [];
   selectedProductDetails: ProductDetail[] = [];
-  selectedProductProperties: { C: string, V: string }[] = [];
+  selectedProductProperties: string = '';
   selectedProductDetail: ProductDetail | undefined = undefined;
   displayedColumns: string[] = ['product', 'quantity', 'price', 'action'];
   visitorId = localStorage.getItem('VisitorId')!;
@@ -92,8 +98,11 @@ export class InvoiceComponent implements OnInit {
     this.selectedProductDetail = this.invoiceForm.get('productDetail')?.value;
     if (this.selectedProductDetail) {
       this.selectedProductProperties = this.parseProperties(this.selectedProductDetail.Properties);
+      console.log(this.selectedProductProperties);
+      
       if (this.selectedProductProperties.length > 0) {
-        this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties[0]);
+        console.log(this.selectedProductProperties[0]);
+        this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties);
         this.onProductPropertyChange();
       } else {
         // If there are no properties, call updateProductPrice directly
@@ -123,13 +132,14 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  parseProperties(propertiesString: string | null | undefined): { C: string, V: string }[] {
-    if (!propertiesString) return [];
+  parseProperties (propertiesString: string | null | undefined): string {
+    if (!propertiesString) return '';
     try {
-      return JSON.parse(propertiesString) as { C: string, V: string }[];
+      const properties = JSON.parse(propertiesString) as { C: string, V: string }[];
+      return properties.map(prop => `${this.getPropertyTitle(prop.C)}: ${prop.V}`).join(', ');
     } catch (error) {
       console.error('Error parsing properties:', error);
-      return [];
+      return '';
     }
   }
 
