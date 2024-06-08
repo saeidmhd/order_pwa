@@ -7,7 +7,7 @@ import { BazaraService } from '../../../core/services/bazara/bazara.service';
 import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
 import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
-import { IBazaraVisitorPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorPerson';
+import { VisitorPerson } from '../../../core/models/bazara/bazara-DTOs/visitorPerson';
 import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
@@ -110,7 +110,7 @@ export class GetBazaraDataComponent implements OnInit {
               this.indexedDbService.addOrEdit('Person', ele, key);
             });
 
-            let VisitorPeople: IBazaraVisitorPerson[] = res.Data.Objects.VisitorPeople;
+            let VisitorPeople: VisitorPerson[] = res.Data.Objects.VisitorPeople;
             VisitorPeople.forEach(ele => {
               const key: IDBValidKey = [+this.visitorId, ele.VisitorPersonId];
               this.indexedDbService.addOrEdit('VisitorPerson', ele, key);

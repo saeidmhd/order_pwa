@@ -6,7 +6,7 @@ import { Picture } from "../bazara-DTOs/picture";
 import { Product } from "../bazara-DTOs/product";
 import { ProductDetail } from "../bazara-DTOs/productDetail";
 import { ProductDetailStoreAsset } from "../bazara-DTOs/productDetailAssetStore";
-import { IBazaraVisitorPerson } from "../bazara-DTOs/IBazaraVisitorPerson";
+import { VisitorPerson } from "../bazara-DTOs/visitorPerson";
 import { IBazaraVisitorProduct } from "../bazara-DTOs/IBazaraVisitorProduct";
 import { Mission } from "../bazara-DTOs/Mission";
 import { MissionDetail } from "../bazara-DTOs/MissionDetail";
@@ -29,7 +29,7 @@ export interface IBazaraData {
     Banks: Bank[],
     PersonAddresses: PersonAddress[],
     People: Person[],
-    VisitorPeople: IBazaraVisitorPerson[],
+    VisitorPeople: VisitorPerson[],
     Products: Product[],
     ProductDetails: ProductDetail[],
     VisitorProducts: IBazaraVisitorProduct[],
