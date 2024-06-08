@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import * as L from "leaflet";
 
-import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
-import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
+import { Person } from '../../../core/models/bazara/bazara-DTOs/person';
+import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/personAddress';
 import { IPeople_Addresses, IPersonAddress } from '../../../core/models/bazara/result-DTOs/IPeople_Addresses';
 import { UtilityService } from '../../../core/services/common/utility.service';
 import { PersonDetailComponent } from './person-detail/person-detail.component';

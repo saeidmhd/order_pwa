@@ -5,7 +5,7 @@ import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
 import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
 import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/visitorProduct';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
-import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
+import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/photoGallery';
 import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/productDetailAssetStore';
 
 @Component({

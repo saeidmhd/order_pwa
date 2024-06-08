@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
+import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/mission';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
 @Component({

@@ -1,5 +1,5 @@
-import { Person } from "../bazara-DTOs/Person";
-import { PersonAddress } from "../bazara-DTOs/PersonAddress";
+import { Person } from "../bazara-DTOs/person";
+import { PersonAddress } from "../bazara-DTOs/personAddress";
 
 export interface IPeople_Addresses {
     personId: number,

@@ -1,4 +1,4 @@
-import { Login } from "../bazara-DTOs/Login";
+import { Login } from "../bazara-DTOs/login";
 
 export interface ILoginResult {
     Result: boolean,

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 
 import * as moment from 'jalali-moment';
-import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
+import { Person } from 'src/app/core/models/bazara/bazara-DTOs/person';
 import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
 import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
