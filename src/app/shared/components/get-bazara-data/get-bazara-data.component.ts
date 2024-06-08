@@ -10,7 +10,7 @@ import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { IBazaraVisitorPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorPerson';
 import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
+import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
@@ -226,7 +226,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             this.dataStatus.productDetailsReceived = true;
-            let obj: IBazaraProductDetail[] = res.Data.Objects.ProductDetails;
+            let obj: ProductDetail[] = res.Data.Objects.ProductDetails;
 
             if (obj.length > 0) {
               obj.forEach(ele => {
