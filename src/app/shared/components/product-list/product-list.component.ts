@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../../core/models/old/product';
 import { ProductCategory } from '../../../core/models/old/product-category';
-import { Picture } from '../../../core/models/old/picture'; // Import Picture model
-import { PhotoGallery } from '../../../core/models/old/photo-gallery'; // Import PhotoGallery model
+import { Picture } from '../../../core/models/old/picture';
+import { PhotoGallery } from 'src/app/core/models/bazara/bazara-DTOs/photoGallery';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
