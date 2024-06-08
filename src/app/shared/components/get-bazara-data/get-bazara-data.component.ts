@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
+
 import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
 import { IBazaraPersonAddress } from '../../../core/models/bazara/bazara-DTOs/IBazaraPersonAddress';
@@ -20,6 +21,12 @@ import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/MissionDet
 import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
 import { Order } from 'src/app/core/models/old/order';
 import { OrderDetail } from 'src/app/core/models/old/order-detail';
+import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/property-description';
+import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
+
+// rest of your code...
+
+
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -80,6 +87,12 @@ export class GetBazaraDataComponent implements OnInit {
     }
     if (this.terminate == false) {
       await this.fetchPersonAddresses();
+    }
+    if (this.terminate == false) {
+      await this.fetchPropertyDescriptions();
+    }
+    if (this.terminate == false) {
+      await this.fetchSettings();
     }
   }
   private async fetchPeople_VisitorPeople(): Promise<void> {
@@ -459,6 +472,64 @@ export class GetBazaraDataComponent implements OnInit {
     }
     catch (error) {
       console.error('Error fetching order detials:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchPropertyDescriptions() {
+    try {
+      this.maxRowVersionModel.fromPropertyDescriptionVersion = await this.indexedDbService.getMaxRowVersion('PropertyDescription');
+      console.log("fromPropertyDescriptionVersion" + this.maxRowVersionModel.fromPropertyDescriptionVersion);
+
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            this.dataStatus.propertyDescriptionsReceived = true;
+            let obj: PropertyDescription[] = res.Data.Objects.PropertyDescriptions;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.PropertyDescriptionId];
+                this.indexedDbService.addOrEdit('PropertyDescription', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching PropertyDescriptions:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchSettings() {
+    try {
+      this.maxRowVersionModel.fromSettingVersion = await this.indexedDbService.getMaxRowVersion('Setting');
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            this.dataStatus.settingReceived = true;
+            let obj: Setting[] = res.Data.Objects.Settings;
+
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.SettingId];
+                this.indexedDbService.addOrEdit('Setting', ele, key);
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching Settings:', error);
       this.terminate = true;
     }
   }
