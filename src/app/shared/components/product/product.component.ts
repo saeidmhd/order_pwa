@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
-import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
+import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
@@ -18,7 +18,7 @@ import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/baza
 export class ProductComponent implements OnInit {
 
   data: any[] = [];
-  products: IBazaraProduct[] = [];
+  products: Product[] = [];
 
   constructor(private genericIndexedService: IndexedDbService) { }
 
@@ -37,7 +37,7 @@ export class ProductComponent implements OnInit {
     this.data.push(this.getPicture());
 
     Promise.all(this.data).then(val => {
-      val[0].forEach((element: IBazaraProduct) => {
+      val[0].forEach((element: Product) => {
         const productDetail = val[1].find((x: IBazaraProductDetail) => x.ProductId == element.ProductId);
         const visitorProduct = val[2].find((x: IBazaraVisitorProduct) => x.ProductDetailId == productDetail.ProductDetailId);
         const photoGallery = val[4].find((pg: PhotoGallery) => pg.ItemCode === element.ProductId);
@@ -63,9 +63,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  async getProducts(): Promise<IBazaraProduct[]> {
+  async getProducts(): Promise<Product[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraProduct>('Product').then((products) => {
+      this.genericIndexedService.getAllData<Product>('Product').then((products) => {
         resolve(products);
       });
     });

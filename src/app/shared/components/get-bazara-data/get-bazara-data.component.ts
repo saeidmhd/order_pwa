@@ -8,7 +8,7 @@ import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAdd
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
 import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { IBazaraVisitorPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorPerson';
-import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
+import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
@@ -190,7 +190,7 @@ export class GetBazaraDataComponent implements OnInit {
             this.dataStatus.productsReceived = true;
             this.dataStatus.visitorProductsReceived = true;
 
-            let products: IBazaraProduct[] = res.Data.Objects.Products;
+            let products: Product[] = res.Data.Objects.Products;
             let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
 
             if (products.length > 0) {
