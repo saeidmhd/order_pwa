@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbManagementService } from './indexedb-management.service';
-import { Person } from '../../models/old/Person';
+import { Person } from 'src/app/core/models/bazara/bazara-DTOs/person';
 
 
 @Injectable({

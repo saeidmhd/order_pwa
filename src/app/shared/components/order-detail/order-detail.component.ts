@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
-import { Person } from 'src/app/core/models/old/Person';
+import { Person } from 'src/app/core/models/bazara/bazara-DTOs/person';
 import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
 import { Product } from 'src/app/core/models/old/product';
 import { ProductDetail } from 'src/app/core/models/old/product-detail';
