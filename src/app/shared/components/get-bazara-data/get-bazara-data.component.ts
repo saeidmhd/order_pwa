@@ -4,7 +4,7 @@ import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.s
 
 import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
-import { IBazaraPersonAddress } from '../../../core/models/bazara/bazara-DTOs/IBazaraPersonAddress';
+import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
 import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { IBazaraVisitorPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorPerson';
@@ -159,7 +159,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             this.dataStatus.personAddressesReceived = true;
-            let obj: IBazaraPersonAddress[] = res.Data.Objects.PersonAddresses;
+            let obj: PersonAddress[] = res.Data.Objects.PersonAddresses;
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PersonAddressId];

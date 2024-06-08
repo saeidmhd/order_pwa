@@ -1,4 +1,4 @@
-export interface IBazaraPersonAddress {
+export interface PersonAddress {
     PersonAddressId: number,
     PersonId: number,
     PersonAddressClientId: number,
