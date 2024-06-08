@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../../core/models/old/product';
 import { ProductCategory } from '../../../core/models/old/product-category';
-import { Picture } from '../../../core/models/old/picture';
+import { Picture } from 'src/app/core/models/bazara/bazara-DTOs/picture';
 import { PhotoGallery } from 'src/app/core/models/bazara/bazara-DTOs/photoGallery';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
