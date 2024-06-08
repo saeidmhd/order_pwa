@@ -13,7 +13,7 @@ import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/I
 import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
-import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/productDetailAssetStore';
 import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
 import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/bank';
 import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
@@ -312,7 +312,7 @@ export class GetBazaraDataComponent implements OnInit {
 
             this.dataStatus.productDetailStoreAssetsReceived = true;
 
-            let obj: IBazaraProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
+            let obj: ProductDetailStoreAsset[] = res.Data.Objects.ProductDetailStoreAssets;
 
             if (obj.length > 0) {
               obj.forEach(ele => {

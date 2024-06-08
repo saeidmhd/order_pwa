@@ -6,7 +6,7 @@ import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDe
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
-import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/productDetailAssetStore';
 
 @Component({
   selector: 'app-product',
@@ -44,8 +44,8 @@ export class ProductComponent implements OnInit {
        
         if (!visitorProduct.Deleted) {
           element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]);
-          element.count1 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
-          element.count2 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
+          element.count1 = val[3].find((x: ProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
+          element.count2 = val[3].find((x: ProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
 
           if (photoGallery != undefined) {
             const picture = val[5].find((x: Picture) => x.PictureId === photoGallery?.PictureId);
@@ -87,9 +87,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  async getProductDetailAssetsStore(): Promise<IBazaraProductDetailStoreAsset[]> {
+  async getProductDetailAssetsStore(): Promise<ProductDetailStoreAsset[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraProductDetailStoreAsset>('ProductDetailStoreAsset').then(productDetailAssetStore => {
+      this.genericIndexedService.getAllData<ProductDetailStoreAsset>('ProductDetailStoreAsset').then(productDetailAssetStore => {
         resolve(productDetailAssetStore);
       });
     });

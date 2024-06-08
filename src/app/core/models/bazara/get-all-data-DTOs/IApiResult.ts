@@ -5,7 +5,7 @@ import { PhotoGallery } from "../bazara-DTOs/PhotoGallery";
 import { Picture } from "../bazara-DTOs/picture";
 import { Product } from "../bazara-DTOs/product";
 import { ProductDetail } from "../bazara-DTOs/productDetail";
-import { IBazaraProductDetailStoreAsset } from "../bazara-DTOs/IBazaraProductDetailAssetStore";
+import { ProductDetailStoreAsset } from "../bazara-DTOs/productDetailAssetStore";
 import { IBazaraVisitorPerson } from "../bazara-DTOs/IBazaraVisitorPerson";
 import { IBazaraVisitorProduct } from "../bazara-DTOs/IBazaraVisitorProduct";
 import { Mission } from "../bazara-DTOs/Mission";
@@ -35,7 +35,7 @@ export interface IBazaraData {
     VisitorProducts: IBazaraVisitorProduct[],
     PhotoGalleries: PhotoGallery[],
     Pictures: Picture[],
-    ProductDetailStoreAssets: IBazaraProductDetailStoreAsset[],
+    ProductDetailStoreAssets: ProductDetailStoreAsset[],
     Missions: Mission[],
     MissionDetails: MissionDetail[],
     ProductCategories:ProductCategory[],
