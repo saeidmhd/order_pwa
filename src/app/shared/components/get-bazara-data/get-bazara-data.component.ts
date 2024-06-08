@@ -19,8 +19,8 @@ import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/bank';
 import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/mission';
 import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/missionDetail';
 import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
-import { Order } from 'src/app/core/models/old/order';
-import { OrderDetail } from 'src/app/core/models/old/order-detail';
+import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
+import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
 import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/property-description';
 import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
 
