@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../../core/models/old/product';
-import { ProductCategory } from '../../../core/models/old/product-category';
+import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
 import { Picture } from 'src/app/core/models/bazara/bazara-DTOs/picture';
 import { PhotoGallery } from 'src/app/core/models/bazara/bazara-DTOs/photoGallery';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { ProductDetail } from 'src/app/core/models/old/product-detail';
+import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { VisitorProduct } from 'src/app/core/models/old/visitor-product';
 import { BottomSheetCategoryComponent } from '../product/bottom-sheet-category/bottom-sheet-category.component';
 

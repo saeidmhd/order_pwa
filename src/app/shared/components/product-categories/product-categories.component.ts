@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductCategory } from '../../../core/models/old/product-category';
+import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 
 @Component({

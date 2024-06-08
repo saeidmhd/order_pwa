@@ -37,5 +37,6 @@ export interface ProductDetail {
     ProductClientId: number;
     ProductCode: number;
     VisitorId: number,
-    ProductName?: string
+    ProductName?: string,    
+    [key: string]: any
 }
