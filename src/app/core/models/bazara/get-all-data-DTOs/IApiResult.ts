@@ -14,6 +14,7 @@ import { Order } from "../bazara-DTOs/order"
 import { OrderDetail } from "../bazara-DTOs/order-detail"
 import { ProductCategory } from "../bazara-DTOs/product-category"
 import { PropertyDescription } from "../bazara-DTOs/property-description"
+import { Setting } from "../bazara-DTOs/setting"
 
 export interface IApiResult {
     Data: IObject,
@@ -41,5 +42,6 @@ export interface IBazaraData {
     Orders:Order[],
     OrderDetails:OrderDetail[],
     PropertyDescriptions:PropertyDescription[]
+    Settings:Setting[]
     
 }

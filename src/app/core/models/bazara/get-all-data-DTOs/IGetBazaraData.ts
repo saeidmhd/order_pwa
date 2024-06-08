@@ -12,6 +12,7 @@ export interface IGetBazaraData {
     fromCostLevelNameVersion?: number,
     fromStoreVersion?: number,
     fromPropertyDescriptionVersion?: number,
+    fromSettingVersion?: number,
     
     fromVisitorVersion?: number,
     fromVisitorPersonVersion?: number,

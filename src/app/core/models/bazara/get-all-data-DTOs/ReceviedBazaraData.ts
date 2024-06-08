@@ -17,4 +17,5 @@ export interface ReceivedBazaraData {
     missionsReceived?: boolean,
     missionDetailsReceived?: boolean,
     propertyDescriptionsReceived?: boolean,
+    settingReceived?: boolean,
 }
