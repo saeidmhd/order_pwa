@@ -9,7 +9,7 @@ import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiRe
 import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { VisitorPerson } from '../../../core/models/bazara/bazara-DTOs/visitorPerson';
 import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
-import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
+import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/visitorProduct';
 import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
@@ -191,7 +191,7 @@ export class GetBazaraDataComponent implements OnInit {
             this.dataStatus.visitorProductsReceived = true;
 
             let products: Product[] = res.Data.Objects.Products;
-            let visitorProducts: IBazaraVisitorProduct[] = res.Data.Objects.VisitorProducts;
+            let visitorProducts: VisitorProduct[] = res.Data.Objects.VisitorProducts;
 
             if (products.length > 0) {
               products.forEach(ele => {

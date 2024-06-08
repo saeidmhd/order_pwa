@@ -1,4 +1,4 @@
-export interface IBazaraVisitorProduct {
+export interface VisitorProduct {
     VisitorProductId: number,
     Description: string,
     ProductDetailId: number,
