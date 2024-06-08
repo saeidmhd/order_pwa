@@ -23,6 +23,7 @@ import { Order } from 'src/app/core/models/old/order';
 import { OrderDetail } from 'src/app/core/models/old/order-detail';
 import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/property-description';
 import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
+import { ExtraData } from 'src/app/core/models/bazara/bazara-DTOs/extra-data';
 
 // rest of your code...
 
@@ -93,6 +94,9 @@ export class GetBazaraDataComponent implements OnInit {
     }
     if (this.terminate == false) {
       await this.fetchSettings();
+    }
+    if (this.terminate == false) {
+      await this.fetchExtraDatas();
     }
   }
   private async fetchPeople_VisitorPeople(): Promise<void> {
@@ -484,13 +488,18 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            this.dataStatus.propertyDescriptionsReceived = true;
             let obj: PropertyDescription[] = res.Data.Objects.PropertyDescriptions;
-
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.PropertyDescriptionId];
-                this.indexedDbService.addOrEdit('PropertyDescription', ele, key);
+                this.indexedDbService.addOrEdit('PropertyDescription', ele, key)
+                  .then(() => {
+                    this.dataStatus.propertyDescriptionsReceived = true;
+                  })
+                  .catch((error) => {
+                    console.error('Error adding data to IndexedDB:', error);
+                    // Handle the error as needed
+                  });
               });
             }
           }
@@ -512,13 +521,19 @@ export class GetBazaraDataComponent implements OnInit {
       this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
         next: (res: IApiResult) => {
           if (res.Result) {
-            this.dataStatus.settingReceived = true;
             let obj: Setting[] = res.Data.Objects.Settings;
 
             if (obj.length > 0) {
               obj.forEach(ele => {
                 const key: IDBValidKey = [+this.visitorId, ele.SettingId];
-                this.indexedDbService.addOrEdit('Setting', ele, key);
+                this.indexedDbService.addOrEdit('Setting', ele, key)
+                  .then(() => {
+                    this.dataStatus.settingReceived = true;
+                  })
+                  .catch((error) => {
+                    console.error('Error adding data to IndexedDB:', error);
+                    // Handle the error as needed
+                  });
               });
             }
           }
@@ -530,6 +545,39 @@ export class GetBazaraDataComponent implements OnInit {
     }
     catch (error) {
       console.error('Error fetching Settings:', error);
+      this.terminate = true;
+    }
+  }
+
+  private async fetchExtraDatas() {
+    try {
+      this.maxRowVersionModel.fromExtraDataVersion = await this.indexedDbService.getMaxRowVersion('ExtraData');
+      this.bazaraService.getBazaraData(this.maxRowVersionModel!).subscribe({
+        next: (res: IApiResult) => {
+          if (res.Result) {
+            let obj: ExtraData[] = res.Data.Objects.ExtraDatas;
+            if (obj.length > 0) {
+              obj.forEach(ele => {
+                const key: IDBValidKey = [+this.visitorId, ele.ExtraDataId];
+                this.indexedDbService.addOrEdit('ExtraData', ele, key)
+                  .then(() => {
+                    this.dataStatus.extraDataReceived = true;
+                  })
+                  .catch((error) => {
+                    console.error('Error adding data to IndexedDB:', error);
+                    // Handle the error as needed
+                  });
+              });
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error fetching ExtraDatas:', error);
       this.terminate = true;
     }
   }

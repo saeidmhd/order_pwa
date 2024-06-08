@@ -10,6 +10,7 @@ import { IBazaraVisitorPerson } from "../bazara-DTOs/IBazaraVisitorPerson"
 import { IBazaraVisitorProduct } from "../bazara-DTOs/IBazaraVisitorProduct"
 import { Mission } from "../bazara-DTOs/Mission"
 import { MissionDetail } from "../bazara-DTOs/MissionDetail"
+import { ExtraData } from "../bazara-DTOs/extra-data"
 import { Order } from "../bazara-DTOs/order"
 import { OrderDetail } from "../bazara-DTOs/order-detail"
 import { ProductCategory } from "../bazara-DTOs/product-category"
@@ -43,5 +44,6 @@ export interface IBazaraData {
     OrderDetails:OrderDetail[],
     PropertyDescriptions:PropertyDescription[]
     Settings:Setting[]
+    ExtraDatas:ExtraData[]
     
 }
