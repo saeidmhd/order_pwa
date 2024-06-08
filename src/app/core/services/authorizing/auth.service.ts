@@ -8,7 +8,7 @@ import { IndexedDbService } from '../indexed-db/indexed-db.service';
 import { UtilityService } from '../common/utility.service';
 import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
 import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
-import { IBazaraLogin } from '../../models/bazara/bazara-DTOs/IBazaraLogin';
+import { Login } from '../../models/bazara/bazara-DTOs/Login';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class AuthService {
           localStorage.setItem('UserData', JSON.stringify(res.Data));
           localStorage.setItem('UserToken', res.Data!.UserToken);
           
-          let loginData: IBazaraLogin[] = [];
+          let loginData: Login[] = [];
           loginData.push(res.Data!)
           this.GenericIndexedDbService.addOrEdit('Login', loginData, res.Data!.VisitorId);
 
