@@ -1,5 +1,5 @@
 import { Bank } from "../bazara-DTOs/Bank"
-import { IBazaraPerson } from "../bazara-DTOs/IBazaraPerson"
+import { Person } from "../bazara-DTOs/Person"
 import { IBazaraPersonAddress } from "../bazara-DTOs/IBazaraPersonAddress"
 import { IBazaraPhotoGallery } from "../bazara-DTOs/IBazaraPhotoGallery"
 import { IBazaraPicture } from "../bazara-DTOs/IBazaraPicture"
@@ -28,7 +28,7 @@ export interface IObject {
 export interface IBazaraData {
     Banks: Bank[],
     PersonAddresses: IBazaraPersonAddress[],
-    People: IBazaraPerson[],
+    People: Person[],
     VisitorPeople: IBazaraVisitorPerson[],
     Products: IBazaraProduct[],
     ProductDetails: IBazaraProductDetail[],

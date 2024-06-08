@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import * as L from "leaflet";
 
-import { IBazaraPerson } from '../../../core/models/bazara/bazara-DTOs/IBazaraPerson';
+import { Person } from '../../../core/models/bazara/bazara-DTOs/Person';
 import { IBazaraPersonAddress } from '../../../core/models/bazara/bazara-DTOs/IBazaraPersonAddress';
 import { IPeople_Addresses, IPersonAddress } from '../../../core/models/bazara/result-DTOs/IPeople_Addresses';
 import { UtilityService } from '../../../core/services/common/utility.service';
@@ -65,9 +65,9 @@ export class MapComponent implements OnInit {
     });
   }
 
-  async getPeople(): Promise<IBazaraPerson[]> {
+  async getPeople(): Promise<Person[]> {
     return new Promise((resolve, reject) => {
-      this.indexedDbService.getAllData<IBazaraPerson>('Person').then(people => {
+      this.indexedDbService.getAllData<Person>('Person').then(people => {
         resolve(people);
       });
     });
@@ -82,7 +82,7 @@ export class MapComponent implements OnInit {
   }
 
   compoundData(val: any) {
-    val[0].forEach((perosn: IBazaraPerson) => {
+    val[0].forEach((perosn: Person) => {
       // this.el = { personId: 0, name: '', personAddresses: [] }
       this.person.personId = perosn.PersonId;
       this.person.name = perosn.FirstName + ' ' + perosn.LastName;

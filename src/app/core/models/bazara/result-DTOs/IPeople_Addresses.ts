@@ -1,4 +1,4 @@
-import { IBazaraPerson } from "../bazara-DTOs/IBazaraPerson";
+import { Person } from "../bazara-DTOs/Person";
 import { IBazaraPersonAddress } from "../bazara-DTOs/IBazaraPersonAddress";
 
 export interface IPeople_Addresses {
