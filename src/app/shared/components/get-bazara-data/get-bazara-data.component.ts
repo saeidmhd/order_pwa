@@ -15,7 +15,7 @@ import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGalle
 import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
-import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
+import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/bank';
 import { Mission } from 'src/app/core/models/bazara/bazara-DTOs/Mission';
 import { MissionDetail } from 'src/app/core/models/bazara/bazara-DTOs/MissionDetail';
 import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';

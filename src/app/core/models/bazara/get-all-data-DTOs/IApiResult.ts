@@ -1,4 +1,4 @@
-import { Bank } from "../bazara-DTOs/Bank"
+import { Bank } from "../bazara-DTOs/bank"
 import { Person } from "../bazara-DTOs/Person"
 import { PersonAddress } from "../bazara-DTOs/PersonAddress"
 import { PhotoGallery } from "../bazara-DTOs/PhotoGallery"
