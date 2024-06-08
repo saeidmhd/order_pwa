@@ -11,7 +11,7 @@ import { IBazaraVisitorPerson } from '../../../core/models/bazara/bazara-DTOs/IB
 import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraPhotoGallery } from '../../../core/models/bazara/bazara-DTOs/IBazaraPhotoGallery';
+import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
@@ -254,7 +254,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             this.dataStatus.photoGalleriesReceived = true;
-            let obj: IBazaraPhotoGallery[] = res.Data.Objects.PhotoGalleries;
+            let obj: PhotoGallery[] = res.Data.Objects.PhotoGalleries;
 
             if (obj.length > 0) {
               obj.forEach(ele => {

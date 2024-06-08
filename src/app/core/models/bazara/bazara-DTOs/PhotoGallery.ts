@@ -1,4 +1,4 @@
-export interface IBazaraPhotoGallery {
+export interface PhotoGallery {
     PhotoGalleryId: number;
     PictureId: number;
     EntityType: number;

@@ -5,7 +5,7 @@ import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraP
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
-import { IBazaraPhotoGallery } from '../../../core/models/bazara/bazara-DTOs/IBazaraPhotoGallery';
+import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 
 @Component({
@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit {
       val[0].forEach((element: IBazaraProduct) => {
         const productDetail = val[1].find((x: IBazaraProductDetail) => x.ProductId == element.ProductId);
         const visitorProduct = val[2].find((x: IBazaraVisitorProduct) => x.ProductDetailId == productDetail.ProductDetailId);
-        const photoGallery = val[4].find((pg: IBazaraPhotoGallery) => pg.ItemCode === element.ProductId);
+        const photoGallery = val[4].find((pg: PhotoGallery) => pg.ItemCode === element.ProductId);
        
         if (!visitorProduct.Deleted) {
           element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]);
@@ -103,9 +103,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  async getPhotoGallery(): Promise<IBazaraPhotoGallery[]> {
+  async getPhotoGallery(): Promise<PhotoGallery[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraPhotoGallery>('PhotoGallery').then(photoGalleries => {
+      this.genericIndexedService.getAllData<PhotoGallery>('PhotoGallery').then(photoGalleries => {
         resolve(photoGalleries);
       })
     })
