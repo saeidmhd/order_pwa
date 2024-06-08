@@ -6,11 +6,16 @@ export interface VisitorProduct {
     Count1: number,
     Count2: number,
     Price: number,
-    Serials: string,
+    Serials: string | null,
     Deleted: boolean
     RowVersion: number,
     ProductDetailClientId: number,
     ProductDetailCode: number
     VisitorClientId: number,
-    VisitorCode: number
+    VisitorCode: number,
+    DataHash: string,
+    CreateDate: string,
+    UpdateDate: string,
+    CreateSyncId: number,
+    UpdateSyncId: number
 }
