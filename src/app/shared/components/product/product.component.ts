@@ -4,7 +4,7 @@ import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.s
 import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
+import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 
@@ -48,7 +48,7 @@ export class ProductComponent implements OnInit {
           element.count2 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
 
           if (photoGallery != undefined) {
-            const picture = val[5].find((x: IBazaraPicture) => x.PictureId === photoGallery?.PictureId);
+            const picture = val[5].find((x: Picture) => x.PictureId === photoGallery?.PictureId);
             
             if (picture)
               element.picUrl = `https://mahakacc.mahaksoft.com${picture.Url}`;
@@ -95,9 +95,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  async getPicture(): Promise<IBazaraPicture[]> {
+  async getPicture(): Promise<Picture[]> {
     return new Promise((Resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraPicture>('Picture').then(pictures => {
+      this.genericIndexedService.getAllData<Picture>('Picture').then(pictures => {
         Resolve(pictures);
       })
     });

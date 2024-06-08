@@ -12,7 +12,7 @@ import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraP
 import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
 import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
 import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
-import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
+import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
 import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
 import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
 import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/bank';
@@ -282,7 +282,7 @@ export class GetBazaraDataComponent implements OnInit {
         next: (res: IApiResult) => {
           if (res.Result) {
             this.dataStatus.picturesReceived = true;
-            let obj: IBazaraPicture[] = res.Data.Objects.Pictures;
+            let obj: Picture[] = res.Data.Objects.Pictures;
 
             if (obj.length > 0) {
               obj.forEach(ele => {

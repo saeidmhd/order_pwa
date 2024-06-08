@@ -1,4 +1,4 @@
-export interface IBazaraPicture {
+export interface Picture {
     PictureId: number;
     PictureClientId: number;
     PictureCode: number;
