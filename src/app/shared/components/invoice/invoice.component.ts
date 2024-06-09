@@ -4,7 +4,7 @@ import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/prop
 import { Person } from 'src/app/core/models/bazara/bazara-DTOs/person';
 import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
 import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
-import { Product } from 'src/app/core/models/old/product';
+import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
 import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
