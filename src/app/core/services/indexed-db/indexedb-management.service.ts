@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { StoreName } from '../../models/indexeddb/storeName';
 
 @Injectable({
   providedIn: 'root'
@@ -20,84 +21,84 @@ export class IndexedDbManagementService {
       request.onupgradeneeded = (event) => {
         this.db = (event.target as IDBRequest<IDBDatabase>).result;
         if (!this.db.objectStoreNames.contains('Login')) {
-          this.db.createObjectStore('Login');
+          this.db.createObjectStore(StoreName.Login);
         }
         if (!this.db.objectStoreNames.contains('Bank')) {
-          this.db.createObjectStore('Bank');
+          this.db.createObjectStore(StoreName.Bank);
         }
         if (!this.db.objectStoreNames.contains('Product')) {
-          this.db.createObjectStore('Product');
+          this.db.createObjectStore(StoreName.Product);
         }
         if (!this.db.objectStoreNames.contains('ProductCategory')) {
-          this.db.createObjectStore('ProductCategory');
+          this.db.createObjectStore(StoreName.ProductCategory);
         }
         if (!this.db.objectStoreNames.contains('ProductDetail')) {
-          this.db.createObjectStore('ProductDetail');
+          this.db.createObjectStore(StoreName.ProductDetail);
         }
         if (!this.db.objectStoreNames.contains('VisitorProduct')) {
-          this.db.createObjectStore('VisitorProduct');
+          this.db.createObjectStore(StoreName.VisitorProduct);
         }
         if (!this.db.objectStoreNames.contains('VisitorPerson')) {
-          this.db.createObjectStore('VisitorPerson');
+          this.db.createObjectStore(StoreName.VisitorPerson);
         }
         if (!this.db.objectStoreNames.contains('Cash')) {
-          this.db.createObjectStore('Cash');
+          this.db.createObjectStore(StoreName.Cash);
         }
         if (!this.db.objectStoreNames.contains('CheckList')) {
-          this.db.createObjectStore('CheckList');
+          this.db.createObjectStore(StoreName.CheckList);
         }
         if (!this.db.objectStoreNames.contains('Cheque')) {
-          this.db.createObjectStore('Cheque');
+          this.db.createObjectStore(StoreName.Cheque);
         }
         if (!this.db.objectStoreNames.contains('CompanyInfo')) {
-          this.db.createObjectStore('CompanyInfo');
+          this.db.createObjectStore(StoreName.CompanyInfo);
         }
         if (!this.db.objectStoreNames.contains('CostLevelName')) {
-          this.db.createObjectStore('CostLevelName');
+          this.db.createObjectStore(StoreName.CostLevelName);
         }
         if (!this.db.objectStoreNames.contains('ExtraData')) {
-          this.db.createObjectStore('ExtraData');
+          this.db.createObjectStore(StoreName.ExtraData);
         }
         if (!this.db.objectStoreNames.contains('Income')) {
-          this.db.createObjectStore('Income');
+          this.db.createObjectStore(StoreName.Income);
         }
         if (!this.db.objectStoreNames.contains('IncomeGroup')) {
-          this.db.createObjectStore('IncomeGroup');
+          this.db.createObjectStore(StoreName.IncomeGroup);
         }
         if (!this.db.objectStoreNames.contains('Mission')) {
-          this.db.createObjectStore('Mission');
+          this.db.createObjectStore(StoreName.Mission);
         }
         if (!this.db.objectStoreNames.contains('MissionDetail')) {
-          this.db.createObjectStore('MissionDetail');
+          this.db.createObjectStore(StoreName.MissionDetail);
         }
         if (!this.db.objectStoreNames.contains('Order')) {
-          const orderStore = this.db.createObjectStore('Order');
+          const orderStore = this.db.createObjectStore(StoreName.Order);
           
           orderStore.createIndex('by-client-id', 'OrderClientId');
         }
         if (!this.db.objectStoreNames.contains('OrderDetail')) {
-          this.db.createObjectStore('OrderDetail');
+          this.db.createObjectStore(StoreName.OrderDetail);
         }
         if (!this.db.objectStoreNames.contains('Person')) {
-          this.db.createObjectStore('Person');
+          this.db.createObjectStore(StoreName.Person);
         }
         if (!this.db.objectStoreNames.contains('PersonAddress')) {
-          this.db.createObjectStore('PersonAddress');
+          this.db.createObjectStore(StoreName.PersonAddress);
         }
         if (!this.db.objectStoreNames.contains('Picture')) {
-          this.db.createObjectStore('Picture');
+          this.db.createObjectStore(StoreName.Picture);
         }
         if (!this.db.objectStoreNames.contains('PhotoGallery')) {
-          this.db.createObjectStore('PhotoGallery');
+          this.db.createObjectStore(StoreName.PhotoGallery);
         }
         if (!this.db.objectStoreNames.contains('ProductDetailAssetStore')) {
-          this.db.createObjectStore('ProductDetailStoreAsset');
+          this.db.createObjectStore(StoreName.ProductDetailStoreAsset);
         }
         if (!this.db.objectStoreNames.contains('PropertyDescription')) {
-          this.db.createObjectStore('PropertyDescription');
+          this.db.createObjectStore(StoreName.PropertyDescription);
         }
         if (!this.db.objectStoreNames.contains('Setting')) {
-          this.db.createObjectStore('Setting');
+          this.db.createObjectStore(StoreName.Setting);
         }
       };
 
