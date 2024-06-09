@@ -1,21 +1,56 @@
-
 <div class="container">
-    <div class="tick" [class.received]="dataStatus.banksReceived">بارگذاری بانک ها </div>
-    <div class="tick" [class.received]="dataStatus.peopleReceived">بارگذاری اشخاص </div>
-    <div class="tick" [class.received]="dataStatus.visitorPeopleReceived">بارگذاری اشخاص ویزیتور </div>
-    <div class="tick" [class.received]="dataStatus.productsReceived">بارگذاری کالاها </div>
-    <div class="tick" [class.received]="dataStatus.visitorProductsReceived">بارگذاری کالاهای ویزیتور</div>
-    <div class="tick" [class.received]="dataStatus.productDetailsReceived">بارگذاری جزییات کالاها </div>
-    <div class="tick" [class.received]="dataStatus.productCategoriesReceived">بارگذاری گروه کالاها</div>
-    <div class="tick" [class.received]="dataStatus.photoGalleriesReceived">بارگذاری گالری تصاویر</div>
-    <div class="tick" [class.received]="dataStatus.picturesReceived">بارگذاری تصاویر</div>
-    <div class="tick" [class.received]="dataStatus.ordersReceived">بارگذاری فاکتورها</div>
-    <div class="tick" [class.received]="dataStatus.orderDetailsReceived">بارگذاری جزییات فاکتورها</div>
-    <div class="tick" [class.received]="dataStatus.missionsReceived">ماموریت ها</div>
-    <div class="tick" [class.received]="dataStatus.missionDetailsReceived">جزئیات ماموریت ها</div>
-    <div class="tick" [class.received]="dataStatus.propertyDescriptionsReceived">بارگذاری توضیحات ویژگیها</div>
-    <div class="tick" [class.received]="dataStatus.settingReceived">بارگذاری تنظیمات</div>
-    <div class="tick" [class.received]="dataStatus.extraDataReceived">بارگذاری اطلاعات افزوده</div>
-    <div class="tick" [class.received]="dataStatus.ordersSent">ارسال سفارشات</div>
-    <div class="tick" [class.received]="dataStatus.orderDetailsSent">ارسال جزییات سفارشات</div>
+  <div class="tick" [class.received]="dataStatus['banksReceived']">
+    بارگذاری بانک ها ({{dataCounts['banksReceived'] || 0}})
   </div>
+  <div class="tick" [class.received]="dataStatus['peopleReceived']">
+    بارگذاری اشخاص ({{dataCounts['peopleReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['visitorPeopleReceived']">
+    بارگذاری اشخاص ویزیتور ({{dataCounts['visitorPeopleReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['productsReceived']">
+    بارگذاری کالاها ({{dataCounts['productsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['visitorProductsReceived']">
+    بارگذاری کالاهای ویزیتور ({{dataCounts['visitorProductsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['productDetailsReceived']">
+    بارگذاری جزییات کالاها ({{dataCounts['productDetailsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['productCategoriesReceived']">
+    بارگذاری گروه کالاها ({{dataCounts['productCategoriesReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['photoGalleriesReceived']">
+    بارگذاری گالری تصاویر ({{dataCounts['photoGalleriesReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['picturesReceived']">
+    بارگذاری تصاویر ({{dataCounts['picturesReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['ordersReceived']">
+    بارگذاری فاکتورها ({{dataCounts['ordersReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['orderDetailsReceived']">
+    بارگذاری جزییات فاکتورها ({{dataCounts['orderDetailsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['missionsReceived']">
+    ماموریت ها ({{dataCounts['missionsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['missionDetailsReceived']">
+    جزئیات ماموریت ها ({{dataCounts['missionDetailsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['propertyDescriptionsReceived']">
+    بارگذاری توضیحات ویژگیها ({{dataCounts['propertyDescriptionsReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['settingReceived']">
+    بارگذاری تنظیمات ({{dataCounts['settingReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['extraDataReceived']">
+    بارگذاری اطلاعات افزوده ({{dataCounts['extraDataReceived'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['ordersSent']">
+    ارسال سفارشات ({{dataCounts['ordersSent'] || 0}})
+  </div>
+  <div class="tick" [class.received]="dataStatus['orderDetailsSent']">
+    ارسال جزییات سفارشات ({{dataCounts['orderDetailsSent'] || 0}})
+  </div>
+</div>
