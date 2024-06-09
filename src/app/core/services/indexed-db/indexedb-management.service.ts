@@ -8,7 +8,7 @@ export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 6;
+  private dbVersion = 7;
 
   constructor() {
     this.openDatabase();
@@ -99,6 +99,9 @@ export class IndexedDbManagementService {
         }
         if (!this.db.objectStoreNames.contains('Setting')) {
           this.db.createObjectStore(StoreName.Setting);
+        }
+        if (!this.db.objectStoreNames.contains('ExtraData')) {
+          this.db.createObjectStore('ExtraData');
         }
       };
 
