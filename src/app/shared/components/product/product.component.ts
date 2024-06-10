@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
-import { IBazaraProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraProduct';
-import { IBazaraProductDetail } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetail';
-import { IBazaraVisitorProduct } from '../../../core/models/bazara/bazara-DTOs/IBazaraVisitorProduct';
-import { IBazaraPicture } from '../../../core/models/bazara/bazara-DTOs/IBazaraPicture';
-import { IBazaraPhotoGallery } from '../../../core/models/bazara/bazara-DTOs/IBazaraPhotoGallery';
-import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/IBazaraProductDetailAssetStore';
+import { Product } from '../../../core/models/bazara/bazara-DTOs/product';
+import { ProductDetail } from '../../../core/models/bazara/bazara-DTOs/productDetail';
+import { VisitorProduct } from '../../../core/models/bazara/bazara-DTOs/visitorProduct';
+import { Picture } from '../../../core/models/bazara/bazara-DTOs/picture';
+import { PhotoGallery } from '../../../core/models/bazara/bazara-DTOs/PhotoGallery';
+import { ProductDetailStoreAsset } from '../../../core/models/bazara/bazara-DTOs/productDetailAssetStore';
 
 @Component({
   selector: 'app-product',
@@ -18,7 +18,7 @@ import { IBazaraProductDetailStoreAsset } from '../../../core/models/bazara/baza
 export class ProductComponent implements OnInit {
 
   data: any[] = [];
-  products: IBazaraProduct[] = [];
+  products: Product[] = [];
 
   constructor(private genericIndexedService: IndexedDbService) { }
 
@@ -37,18 +37,18 @@ export class ProductComponent implements OnInit {
     this.data.push(this.getPicture());
 
     Promise.all(this.data).then(val => {
-      val[0].forEach((element: IBazaraProduct) => {
-        const productDetail = val[1].find((x: IBazaraProductDetail) => x.ProductId == element.ProductId);
-        const visitorProduct = val[2].find((x: IBazaraVisitorProduct) => x.ProductDetailId == productDetail.ProductDetailId);
-        const photoGallery = val[4].find((pg: IBazaraPhotoGallery) => pg.ItemCode === element.ProductId);
+      val[0].forEach((element: Product) => {
+        const productDetail = val[1].find((x: ProductDetail) => x.ProductId == element.ProductId);
+        const visitorProduct = val[2].find((x: VisitorProduct) => x.ProductDetailId == productDetail.ProductDetailId);
+        const photoGallery = val[4].find((pg: PhotoGallery) => pg.ItemCode === element.ProductId);
        
         if (!visitorProduct.Deleted) {
           element.price = parseFloat((productDetail as any)['Price' + productDetail?.DefaultSellPriceLevel]);
-          element.count1 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
-          element.count2 = val[3].find((x: IBazaraProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
+          element.count1 = val[3].find((x: ProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count1;
+          element.count2 = val[3].find((x: ProductDetailStoreAsset) => x.ProductDetailId == productDetail.ProductDetailId).Count2;
 
           if (photoGallery != undefined) {
-            const picture = val[5].find((x: IBazaraPicture) => x.PictureId === photoGallery?.PictureId);
+            const picture = val[5].find((x: Picture) => x.PictureId === photoGallery?.PictureId);
             
             if (picture)
               element.picUrl = `https://mahakacc.mahaksoft.com${picture.Url}`;
@@ -63,49 +63,49 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  async getProducts(): Promise<IBazaraProduct[]> {
+  async getProducts(): Promise<Product[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraProduct>('Product').then((products) => {
+      this.genericIndexedService.getAllData<Product>('Product').then((products) => {
         resolve(products);
       });
     });
   }
 
-  async getProductDetail(): Promise<IBazaraProductDetail[]> {
+  async getProductDetail(): Promise<ProductDetail[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraProductDetail>('ProductDetail').then(productDetails => {
+      this.genericIndexedService.getAllData<ProductDetail>('ProductDetail').then(productDetails => {
         resolve(productDetails);
       });
     });
   }
 
-  async getVisitorProduct(): Promise<IBazaraVisitorProduct[]> {
+  async getVisitorProduct(): Promise<VisitorProduct[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraVisitorProduct>('VisitorProduct').then(visitorProducts => {
+      this.genericIndexedService.getAllData<VisitorProduct>('VisitorProduct').then(visitorProducts => {
         resolve(visitorProducts);
       });
     });
   }
 
-  async getProductDetailAssetsStore(): Promise<IBazaraProductDetailStoreAsset[]> {
+  async getProductDetailAssetsStore(): Promise<ProductDetailStoreAsset[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraProductDetailStoreAsset>('ProductDetailStoreAsset').then(productDetailAssetStore => {
+      this.genericIndexedService.getAllData<ProductDetailStoreAsset>('ProductDetailStoreAsset').then(productDetailAssetStore => {
         resolve(productDetailAssetStore);
       });
     });
   }
 
-  async getPicture(): Promise<IBazaraPicture[]> {
+  async getPicture(): Promise<Picture[]> {
     return new Promise((Resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraPicture>('Picture').then(pictures => {
+      this.genericIndexedService.getAllData<Picture>('Picture').then(pictures => {
         Resolve(pictures);
       })
     });
   }
 
-  async getPhotoGallery(): Promise<IBazaraPhotoGallery[]> {
+  async getPhotoGallery(): Promise<PhotoGallery[]> {
     return new Promise((resolve, reject) => {
-      this.genericIndexedService.getAllData<IBazaraPhotoGallery>('PhotoGallery').then(photoGalleries => {
+      this.genericIndexedService.getAllData<PhotoGallery>('PhotoGallery').then(photoGalleries => {
         resolve(photoGalleries);
       })
     })

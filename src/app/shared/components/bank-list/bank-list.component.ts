@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Bank } from '../../../core/models/old/Bank';
+import { Bank } from 'src/app/core/models/bazara/bazara-DTOs/Bank';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 // import { IndexedDbService } from '../../../core/services/indexed-db.service';
 // import { BanksService } from '../../../core/services/banks.service';

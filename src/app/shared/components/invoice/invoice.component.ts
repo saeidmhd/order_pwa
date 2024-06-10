@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PropertyDescription } from 'src/app/core/models/bazara/bazara-DTOs/property-description';
-import { Person } from 'src/app/core/models/old/Person';
-import { Order } from 'src/app/core/models/old/order';
-import { OrderDetail } from 'src/app/core/models/old/order-detail';
-import { Product } from 'src/app/core/models/old/product';
-import { ProductDetail } from 'src/app/core/models/old/product-detail';
+import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
+import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
+import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
+import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
+import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
 @Component({

@@ -1,4 +1,4 @@
-export interface IBazaraLogin {
+export interface Login {
     UserToken: string,
     SyncId: number,
     VisitorId: number,

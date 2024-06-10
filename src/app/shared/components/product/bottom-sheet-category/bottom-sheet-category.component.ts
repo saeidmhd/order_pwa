@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { ProductCategory } from 'src/app/core/models/old/product-category';
+import { ProductCategory } from 'src/app/core/models/bazara/bazara-DTOs/product-category';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 
 

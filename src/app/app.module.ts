@@ -27,7 +27,6 @@ import { DashboardComponent } from './shared/components/dashboard/dashboard.comp
 import { BasicInfoComponent } from './shared/components/basic-info/basic-info.component';
 import { BankListComponent } from './shared/components/bank-list/bank-list.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ProductListComponent } from './shared/components/product-list/product-list.component';
 import { OrderListComponent } from './shared/components/order-list/order-list.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductCategoriesComponent } from './shared/components/product-categories/product-categories.component';
@@ -74,7 +73,6 @@ import { PersianDatePipe } from './persian-date.pipe';
     BankListComponent,
     ProductComponent,
     ProductCardComponent,
-    ProductListComponent,
     ProductCategoriesComponent,
     OrderListComponent,
     OrderDetailComponent,

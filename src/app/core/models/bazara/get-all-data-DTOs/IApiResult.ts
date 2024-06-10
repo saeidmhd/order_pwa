@@ -1,21 +1,21 @@
-import { Bank } from "../bazara-DTOs/Bank"
-import { IBazaraPerson } from "../bazara-DTOs/IBazaraPerson"
-import { IBazaraPersonAddress } from "../bazara-DTOs/IBazaraPersonAddress"
-import { IBazaraPhotoGallery } from "../bazara-DTOs/IBazaraPhotoGallery"
-import { IBazaraPicture } from "../bazara-DTOs/IBazaraPicture"
-import { IBazaraProduct } from "../bazara-DTOs/IBazaraProduct"
-import { IBazaraProductDetail } from "../bazara-DTOs/IBazaraProductDetail"
-import { IBazaraProductDetailStoreAsset } from "../bazara-DTOs/IBazaraProductDetailAssetStore"
-import { IBazaraVisitorPerson } from "../bazara-DTOs/IBazaraVisitorPerson"
-import { IBazaraVisitorProduct } from "../bazara-DTOs/IBazaraVisitorProduct"
-import { Mission } from "../bazara-DTOs/Mission"
-import { MissionDetail } from "../bazara-DTOs/MissionDetail"
-import { ExtraData } from "../bazara-DTOs/extra-data"
-import { Order } from "../bazara-DTOs/order"
-import { OrderDetail } from "../bazara-DTOs/order-detail"
-import { ProductCategory } from "../bazara-DTOs/product-category"
-import { PropertyDescription } from "../bazara-DTOs/property-description"
-import { Setting } from "../bazara-DTOs/setting"
+import { Bank } from "../bazara-DTOs/Bank";
+import { Person } from "../bazara-DTOs/Person";
+import { PersonAddress } from "../bazara-DTOs/PersonAddress";
+import { PhotoGallery } from "../bazara-DTOs/PhotoGallery";
+import { Picture } from "../bazara-DTOs/picture";
+import { Product } from "../bazara-DTOs/product";
+import { ProductDetail } from "../bazara-DTOs/productDetail";
+import { ProductDetailStoreAsset } from "../bazara-DTOs/productDetailAssetStore";
+import { VisitorPerson } from "../bazara-DTOs/visitorPerson";
+import { VisitorProduct } from "../bazara-DTOs/visitorProduct";
+import { Mission } from "../bazara-DTOs/Mission";
+import { MissionDetail } from "../bazara-DTOs/MissionDetail";
+import { Order } from "../bazara-DTOs/order";
+import { OrderDetail } from "../bazara-DTOs/order-detail";
+import { ProductCategory } from "../bazara-DTOs/product-category";
+import { PropertyDescription } from "../bazara-DTOs/property-description";
+import { Setting } from "../bazara-DTOs/setting";
+import { ExtraData } from "../bazara-DTOs/extra-data";
 
 export interface IApiResult {
     Data: IObject,
@@ -28,15 +28,15 @@ export interface IObject {
 
 export interface IBazaraData {
     Banks: Bank[],
-    PersonAddresses: IBazaraPersonAddress[],
-    People: IBazaraPerson[],
-    VisitorPeople: IBazaraVisitorPerson[],
-    Products: IBazaraProduct[],
-    ProductDetails: IBazaraProductDetail[],
-    VisitorProducts: IBazaraVisitorProduct[],
-    PhotoGalleries: IBazaraPhotoGallery[],
-    Pictures: IBazaraPicture[],
-    ProductDetailStoreAssets: IBazaraProductDetailStoreAsset[],
+    PersonAddresses: PersonAddress[],
+    People: Person[],
+    VisitorPeople: VisitorPerson[],
+    Products: Product[],
+    ProductDetails: ProductDetail[],
+    VisitorProducts: VisitorProduct[],
+    PhotoGalleries: PhotoGallery[],
+    Pictures: Picture[],
+    ProductDetailStoreAssets: ProductDetailStoreAsset[],
     Missions: Mission[],
     MissionDetails: MissionDetail[],
     ProductCategories:ProductCategory[],

@@ -41,12 +41,3 @@ export interface Order {
     ReceiptClientId: number;
     ReceiptCode: number;
 }
-
-export interface OrdersResponse {
-    Result: boolean;
-    Data: {
-        Objects: {
-            Orders: Order[];
-        };
-    };
-}

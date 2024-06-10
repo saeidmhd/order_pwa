@@ -1,8 +1,8 @@
-import { IBazaraLogin } from "../bazara-DTOs/IBazaraLogin";
+import { Login } from "../bazara-DTOs/login";
 
 export interface ILoginResult {
     Result: boolean,
-    Data?: IBazaraLogin,
+    Data?: Login,
     Code?: number; // Make the Code property optional
     Message: string;
 }

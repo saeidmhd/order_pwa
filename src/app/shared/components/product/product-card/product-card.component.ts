@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IBazaraProduct } from 'src/app/core/models/bazara/bazara-DTOs/IBazaraProduct';
+import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
 
 @Component({
   selector: 'app-product-card',
@@ -9,7 +9,7 @@ import { IBazaraProduct } from 'src/app/core/models/bazara/bazara-DTOs/IBazaraPr
 })
 export class ProductCardComponent {
  
-  @Input() product!: IBazaraProduct;
+  @Input() product!: Product;
   isLoading = false;
 
   decreaseQuantity() {

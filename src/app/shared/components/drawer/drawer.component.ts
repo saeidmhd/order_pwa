@@ -53,6 +53,11 @@ export class DrawerComponent {
     this.router.navigate(['/order-list']);
   }
 
+  navigateToOrersReports() {
+    this.drawer.close();
+    this.router.navigate(['/reports-orders']);
+  }
+
   navigateToUpdateInfo() {
     this.drawer.close();
     this.router.navigate(['/update-info']);

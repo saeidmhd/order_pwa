@@ -1,4 +1,3 @@
-// product-detail.ts
 export interface ProductDetail {
     ProductDetailId: number;
     ProductDetailClientId: number;
@@ -37,15 +36,7 @@ export interface ProductDetail {
     RowVersion: number;
     ProductClientId: number;
     ProductCode: number;
-    [key: string]: any;
-  }
-  
-  export interface ProductDetailsResponse {
-    Result: boolean;
-    Data: {
-      Objects: {
-        ProductDetails: ProductDetail[];
-      };
-    };
-  }
-  
+    VisitorId: number,
+    ProductName?: string,    
+    [key: string]: any
+}

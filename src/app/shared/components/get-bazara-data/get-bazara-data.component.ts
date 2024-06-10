@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.service';
 import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
+import { PersonAddress } from '../../../core/models/bazara/bazara-DTOs/PersonAddress';
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
 import { STORE_NAMES } from '../../../core/constants/store-names';
+
 
 @Component({
   selector: 'app-get-bazara-data',
