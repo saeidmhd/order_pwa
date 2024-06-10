@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { IndexedDbManagementService } from './indexedb-management.service';
 import { Person } from '../../models/old/Person';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -24,16 +23,13 @@ export class IndexedDbService {
     const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
     const objectStore = transaction.objectStore(storeName);
 
-    // // Use a key range to get all storeData for the specific visitorId
-    // const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
-    const max_int = Number.MAX_SAFE_INTEGER
+    const max_int = Number.MAX_SAFE_INTEGER;
     const keyRange = IDBKeyRange.bound([this.getVisitorId(), 0], [this.getVisitorId(), max_int]);
 
     return new Promise<T[]>((resolve, reject) => {
       const getRequest = objectStore.getAll(keyRange);
       getRequest.onsuccess = (event: any) => {
         let obj: T[] = (event.target as IDBRequest<T[]>).result;
-        // obj.sort((a,b) => a.PersonCode - b.PersonCode)
         resolve(obj);
       };
 
@@ -50,7 +46,6 @@ export class IndexedDbService {
     const index = objectStore.index(indexName);
 
     return new Promise((resolve, reject) => {
-      // const request = index.get(1053028123466);
       const request = index.openCursor(IDBKeyRange.only(searchData));
       request.onsuccess = function () {
         const cursor = request.result;
@@ -60,7 +55,6 @@ export class IndexedDbService {
         } else {
         }
       };
-
     });
   }
 
@@ -68,7 +62,7 @@ export class IndexedDbService {
     try {
       await this.indexedDbManagementService.waitForDb();
 
-      const db = await this.indexedDbManagementService.openDatabase();
+      const db = await this.indexedDbManagementService.openDatabase(storeName);
       const transaction = db.transaction(storeName, 'readwrite');
       const objectStore = transaction.objectStore(storeName);
 
@@ -97,19 +91,15 @@ export class IndexedDbService {
   }
 
   async delete<T>(storeName: string, data: T) {
-    // data.Delete = true;
     await this.indexedDbManagementService.waitForDb();
     await this.indexedDbManagementService.db.put(storeName, data);
-    //  some action may be needed later
   }
 
   async getMaxRowVersion(storeName: string): Promise<number> {
-    const db = await this.indexedDbManagementService.openDatabase();
+    const db = await this.indexedDbManagementService.openDatabase(storeName);
     const transaction = db.transaction([storeName], 'readonly');
     const objectStore = transaction.objectStore(storeName);
 
-    // Use a key range to get all records for the specific visitorId
-    // const keyRange = IDBKeyRange.bound(`${this.getVisitorId()}-`, `${this.getVisitorId()}-\uffff`);
     const keyRange = IDBKeyRange.bound([this.getVisitorId(), 0], [this.getVisitorId(), 2147483647]);
 
     return new Promise<number>((resolve, reject) => {
@@ -130,18 +120,17 @@ export class IndexedDbService {
     await this.indexedDbManagementService.waitForDb();
     const transaction = this.indexedDbManagementService.db.transaction("Person", 'readonly');
     const objectStore = transaction.objectStore("Person");
-  
+
     return new Promise<Person>((resolve, reject) => {
       const getRequest = objectStore.get(personId);
       getRequest.onsuccess = (event: any) => {
         let person: Person = (event.target as IDBRequest<Person>).result;
         resolve(person);
       };
-  
+
       getRequest.onerror = (event: any) => {
         reject(new Error('Failed to get person: ' + (event.target as any).error.message));
       };
     });
   }
-  
 }

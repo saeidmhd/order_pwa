@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { STORE_NAMES } from '../../constants/store-names'; // Adjust the import path as necessary
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,99 +15,26 @@ export class IndexedDbManagementService {
     this.openDatabase();
   }
 
-  async openDatabase(): Promise<IDBDatabase> {
+  async openDatabase(storeName?: string): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.dbVersion);
 
       request.onupgradeneeded = (event) => {
         this.db = (event.target as IDBRequest<IDBDatabase>).result;
-        if (!this.db.objectStoreNames.contains('Login')) {
-          this.db.createObjectStore('Login');
-        }
-        if (!this.db.objectStoreNames.contains('Bank')) {
-          this.db.createObjectStore('Bank');
-        }
-        if (!this.db.objectStoreNames.contains('Product')) {
-          this.db.createObjectStore('Product');
-        }
-        if (!this.db.objectStoreNames.contains('ProductCategory')) {
-          this.db.createObjectStore('ProductCategory');
-        }
-        if (!this.db.objectStoreNames.contains('ProductDetail')) {
-          this.db.createObjectStore('ProductDetail');
-        }
-        if (!this.db.objectStoreNames.contains('VisitorProduct')) {
-          this.db.createObjectStore('VisitorProduct');
-        }
-        if (!this.db.objectStoreNames.contains('VisitorPerson')) {
-          this.db.createObjectStore('VisitorPerson');
-        }
-        if (!this.db.objectStoreNames.contains('Cash')) {
-          this.db.createObjectStore('Cash');
-        }
-        if (!this.db.objectStoreNames.contains('CheckList')) {
-          this.db.createObjectStore('CheckList');
-        }
-        if (!this.db.objectStoreNames.contains('Cheque')) {
-          this.db.createObjectStore('Cheque');
-        }
-        if (!this.db.objectStoreNames.contains('CompanyInfo')) {
-          this.db.createObjectStore('CompanyInfo');
-        }
-        if (!this.db.objectStoreNames.contains('CostLevelName')) {
-          this.db.createObjectStore('CostLevelName');
-        }
-        if (!this.db.objectStoreNames.contains('ExtraData')) {
-          this.db.createObjectStore('ExtraData');
-        }
-        if (!this.db.objectStoreNames.contains('Income')) {
-          this.db.createObjectStore('Income');
-        }
-        if (!this.db.objectStoreNames.contains('IncomeGroup')) {
-          this.db.createObjectStore('IncomeGroup');
-        }
-        if (!this.db.objectStoreNames.contains('Mission')) {
-          this.db.createObjectStore('Mission');
-        }
-        if (!this.db.objectStoreNames.contains('MissionDetail')) {
-          this.db.createObjectStore('MissionDetail');
-        }
-        if (!this.db.objectStoreNames.contains('Order')) {
-          const orderStore = this.db.createObjectStore('Order');
-          
-          orderStore.createIndex('by-client-id', 'OrderClientId');
-        }
-        if (!this.db.objectStoreNames.contains('OrderDetail')) {
-          this.db.createObjectStore('OrderDetail');
-        }
-        if (!this.db.objectStoreNames.contains('Person')) {
-          this.db.createObjectStore('Person');
-        }
-        if (!this.db.objectStoreNames.contains('PersonAddress')) {
-          this.db.createObjectStore('PersonAddress');
-        }
-        if (!this.db.objectStoreNames.contains('Picture')) {
-          this.db.createObjectStore('Picture');
-        }
-        if (!this.db.objectStoreNames.contains('PhotoGallery')) {
-          this.db.createObjectStore('PhotoGallery');
-        }
-        if (!this.db.objectStoreNames.contains('ProductDetailAssetStore')) {
-          this.db.createObjectStore('ProductDetailStoreAsset');
-        }
-        if (!this.db.objectStoreNames.contains('PropertyDescription')) {
-          this.db.createObjectStore('PropertyDescription');
-        }
-        if (!this.db.objectStoreNames.contains('Setting')) {
-          this.db.createObjectStore('Setting');
-        }
-        if (!this.db.objectStoreNames.contains('ExtraData')) {
-          this.db.createObjectStore('ExtraData');
+        STORE_NAMES.forEach(store => {
+          if (!this.db.objectStoreNames.contains(store)) {
+            this.db.createObjectStore(store);
+          }
+        });
+
+        if (storeName && !this.db.objectStoreNames.contains(storeName)) {
+          this.db.createObjectStore(storeName);
         }
       };
 
       request.onsuccess = (event) => {
-        resolve((event.target as IDBRequest<IDBDatabase>).result);
+        this.db = (event.target as IDBRequest<IDBDatabase>).result;
+        resolve(this.db);
       };
 
       request.onerror = (event) => {

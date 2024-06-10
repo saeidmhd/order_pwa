@@ -3,7 +3,7 @@ import { IndexedDbService } from '../../../core/services/indexed-db/indexed-db.s
 import { IGetBazaraData } from '../../../core/models/bazara/get-all-data-DTOs/IGetBazaraData';
 import { BazaraService } from '../../../core/services/bazara/bazara.service';
 import { IApiResult } from '../../../core/models/bazara/get-all-data-DTOs/IApiResult';
-import { ReceivedBazaraData } from 'src/app/core/models/bazara/get-all-data-DTOs/ReceviedBazaraData';
+import { STORE_NAMES } from '../../../core/constants/store-names';
 
 @Component({
   selector: 'app-get-bazara-data',
@@ -28,29 +28,8 @@ export class GetBazaraDataComponent implements OnInit {
 
   private async fetchAllData() {
     try {
-      const stores = [
-        'Person',
-        'VisitorPerson',
-        'ProductCategory',
-        'PersonAddress',
-        'Product',
-        'VisitorProduct',
-        'ProductDetail',
-        'PhotoGallery',
-        'Picture',
-        'ProductDetailStoreAsset',
-        'Bank',
-        'Mission',
-        'MissionDetail',
-        'Order',
-        'OrderDetail',
-        'PropertyDescription',
-        'Setting',
-        'ExtraData'
-      ];
-
       // Get max row versions for all required data stores
-      for (const store of stores) {
+      for (const store of STORE_NAMES) {
         const property = `from${store}Version` as keyof IGetBazaraData;
         this.maxRowVersionModel[property] = await this.indexedDbService.getMaxRowVersion(store);
       }
@@ -101,11 +80,16 @@ export class GetBazaraDataComponent implements OnInit {
 
   private handleData(dataArray: any[], storeName: string, statusKey: string) {
     if (dataArray && dataArray.length > 0) {
-      this.dataStatus[statusKey] = true;
       this.dataCounts[statusKey] = dataArray.length;
       dataArray.forEach(ele => {
         const key: IDBValidKey = [+this.visitorId, ele[`${storeName}Id`]];
-        this.indexedDbService.addOrEdit(storeName, ele, key);
+        this.indexedDbService.addOrEdit(storeName, ele, key)
+          .then(() => {
+            this.dataStatus[statusKey] = true;
+          })
+          .catch((error) => {
+            console.error('Error adding data to IndexedDB:', error);
+          });
       });
     }
   }
