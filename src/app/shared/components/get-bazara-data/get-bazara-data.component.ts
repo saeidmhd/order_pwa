@@ -72,7 +72,10 @@ export class GetBazaraDataComponent implements OnInit {
       OrderDetails: ['OrderDetail', 'orderDetailsReceived'],
       PropertyDescriptions: ['PropertyDescription', 'propertyDescriptionsReceived'],
       Settings: ['Setting', 'settingReceived'],
-      ExtraDatas: ['ExtraData', 'extraDataReceived']
+      ExtraDatas: ['ExtraData', 'extraDataReceived'],
+      Promotions: ['Promotion', 'promotionReceived'],
+      PromotionDetails: ['PromotionDetail', 'promotionDetailReceived'],
+      PromotionEntities: ['PromotionEntity', 'promotionEntityReceived']
     };
 
     for (const [key, [storeName, statusKey]] of Object.entries(dataMapping)) {
@@ -96,3 +99,4 @@ export class GetBazaraDataComponent implements OnInit {
     }
   }
 }
+

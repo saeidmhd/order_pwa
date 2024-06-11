@@ -9,11 +9,9 @@ export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 11;
+  private dbVersion = 12;
 
   constructor() {
-    console.log("asd");
-    
     this.openDatabase();
   }
 
@@ -22,13 +20,9 @@ export class IndexedDbManagementService {
       const request = indexedDB.open(this.dbName, this.dbVersion);
 
       request.onupgradeneeded = (event) => {
-        console.log("qwe");
-
         this.db = (event.target as IDBRequest<IDBDatabase>).result;
         STORE_NAMES.forEach(store => {
-          console.log("qwe2");
           if (!this.db.objectStoreNames.contains(store)) {
-            console.log("qwe3");
             this.db.createObjectStore(store);
           }
         });

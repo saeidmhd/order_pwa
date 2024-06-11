@@ -20,6 +20,7 @@ export const STORE_NAMES = [
     'ExtraData',
     'Promotion',
     'PromotionDetail',
-    'PromotionEntity'
+    'PromotionEntity',
+    'Login'
   ];
   
