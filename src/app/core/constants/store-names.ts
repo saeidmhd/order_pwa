@@ -17,6 +17,9 @@ export const STORE_NAMES = [
     'OrderDetail',
     'PropertyDescription',
     'Setting',
-    'ExtraData'
+    'ExtraData',
+    'Promotion',
+    'PromotionDetail',
+    'PromotionEntity'
   ];
   

@@ -14,6 +14,10 @@ export interface IGetBazaraData {
     fromPropertyDescriptionVersion?: number,
     fromSettingVersion?: number,
     fromExtraDataVersion?: number,
+
+    fromPromotionVersion?: number,
+    fromPromotionDetailVersion?: number,
+    fromPromotionEntityVersion?: number,
     
     fromVisitorVersion?: number,
     fromVisitorPersonVersion?: number,

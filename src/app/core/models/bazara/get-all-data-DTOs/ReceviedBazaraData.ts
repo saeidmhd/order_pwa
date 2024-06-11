@@ -19,4 +19,7 @@ export interface ReceivedBazaraData {
     propertyDescriptionsReceived?: boolean,
     settingReceived?: boolean,
     extraDataReceived?: boolean,
+    promotionReceived?: boolean,
+    promotionDetailReceived?: boolean,
+    promotionEntityReceived?: boolean,
 }

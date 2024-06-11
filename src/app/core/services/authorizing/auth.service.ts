@@ -8,7 +8,7 @@ import { IndexedDbService } from '../indexed-db/indexed-db.service';
 import { UtilityService } from '../common/utility.service';
 import { IBazaraLoginDTO } from '../../models/bazara/login-model/IBazaraLoginDTO';
 import { ILoginResult } from '../../models/bazara/login-model/ILoginResultDTO';
-import { Login } from '../../models/bazara/bazara-DTOs/login';
+import { Login } from '../../models/bazara/bazara-DTOs/Login';
 
 @Injectable({
   providedIn: 'root'

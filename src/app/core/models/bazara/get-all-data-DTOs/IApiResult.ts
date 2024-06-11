@@ -16,6 +16,9 @@ import { ProductCategory } from "../bazara-DTOs/product-category";
 import { PropertyDescription } from "../bazara-DTOs/property-description";
 import { Setting } from "../bazara-DTOs/setting";
 import { ExtraData } from "../bazara-DTOs/extra-data";
+import { Promotion } from "../bazara-DTOs/promotion";
+import { PromotionDetail } from "../bazara-DTOs/promotion-detail";
+import { PromotionEntity } from "../bazara-DTOs/promotion-entity";
 
 export interface IApiResult {
     Data: IObject,
@@ -45,5 +48,8 @@ export interface IBazaraData {
     PropertyDescriptions:PropertyDescription[]
     Settings:Setting[]
     ExtraDatas:ExtraData[]
+    Promotions:Promotion[]
+    PromotinDetails:PromotionDetail[]
+    PromotionEntities:PromotionEntity[]
     
 }
