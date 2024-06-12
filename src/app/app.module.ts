@@ -62,6 +62,8 @@ import { MissionCardComponent } from './shared/components/dashboard/mission/miss
 import { RialCurrencyPipe } from './rial-currency.pipe';
 import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
 import { PersianDatePipe } from './persian-date.pipe';
+import { OrderComponent } from './shared/components/order/order.component';
+import { OrderCardComponent } from './shared/components/order/order-card/order-card.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { PersianDatePipe } from './persian-date.pipe';
     ProductComponent,
     ProductCardComponent,
     ProductCategoriesComponent,
+    OrderComponent,
+    OrderCardComponent,
     OrderListComponent,
     OrderDetailComponent,
     ToolbarComponent,
