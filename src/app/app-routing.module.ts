@@ -14,7 +14,7 @@ import { GetBazaraDataComponent } from './shared/components/get-bazara-data/get-
 import { ProductComponent } from './shared/components/product/product.component';
 import { MapComponent } from './shared/components/map/map.component';
 import { OrderComponent } from './shared/components/order/order.component';
-
+import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -28,6 +28,7 @@ const routes: Routes = [
   // { path: 'product-list/:categoryId', component: ProductListComponent, canActivate: [authGuard] }, 
   { path: 'order-list', component: OrderListComponent, canActivate: [authGuard] },
   { path: 'reports-orders', component: OrderComponent, canActivate: [authGuard] },
+  { path: 'promotion-list', component: PromotionListComponent, canActivate: [authGuard] },
   { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
