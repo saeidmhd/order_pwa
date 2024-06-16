@@ -1,0 +1,30 @@
+<div class="list-container">
+    <mat-card class="report-card">
+        <mat-card-header>
+            <mat-card-title>{{orderReports.PersonName}}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p>
+                <span>شماره فاکتور</span>
+                {{ orderReports.OrderId }}
+            </p>
+            <p>
+                <span>کد پیگیری</span>
+                {{ orderReports.OrderClientId }}
+            </p>
+            <p>
+                <span>تاریخ فاکتور</span>
+                {{ orderReports.OrderDate }}
+            </p>
+            <p>
+                <span>مبلغ فاکتور</span>
+                {{ orderReports.OrderSum }}
+            </p>
+        </mat-card-content>
+        
+        <div class="btn">
+            <button mat-icon-button>جزئیات فاکتور</button>            
+        </div>
+    </mat-card>
+</div>

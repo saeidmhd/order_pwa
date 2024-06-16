@@ -7,5 +7,7 @@
     <div class="search-container">
 
     </div>
-    <div class="order-reports"></div>
+    <div class="order-reports">
+      <app-order-card *ngFor="let data of filteredData" [orderReports]="data"></app-order-card>
+    </div>
 </div>
