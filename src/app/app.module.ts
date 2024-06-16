@@ -131,7 +131,7 @@ import { PromotionListComponent } from './shared/components/promotion-list/promo
   ],
   providers: [
     // LoginService, IndexedDbService, 
-    LogUpdateService, PromptUpdateService],
+    LogUpdateService, PromptUpdateService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
