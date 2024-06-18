@@ -4,10 +4,17 @@
 </div>
 
 <div class="container">
-    <div class="search-container">
-
-    </div>
-    <div class="order-reports">
-      <app-order-card *ngFor="let data of filteredData" [orderReports]="data"></app-order-card>
-    </div>
+  <div class="search-container">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput #inputSearch (input)="onSearch($event)" [(ngModel)]="searchInput" placeholder="جستجو در سفارشات" aria-label="Search">
+      <button mat-button *ngIf="searchInput" matSuffix aria-label="Clear" (click)="clearSearchWord()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  
+  <div class="order-reports">
+    <app-order-card *ngFor="let data of filteredData" [orderReports]="data"></app-order-card>
+  </div>
 </div>

@@ -17,25 +17,27 @@ export class OrderReportsService {
 
   getOrderReportsData(): OrdersReports[] {
     let data: OrdersReports = {};
+    this.filteredData = [];
 
     Promise.all([
       this.indexedDbService.getAllData<Order>(StoreName.Order),
       this.indexedDbService.getAllData<OrderDetail>(StoreName.OrderDetail),
       this.indexedDbService.getAllData<Person>(StoreName.Person)
-    ]).then(([orders, orderDetails, people]) => {      
+    ]).then(([orders, orderDetails, people]) => {
       orders.forEach(order => {
+        data = {};
         data.OrderId = order.OrderId;
         data.OrderClientId = order.OrderClientId;
         data.OrderDate = order.OrderDate;
-        
-        let relatedPerson = people.find(x => x.PersonId == order.PersonId) ;
+
+        let relatedPerson = people.find(x => x.PersonId == order.PersonId);
         data.PersonName = relatedPerson?.FirstName! + relatedPerson?.LastName!;
 
         const relatedOrderDetails = orderDetails.filter(detail => detail.OrderId === order.OrderId)
         data.OrderSum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0);
-           
+
         this.filteredData.unshift(data);
-      });      
+      });
     }).catch(error => {
       console.error('Error getting data from IndexedDB:', error);
     });

@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
-import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
-import { Order } from 'src/app/core/models/bazara/bazara-DTOs/order';
-import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail';
-import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
-import { StoreName } from 'src/app/core/models/indexed-db/storeName';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime, map, tap } from 'rxjs/operators';
+
 import { OrdersReports } from 'src/app/core/models/pages/ordersReports';
 import { OrderReportsService } from 'src/app/core/services/pages-services/order-reports.service';
 
@@ -17,17 +14,41 @@ import { OrderReportsService } from 'src/app/core/services/pages-services/order-
 export class OrderComponent implements OnInit {
   isLoading = false;
   filteredData: OrdersReports[] = [];
+  searchInput: string = '';
+  @ViewChild('inputSearch') inputSearch!: ElementRef;
 
-  constructor(private indexedDbService: IndexedDbService, 
-              private orderReprtsService: OrderReportsService) {}
-  
+  constructor(private orderReprtsService: OrderReportsService) { }
+
   ngOnInit(): void {
     this.isLoading = true;
-    this.getData();    
+    this.getData();
   }
 
   getData() {
     this.filteredData = this.orderReprtsService.getOrderReportsData();
-    this.isLoading = false;  
+    this.isLoading = false;
+  }
+
+  onSearch(e: Event) {
+    fromEvent(this.inputSearch.nativeElement, "keyup")
+      .pipe(
+        debounceTime(300),
+        map(event => event as KeyboardEvent),
+        map(event => (event.target as HTMLInputElement).value),
+        tap(i => this.performSearch(+i))
+      )
+      .subscribe();
+  }
+
+  performSearch(searchValue: number) {
+    if (searchValue != 0)
+      this.filteredData = this.filteredData.filter(x => x.OrderId == searchValue);
+    else
+      this.clearSearchWord();
+  }
+
+  clearSearchWord() {
+    this.searchInput = '';
+    this.getData();
   }
 }
