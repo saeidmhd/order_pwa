@@ -4,6 +4,6 @@ export interface OrdersReports {
     OrderId?: number,
     OrderClientId?: number,
     OrderDate?: string,
-    OrderSum?: number,
+    OrderSum?: string,
     OrderDetailId?: number
 }

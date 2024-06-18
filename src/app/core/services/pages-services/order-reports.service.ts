@@ -5,6 +5,7 @@ import { Order } from '../../models/bazara/bazara-DTOs/order';
 import { OrderDetail } from '../../models/bazara/bazara-DTOs/order-detail';
 import { Person } from '../../models/bazara/bazara-DTOs/Person';
 import { StoreName } from '../../models/indexed-db/storeName';
+import { RialCurrencyPipe } from 'src/app/rial-currency.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,11 @@ import { StoreName } from '../../models/indexed-db/storeName';
 export class OrderReportsService {
 
   filteredData: OrdersReports[] = [];
-
+  
   constructor(private indexedDbService: IndexedDbService) { }
-
+  
   getOrderReportsData(): OrdersReports[] {
+    const rialCurrencyPipe = new RialCurrencyPipe();
     let data: OrdersReports = {};
     this.filteredData = [];
 
@@ -34,7 +36,7 @@ export class OrderReportsService {
         data.PersonName = relatedPerson?.FirstName! + relatedPerson?.LastName!;
 
         const relatedOrderDetails = orderDetails.filter(detail => detail.OrderId === order.OrderId)
-        data.OrderSum = relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0);
+        data.OrderSum = rialCurrencyPipe.transform(relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0));
 
         this.filteredData.unshift(data);
       });
