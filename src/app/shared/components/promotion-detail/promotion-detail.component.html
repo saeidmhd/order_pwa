@@ -1,0 +1,55 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-text">بارگذاری جزئیات طرح تشویقی ...</div>
+</div>
+
+<div *ngIf="!isLoading && promotionDetail" class="container">
+  <mat-card class="promotion-detail-card">
+    <mat-card-header>
+      <mat-card-title>جزئیات طرح تشویقی</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        نوع تشویق: {{ getText('HowToPromotion', getOtherFieldAsNumber(promotionDetail, 'HowToPromotion')) }}<br>
+        شرط اعمال: {{ getText('ToPayment', getOtherField(promotionDetail, 'ToPayment')) }}<br>
+
+        <!-- Type 1: تخفیف به مبلغ ثابت -->
+        <ng-container *ngIf="getOtherFieldAsNumber(promotionDetail, 'HowToPromotion') === 1">
+          مبلغ تخفیف: {{ getOtherField(promotionDetail, 'MeghdarPromotion') }}<br>
+        </ng-container>
+
+        <!-- Type 2: تخفیف درصدی -->
+        <ng-container *ngIf="getOtherFieldAsNumber(promotionDetail, 'HowToPromotion') === 2">
+          درصد تخفیف: {{ getOtherField(promotionDetail, 'MeghdarPromotion') }}<br>
+        </ng-container>
+
+        <!-- Type 3: تخفیف از سطوح -->
+        <ng-container *ngIf="getOtherFieldAsNumber(promotionDetail, 'HowToPromotion') === 3">
+          سطح تخفیف: {{ getOtherField(promotionDetail, 'MeghdarPromotion') }}<br>
+        </ng-container>
+
+        <!-- Type 4: اشانتیون از همان کالا -->
+        <ng-container *ngIf="getOtherFieldAsNumber(promotionDetail, 'HowToPromotion') === 4">
+          کد کالا: {{ getOtherField(promotionDetail, 'CodeGood') }}<br>
+          کد انبار: {{ getOtherField(promotionDetail, 'StoreCode') }}<br>
+          مقدار: {{ getOtherField(promotionDetail, 'Meghdar') }}<br>
+          مقدار ۲: {{ getOtherField(promotionDetail, 'Meghdar2') }}<br>
+        </ng-container>
+
+        <!-- Type 5: اشانتیون از کالاهای دیگر -->
+        <ng-container *ngIf="getOtherFieldAsNumber(promotionDetail, 'HowToPromotion') === 5">
+          کد کالا: {{ getOtherField(promotionDetail, 'CodeGood') }}<br>
+          کد انبار: {{ getOtherField(promotionDetail, 'StoreCode') }}<br>
+          مقدار: {{ getOtherField(promotionDetail, 'Meghdar') }}<br>
+          مقدار ۲: {{ getOtherField(promotionDetail, 'Meghdar2') }}<br>
+        </ng-container>
+
+        <!-- Check for IsCalcAdditive -->
+        <ng-container *ngIf="!promotionDetail.IsCalcAdditive">
+          محاسبه صعودی: {{ getText('IsCalcAdditive', false) }}<br>
+        </ng-container>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

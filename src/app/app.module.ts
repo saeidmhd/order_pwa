@@ -63,6 +63,7 @@ import { RialCurrencyPipe } from './rial-currency.pipe';
 import { BottomSheetCategoryComponent } from './shared/components/product/bottom-sheet-category/bottom-sheet-category.component';
 import { PersianDatePipe } from './persian-date.pipe';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
+import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { PromotionListComponent } from './shared/components/promotion-list/promo
     PersianDatePipe,
     BottomSheetCategoryComponent,
     PromotionListComponent,
+    PromotionDetailComponent,
   ],
   exports: [
     FooterComponent
@@ -131,7 +133,7 @@ import { PromotionListComponent } from './shared/components/promotion-list/promo
   ],
   providers: [
     // LoginService, IndexedDbService, 
-    LogUpdateService, PromptUpdateService, provideAnimationsAsync()],
+    LogUpdateService, PromptUpdateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

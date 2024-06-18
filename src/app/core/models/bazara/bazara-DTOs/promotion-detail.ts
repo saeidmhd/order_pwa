@@ -1,4 +1,5 @@
 export interface PromotionDetail {
+    IsCalcAdditive: any;
     PromotionDetailId: number;
     PromotionDetailClientId: number;
     PromotionDetailCode: number;
@@ -14,4 +15,23 @@ export interface PromotionDetail {
     PromotionClientId: number;
     PromotionCode: number;
 }
+
+export interface OtherFields {
+    CodePromotion_Det: number;
+    HowToPromotion: number;
+    IsCalcAdditive: boolean;
+    ReducedEffectOnPrice: boolean;
+    ToPayment: number;
+    MeghdarPromotion: number;
+    StoreCode: number;
+    CodeGood: number;
+    Tool: number;
+    Arz: number;
+    Tedad: number;
+    Meghdar: number;
+    Meghdar2: number;
+    Ghotr: number;
+    ToolidCode: number;
+}
+
 

@@ -13,15 +13,20 @@ export class PromotionListComponent implements OnInit {
   isLoading = false;
   searchText = '';
 
-  constructor(private indexedDbService: IndexedDbService) {}
+  constructor(private indexedDbService: IndexedDbService, private router: Router) {
+    console.log("rwerwerwer");
+    
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.indexedDbService.getAllData<Promotion>("Promotion").then((promotions: Promotion[]) => {
       if (promotions.length > 0) {
-        this.promotions = promotions;
+        this.promotions = promotions.filter(promotion => !promotion.Deleted);
         this.isLoading = false;
       }
+    }).catch(() => {
+      this.isLoading = false;
     });
   }
 
@@ -50,9 +55,9 @@ export class PromotionListComponent implements OnInit {
     switch (fieldName) {
       case 'LevelPromotion':
         switch (value) {
-          case 0: return 'کالا و خدمات';
-          case 1: return 'کالا';
-          case 2: return 'خدمات';
+          case 0: return 'کالا';
+          case 1: return 'خدمات';
+          case 2: return 'کالا و خدمات';
           default: return '';
         }
       case 'AccordingTo':
@@ -93,6 +98,8 @@ export class PromotionListComponent implements OnInit {
   }
 
   goToDetail(promotionId: number) {
-    // Navigate to the detail page or handle the detail logic
+    console.log(" promotionId = " , promotionId);
+    
+    this.router.navigate(['/promotion-detail', promotionId]);
   }
 }

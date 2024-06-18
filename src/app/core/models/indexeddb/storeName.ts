@@ -24,5 +24,6 @@ export enum StoreName {
     PhotoGallery = 'PhotoGallery',
     ProductDetailStoreAsset = 'ProductDetailStoreAsset',
     PropertyDescription = 'PropertyDescription',
-    Setting = 'Setting'
+    Setting = 'Setting',
+    PromotionDetail = 'PromotionDetail'
 }

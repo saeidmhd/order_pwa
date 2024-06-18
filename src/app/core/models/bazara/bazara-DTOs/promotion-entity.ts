@@ -14,3 +14,9 @@ export interface PromotionEntity {
     PromotionClientId: number;
     PromotionCode: number;
 }
+
+export interface OtherFields {
+    CodeEntity: number;
+    CodePromotionEntity: number;
+    EntityType: number;
+}
