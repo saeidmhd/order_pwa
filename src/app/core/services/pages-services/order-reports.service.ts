@@ -28,7 +28,7 @@ export class OrderReportsService {
         data = {};
         data.OrderId = order.OrderId;
         data.OrderClientId = order.OrderClientId;
-        data.OrderDate = order.OrderDate;
+        data.OrderDate = this.getFormattedDate(order.OrderDate);
 
         let relatedPerson = people.find(x => x.PersonId == order.PersonId);
         data.PersonName = relatedPerson?.FirstName! + relatedPerson?.LastName!;
@@ -43,5 +43,11 @@ export class OrderReportsService {
     });
 
     return this.filteredData;
+  }
+
+  getFormattedDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fa-IR', options);
   }
 }
