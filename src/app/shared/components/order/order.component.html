@@ -14,7 +14,11 @@
     </mat-form-field>
   </div>
   
-  <div class="order-reports">
+  <div class="order-reports"  *ngIf="filteredData.length > 0;else emptyData">
     <app-order-card *ngFor="let data of filteredData" [orderReports]="data"></app-order-card>
   </div>
+  
+  <ng-template #emptyData>
+   سفارشی موجود نیست
+</ng-template>
 </div>

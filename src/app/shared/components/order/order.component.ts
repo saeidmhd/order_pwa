@@ -35,7 +35,7 @@ export class OrderComponent implements OnInit {
         debounceTime(300),
         map(event => event as KeyboardEvent),
         map(event => (event.target as HTMLInputElement).value),
-        tap(i => this.performSearch(+i))
+        tap(i => +i != 0 ? this.performSearch(+i) : this.clearSearchWord())
       )
       .subscribe();
   }
@@ -43,8 +43,9 @@ export class OrderComponent implements OnInit {
   performSearch(searchValue: number) {
     if (searchValue != 0)
       this.filteredData = this.filteredData.filter(x => x.OrderId == searchValue);
-    else
-      this.clearSearchWord();
+    // else
+    //   this.clearSearchWord();
+
   }
 
   clearSearchWord() {

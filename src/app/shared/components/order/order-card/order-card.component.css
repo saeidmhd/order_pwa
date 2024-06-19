@@ -14,12 +14,7 @@ mat-card {
     flex-direction: column;
 }
 
-.btn {
-    background-color: #369139;
+.mat-mdc-raised-button {
     width: 100%;
-}
-
-.mat-mdc-icon-button {
-    width: 100% !important;
-    border-radius: 10% !important;
+    background-color: #369139 !important;
 }
