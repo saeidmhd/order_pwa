@@ -14,7 +14,7 @@ export interface Promotion {
     RowVersion: number;
 }
 
-interface PromotionOtherFields {
+export interface OtherFields {
     NamePromotion: string;
     PriorityPromotion: number;
     DateStart: string; // Assuming this is in a specific date format

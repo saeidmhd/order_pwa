@@ -49,6 +49,18 @@
         <p>
           نحوه محاسبه: {{ getText('IsCalcLinear', getOtherFieldAsBoolean(promotion, 'IsCalcLinear')) }}<br>
         </p>
+        <p *ngFor="let entity of getEntitiesForPromotion(promotion)">
+          <ng-container [ngSwitch]="getEntityType(entity)">
+            <span *ngSwitchCase="1">ویزیتور خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="2">مشتری خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="3">گروه مشتری خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="4">کالای خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="5">گروه کالای خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchDefault>دیگر: {{ getCodeEntity(entity) }}</span>
+          </ng-container>
+        </p>
+        
+        
       </mat-card-content>
       <mat-card-actions>
         <button mat-button (click)="goToDetail(promotion.PromotionId)">اطلاعات بیشتر</button>

@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Promotion } from 'src/app/core/models/bazara/bazara-DTOs/promotion';
+import { PromotionEntity } from 'src/app/core/models/bazara/bazara-DTOs/promotion-entity';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
+
+interface OtherFields {
+  CodeEntity: number;
+  CodePromotionEntity: number;
+  EntityType: number;
+}
 
 @Component({
   selector: 'app-promotion-list',
@@ -9,45 +16,57 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.se
   styleUrls: ['./promotion-list.component.css']
 })
 export class PromotionListComponent implements OnInit {
+
   promotions: Promotion[] = [];
+  promotionEntities: PromotionEntity[] = [];
   isLoading = false;
   searchText = '';
 
-  constructor(private indexedDbService: IndexedDbService, private router: Router) {
-    console.log("rwerwerwer");
-    
-  }
+  constructor(private indexedDbService: IndexedDbService, private router: Router) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.indexedDbService.getAllData<Promotion>("Promotion").then((promotions: Promotion[]) => {
-      if (promotions.length > 0) {
-        this.promotions = promotions.filter(promotion => !promotion.Deleted);
-        this.isLoading = false;
-      }
+    this.loadPromotionsAndEntities().then(() => {
+      this.isLoading = false;
     }).catch(() => {
       this.isLoading = false;
     });
   }
 
+  async loadPromotionsAndEntities() {
+    const promotions = await this.indexedDbService.getAllData<Promotion>("Promotion");
+    const promotionEntities = await this.indexedDbService.getAllData<PromotionEntity>("PromotionEntity");
+
+    this.promotions = promotions.filter(promotion => !promotion.Deleted);
+    this.promotionEntities = promotionEntities.filter(entity => !entity.Deleted);
+  }
+
   get filteredPromotions() {
     return this.promotions.filter(promotion =>
       this.getOtherField(promotion, 'NamePromotion').toLowerCase().includes(this.searchText.toLowerCase())
-    );
+    ).filter(promotion => {
+      const otherFields = this.parseOtherFields(promotion.OtherFields);
+      return !(otherFields.IsAllGood && otherFields.IsAllCustomer && otherFields.IsAllService &&
+               otherFields.IsAllAnbar && otherFields.IsAllVisitor);
+    });
+  }
+
+  parseOtherFields(otherFieldsStr: string): any {
+    return JSON.parse(otherFieldsStr);
   }
 
   getOtherField(promotion: Promotion, fieldName: string): string {
-    const otherFields = JSON.parse(promotion.OtherFields);
+    const otherFields = this.parseOtherFields(promotion.OtherFields);
     return otherFields[fieldName] || 'تعیین نشده';
   }
 
   getOtherFieldAsNumber(promotion: Promotion, fieldName: string): number {
-    const otherFields = JSON.parse(promotion.OtherFields);
+    const otherFields = this.parseOtherFields(promotion.OtherFields);
     return Number(otherFields[fieldName]) || 0;
   }
 
   getOtherFieldAsBoolean(promotion: Promotion, fieldName: string): boolean {
-    const otherFields = JSON.parse(promotion.OtherFields);
+    const otherFields = this.parseOtherFields(promotion.OtherFields);
     return Boolean(otherFields[fieldName]);
   }
 
@@ -97,9 +116,33 @@ export class PromotionListComponent implements OnInit {
     }
   }
 
+  getEntitiesForPromotion(promotion: Promotion) {
+    const promotionEntities = this.promotionEntities.filter(entity => entity.PromotionId === promotion.PromotionId);
+    return promotionEntities;
+  }
+  
+
+  getEntityType(entity: PromotionEntity): number {
+    const otherFields = this.parseOtherFields(entity.OtherFields);
+    return otherFields.EntityType;
+  }
+
   goToDetail(promotionId: number) {
-    console.log(" promotionId = " , promotionId);
-    
     this.router.navigate(['/promotion-detail', promotionId]);
   }
+
+  // Function to get CodeEntity based on EntityType
+  getCodeEntity(entity: PromotionEntity): number {
+      const otherFields = this.parseEntityOtherFields(entity.OtherFields);
+      return otherFields.CodeEntity 
+  }
+ parseEntityOtherFields(otherFieldsJson: string): OtherFields {
+  try {
+    return JSON.parse(otherFieldsJson) as OtherFields;
+  } catch (error) {
+    console.error('Error parsing OtherFields JSON:', error);
+    return {} as OtherFields; // Return empty object in case of error
+  }
+}
+
 }

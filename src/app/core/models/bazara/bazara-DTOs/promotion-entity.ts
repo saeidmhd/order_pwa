@@ -1,4 +1,5 @@
 export interface PromotionEntity {
+    EntityType: any;
     PromotionEntityId: number;
     PromotionEntityCode: number;
     PromotionId: number;
