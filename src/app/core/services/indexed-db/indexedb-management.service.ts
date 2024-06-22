@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { STORE_NAMES } from '../../constants/store-names'; // Adjust the import path as necessary
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +8,7 @@ export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 12;
+  private dbVersion = 15;
 
   constructor() {
     this.openDatabase();
