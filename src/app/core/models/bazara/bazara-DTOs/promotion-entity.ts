@@ -1,4 +1,5 @@
 export interface PromotionEntity {
+    EntityType: any;
     PromotionEntityId: number;
     PromotionEntityCode: number;
     PromotionId: number;
@@ -13,4 +14,10 @@ export interface PromotionEntity {
     RowVersion: number;
     PromotionClientId: number;
     PromotionCode: number;
+}
+
+export interface OtherFields {
+    CodeEntity: number;
+    CodePromotionEntity: number;
+    EntityType: number;
 }

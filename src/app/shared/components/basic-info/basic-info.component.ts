@@ -13,7 +13,7 @@ export class BasicInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 navigateToIncentivePlans() {
-throw new Error('Method not implemented.');
+  this.router.navigate(['/promotion-list']);
 }
 navigateToIncomes() {
   throw new Error('Method not implemented.');

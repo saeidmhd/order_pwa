@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbService } from '../indexed-db/indexed-db.service';
-import { OrdersReports } from '../../models/pages/ordersReports';
+import { OrdersReports } from '../../models/pages/OrdersReports';
 import { Order } from '../../models/bazara/bazara-DTOs/order';
 import { OrderDetail } from '../../models/bazara/bazara-DTOs/order-detail';
 import { Person } from '../../models/bazara/bazara-DTOs/Person';

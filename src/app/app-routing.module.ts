@@ -15,7 +15,8 @@ import { ProductComponent } from './shared/components/product/product.component'
 import { MapComponent } from './shared/components/map/map.component';
 import { OrderComponent } from './shared/components/order/order.component';
 import { ReportsComponent } from './shared/components/reports/reports.component';
-
+import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
+import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -30,10 +31,13 @@ const routes: Routes = [
   { path: 'order-list', component: OrderListComponent, canActivate: [authGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [authGuard] },
   { path: 'reports-orders', component: OrderComponent, canActivate: [authGuard] },
+  { path: 'promotion-list', component: PromotionListComponent, canActivate: [authGuard] },
+  { path: 'promotion-detail/:id', component: PromotionDetailComponent , canActivate: [authGuard] },
   { path: 'product-categories', component: ProductCategoriesComponent, canActivate: [authGuard] },
   { path: 'invoice', component: InvoiceComponent, canActivate: [authGuard] },
   { path: 'order-detail/:id', component: OrderDetailComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: 'dashboard' },
+
   
   // other routes...
 ];

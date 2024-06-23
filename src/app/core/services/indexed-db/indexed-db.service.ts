@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbManagementService } from './indexedb-management.service';
 import { Person } from 'src/app/core/models/bazara/bazara-DTOs/Person';
+import { PromotionDetail } from '../../models/bazara/bazara-DTOs/promotion-detail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IndexedDbService {
+  
   personStoreName: any;
 
   constructor(private indexedDbManagementService: IndexedDbManagementService) { }
@@ -116,21 +118,4 @@ export class IndexedDbService {
     });
   }
 
-  async getPersonById(personId: number): Promise<Person> {
-    await this.indexedDbManagementService.waitForDb();
-    const transaction = this.indexedDbManagementService.db.transaction("Person", 'readonly');
-    const objectStore = transaction.objectStore("Person");
-
-    return new Promise<Person>((resolve, reject) => {
-      const getRequest = objectStore.get(personId);
-      getRequest.onsuccess = (event: any) => {
-        let person: Person = (event.target as IDBRequest<Person>).result;
-        resolve(person);
-      };
-
-      getRequest.onerror = (event: any) => {
-        reject(new Error('Failed to get person: ' + (event.target as any).error.message));
-      };
-    });
-  }
 }

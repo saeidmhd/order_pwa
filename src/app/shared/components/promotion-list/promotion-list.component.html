@@ -1,0 +1,70 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-text">بارگذاری طرح‌های تشویقی ...</div>
+</div>
+
+<div *ngIf="!isLoading && promotions" class="container">
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="searchText" placeholder="جستجو در طرح‌های تشویقی" aria-label="Search">
+      <button mat-button *ngIf="searchText" matSuffix aria-label="Clear" (click)="searchText=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="list-container">
+    <mat-card *ngFor="let promotion of filteredPromotions" class="promotion-card">
+      <mat-card-header>
+        <mat-card-title>{{ getOtherField(promotion, 'NamePromotion') }}</mat-card-title>
+        <mat-card-subtitle>کد طرح: {{ promotion.PromotionCode }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          تاریخ شروع: {{ getOtherField(promotion, 'DateStart') }}<br>
+          تاریخ پایان: {{ getOtherField(promotion, 'DateEnd') }}<br>
+        </p>
+        <p>
+          مبنای طرح:<br>
+          &nbsp;&nbsp; {{ getText('LevelPromotion', getOtherFieldAsNumber(promotion, 'LevelPromotion')) }}<br>
+        </p>
+        <p>
+          تشویق بر اساس :<br>
+          &nbsp;&nbsp; {{ getText('AccordingTo', getOtherFieldAsNumber(promotion, 'AccordingTo')) }}<br>
+        </p>
+        <p>
+          شرایط طرح:<br>
+          &nbsp;&nbsp;مشتریان: {{ getText('IsAllCustomer', getOtherFieldAsBoolean(promotion, 'IsAllCustomer')) }}<br>
+          &nbsp;&nbsp;کالاها: {{ getText('IsAllGood', getOtherFieldAsBoolean(promotion, 'IsAllGood')) }}<br>
+          &nbsp;&nbsp;خدمات: {{ getText('IsAllService', getOtherFieldAsBoolean(promotion, 'IsAllService')) }}<br>
+          &nbsp;&nbsp;انبارها: {{ getText('IsAllAnbar', getOtherFieldAsBoolean(promotion, 'IsAllAnbar')) }}<br>
+          &nbsp;&nbsp;ویزیتورها: {{ getText('IsAllVisitor', getOtherFieldAsBoolean(promotion, 'IsAllVisitor')) }}<br>
+        </p>
+        <p>
+          نحوه تسویه: {{ getText('TypeTasvieh', getOtherFieldAsNumber(promotion, 'TypeTasvieh')) }}<br>
+          تعداد روز برای تسویه: {{ getOtherField(promotion, 'DeadlineTasvieh') }}<br>
+        </p>
+        <p>
+          نحوه محاسبه: {{ getText('IsCalcLinear', getOtherFieldAsBoolean(promotion, 'IsCalcLinear')) }}<br>
+        </p>
+        <p *ngFor="let entity of getEntitiesForPromotion(promotion)">
+          <ng-container [ngSwitch]="getEntityType(entity)">
+            <span *ngSwitchCase="1">ویزیتور خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="2">مشتری خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="3">گروه مشتری خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="4">کالای خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchCase="5">گروه کالای خاص: {{ getCodeEntity(entity) }}</span>
+            <span *ngSwitchDefault>دیگر: {{ getCodeEntity(entity) }}</span>
+          </ng-container>
+        </p>
+        
+        
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="goToDetail(promotion.PromotionId)">اطلاعات بیشتر</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

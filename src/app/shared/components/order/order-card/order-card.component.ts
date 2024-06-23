@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { OrdersReports } from 'src/app/core/models/pages/ordersReports';
+import { OrdersReports } from 'src/app/core/models/pages/OrdersReports';
 
 @Component({
   selector: 'app-order-card',

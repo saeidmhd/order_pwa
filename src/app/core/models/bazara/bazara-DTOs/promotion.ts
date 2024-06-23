@@ -13,3 +13,23 @@ export interface Promotion {
     UpdateSyncId: number;
     RowVersion: number;
 }
+
+export interface OtherFields {
+    NamePromotion: string;
+    PriorityPromotion: number;
+    DateStart: string; // Assuming this is in a specific date format
+    DateEnd: string;   // Assuming this is in a specific date format
+    TimeStart: string;
+    TimeEnd: string;
+    LevelPromotion: number;
+    AccordingTo: number;
+    IsCalcLinear: boolean;
+    TypeTasvieh: number;
+    DeadlineTasvieh: number;
+    IsAllCustomer: boolean;
+    IsAllVisitor: boolean;
+    IsAllGood: boolean;
+    IsAllService: boolean;
+    IsAllAnbar: boolean;
+    AggregateWithOther: number;
+}

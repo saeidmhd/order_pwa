@@ -40,6 +40,8 @@ import { BottomSheetCategoryComponent } from './shared/components/product/bottom
 import { PersianDatePipe } from './persian-date.pipe';
 import { OrderComponent } from './shared/components/order/order.component';
 import { OrderCardComponent } from './shared/components/order/order-card/order-card.component';
+import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
+import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { OrderCardComponent } from './shared/components/order/order-card/order-c
     RialCurrencyPipe,
     PersianDatePipe,
     BottomSheetCategoryComponent,
+    PromotionListComponent,
+    PromotionDetailComponent,
   ],
   exports: [
     FooterComponent
