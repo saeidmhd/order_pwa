@@ -48,14 +48,14 @@ export class DrawerComponent {
     this.router.navigate(['/invoice']);
   }
 
-  navigateToReports() {
+  navigateToReports1() {
     this.drawer.close();
     this.router.navigate(['/order-list']);
   }
 
-  navigateToOrersReports() {
+  navigateToReports() {
     this.drawer.close();
-    this.router.navigate(['/reports-orders']);
+    this.router.navigate(['/reports']);
   }
 
   navigateToUpdateInfo() {
