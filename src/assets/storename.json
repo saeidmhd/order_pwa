@@ -1,0 +1,15 @@
+[
+    {
+        "storeName": "Person"
+    },
+    {
+        "storeName": "Mission"
+    },
+    {
+        "storeName": "MissionDetail",
+        "indexs": {
+            "by-MissionId": "MissionId",
+            "by-PersonId": "PersonId"
+        }
+    }
+]
