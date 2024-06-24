@@ -7,6 +7,17 @@ import { OrderDetail } from 'src/app/core/models/bazara/bazara-DTOs/order-detail
 import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
 import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
+import { PromotionService } from 'src/app/core/services/promotion.service';
+
+export interface InvoiceSummary {
+  TotalInvoiceAmount: number; // مبلغ کل فاکتور
+  TotalItemAmount: number; // جمع اقلام فاکتور
+  TotalItemVolume: number; // جمع حجم اقلام
+  TotalItemWeight: number; // جمع وزن اقلام
+  TotalItemTypes: number; // جمع انواع اقلام فاکتور
+  LineAmount: number; // مبلغ سطر
+  LineQuantity: number; // مقدار سطر
+}
 
 @Component({
   selector: 'app-invoice',
@@ -15,10 +26,10 @@ import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.se
 })
 export class InvoiceComponent implements OnInit {
   getPropertyTitle(propertyCode: string): string {
-  const propertyCodeNumber = Number(propertyCode);
-  const property = this.propertyDescriptions.find(desc => desc.PropertyDescriptionCode === propertyCodeNumber);
-  return property ? property.Title : 'Unknown Property';
-}
+    const propertyCodeNumber = Number(propertyCode);
+    const property = this.propertyDescriptions.find(desc => desc.PropertyDescriptionCode === propertyCodeNumber);
+    return property ? property.Title : 'Unknown Property';
+  }
 
   invoiceForm: FormGroup;
   people: Person[] = [];
@@ -37,9 +48,20 @@ export class InvoiceComponent implements OnInit {
   displayedColumns: string[] = ['product', 'quantity', 'price', 'action'];
   visitorId = localStorage.getItem('VisitorId')!;
 
+  invoiceSummary: InvoiceSummary = {
+    TotalInvoiceAmount: 0,
+    TotalItemAmount: 0,
+    TotalItemVolume: 0,
+    TotalItemWeight: 0,
+    TotalItemTypes: 0,
+    LineAmount: 0,
+    LineQuantity: 0,
+  };
+
   constructor(
     private formBuilder: FormBuilder,
-    private indexedDbService: IndexedDbService
+    private indexedDbService: IndexedDbService,
+    private promotionService: PromotionService
   ) {
     this.invoiceForm = this.formBuilder.group({
       customer: [null, Validators.required],
@@ -132,7 +154,7 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  parseProperties (propertiesString: string | null | undefined): string {
+  parseProperties(propertiesString: string | null | undefined): string {
     if (!propertiesString) return '';
     try {
       const properties = JSON.parse(propertiesString) as { C: string, V: string }[];
@@ -156,7 +178,7 @@ export class InvoiceComponent implements OnInit {
     return 'Unknown';
   }
 
-  addItemToInvoice(): void {
+  async addItemToInvoice(): Promise<void> {
     const now = new Date();
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
@@ -200,16 +222,24 @@ export class InvoiceComponent implements OnInit {
         OrderClientId: 0,
         OrderCode: 0,
         ProductDetailClientId: 0,
-        ProductDetailCode: 0
+        ProductDetailCode: 0,
+        Weight: 0
       };
+      // اعمال تخفیف‌ها
+    
+      const discount = await this.promotionService.applyPromotion(this.invoiceSummary);
+      orderDetail.Price -= discount;
+      
       this.invoiceItems.push(orderDetail);
       this.calculateTotal();
+      this.calculateInvoiceSummary();
     }
   }
 
   removeItemFromInvoice(index: number): void {
     this.invoiceItems.splice(index, 1);
     this.calculateTotal();
+    this.calculateInvoiceSummary();
   }
 
   calculateTotal(): void {
@@ -218,11 +248,22 @@ export class InvoiceComponent implements OnInit {
     this.total = this.subtotal + tax;
   }
 
+  calculateInvoiceSummary(): void {
+    this.invoiceSummary.TotalInvoiceAmount = this.total;
+    this.invoiceSummary.TotalItemAmount = this.subtotal;
+    this.invoiceSummary.TotalItemVolume = this.invoiceItems.reduce((acc, item) => acc + (item.Width * item.Height), 0);
+    this.invoiceSummary.TotalItemWeight = this.invoiceItems.reduce((acc, item) => acc + item.Weight, 0);
+    this.invoiceSummary.TotalItemTypes = this.invoiceItems.length;
+    this.invoiceSummary.LineAmount = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
+    this.invoiceSummary.LineQuantity = this.invoiceItems.reduce((acc, item) => acc + item.Count1, 0);
+  }
+
   resetInvoice(): void {
     this.invoiceForm.reset({ quantity: 1 });
     this.invoiceItems = [];
     this.subtotal = 0;
     this.total = 0;
+    this.calculateInvoiceSummary();
   }
 
   async submitInvoice(): Promise<void> {
@@ -319,7 +360,8 @@ export class InvoiceComponent implements OnInit {
         RowVersion: 0,
         OrderCode: 0,
         ProductDetailCode: 0,
-        OrderId: orderClientId
+        OrderId: orderClientId,
+        Weight: 0
       };
       return orderDetail;
     });

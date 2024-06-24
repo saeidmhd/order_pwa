@@ -60,6 +60,25 @@ export class IndexedDbService {
     });
   }
 
+  async getDataByIndex<T>(storeName: string, indexName: string, value: any): Promise<T[]> {
+    await this.indexedDbManagementService.waitForDb();
+    const transaction = this.indexedDbManagementService.db.transaction(storeName, 'readonly');
+    const objectStore = transaction.objectStore(storeName);
+    const index = objectStore.index(indexName);
+  
+    return new Promise<T[]>((resolve, reject) => {
+      const getRequest = index.getAll(IDBKeyRange.only(value));
+      getRequest.onsuccess = (event: any) => {
+        let obj: T[] = (event.target as IDBRequest<T[]>).result;
+        resolve(obj);
+      };
+  
+      getRequest.onerror = (event: any) => {
+        reject(new Error('Failed to get data: ' + (event.target as any).error.message));
+      };
+    });
+  }
+
   async addOrEdit<T>(storeName: string, data: T, key: IDBValidKey): Promise<T> {
     try {
       await this.indexedDbManagementService.waitForDb();
