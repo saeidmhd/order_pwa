@@ -25,6 +25,7 @@ export interface InvoiceSummary {
   styleUrls: ['./invoice.component.css']
 })
 export class InvoiceComponent implements OnInit {
+
   getPropertyTitle(propertyCode: string): string {
     const propertyCodeNumber = Number(propertyCode);
     const property = this.propertyDescriptions.find(desc => desc.PropertyDescriptionCode === propertyCodeNumber);
@@ -48,6 +49,10 @@ export class InvoiceComponent implements OnInit {
   displayedColumns: string[] = ['product', 'quantity', 'price', 'action'];
   visitorId = localStorage.getItem('VisitorId')!;
 
+  discountAmount: number = 0;
+  discountType: number = 0; // 0 for amount, 1 for percentage
+  discountValue: number = 0;
+
   invoiceSummary: InvoiceSummary = {
     TotalInvoiceAmount: 0,
     TotalItemAmount: 0,
@@ -69,9 +74,23 @@ export class InvoiceComponent implements OnInit {
       productDetail: [null, Validators.required],
       productProperty: [null, Validators.required],
       price: [null, Validators.required],
-      quantity: [1, [Validators.required, Validators.min(1)]]
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      discount: [0, Validators.required],
+      discountType: [0, Validators.required]
     });
+
+    this.invoiceForm.get('discount')?.valueChanges.subscribe(() => this.onDiscountChange());
+    this.invoiceForm.get('discountType')?.valueChanges.subscribe(() => this.onDiscountChange());
+    
   }
+
+  onDiscountChange(): void {
+    this.discountAmount = this.invoiceForm.get('discount')?.value;
+    this.discountType = this.invoiceForm.get('discountType')?.value;
+    this.calculateTotal();
+    this.calculateInvoiceSummary();
+  }
+  
 
   ngOnInit(): void {
     this.fetchProductsAndProductDetails();
@@ -123,7 +142,6 @@ export class InvoiceComponent implements OnInit {
       console.log(this.selectedProductProperties);
       
       if (this.selectedProductProperties.length > 0) {
-        console.log(this.selectedProductProperties[0]);
         this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties);
         this.onProductPropertyChange();
       } else {
@@ -183,6 +201,10 @@ export class InvoiceComponent implements OnInit {
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
     const createDate = localTime.toISOString().replace('Z', '');
+
+    this.discountAmount = this.invoiceForm.get('discount')?.value;
+    
+    this.discountType = this.invoiceForm.get('discountType')?.value
 
     const selectedProductDetail = this.invoiceForm.get('productDetail')?.value as ProductDetail;
     const quantity = this.invoiceForm.get('quantity')?.value;
@@ -244,13 +266,22 @@ export class InvoiceComponent implements OnInit {
 
   calculateTotal(): void {
     this.subtotal = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
-    const tax = this.subtotal * this.taxRate;
-    this.total = this.subtotal + tax;
+  
+    if (this.discountType == 1) {
+      this.discountValue = (this.subtotal * this.discountAmount) / 100;
+    } else {
+      this.discountValue = this.discountAmount;
+    }
+    
+    const discountedSubtotal = this.subtotal - this.discountValue;
+    const tax = discountedSubtotal * this.taxRate;
+    this.total = discountedSubtotal + tax;
   }
+  
 
   calculateInvoiceSummary(): void {
     this.invoiceSummary.TotalInvoiceAmount = this.total;
-    this.invoiceSummary.TotalItemAmount = this.subtotal;
+    this.invoiceSummary.TotalItemAmount = this.subtotal - this.discountValue;
     this.invoiceSummary.TotalItemVolume = this.invoiceItems.reduce((acc, item) => acc + (item.Width * item.Height), 0);
     this.invoiceSummary.TotalItemWeight = this.invoiceItems.reduce((acc, item) => acc + item.Weight, 0);
     this.invoiceSummary.TotalItemTypes = this.invoiceItems.length;
@@ -293,8 +324,8 @@ export class InvoiceComponent implements OnInit {
       OrderType: 1,
       OrderDate: createDate,
       DeliveryDate: createDate,
-      Discount: 0,
-      DiscountType: 0,
+      Discount: this.discountAmount,
+      DiscountType: this.discountType,  
       SendCost: 0,
       OtherCost: 0,
       SettlementType: 0,
