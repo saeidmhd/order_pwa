@@ -50,7 +50,7 @@ export class OrderListComponent implements OnInit {
 
   getOrderSum(order: Order): number {
     const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
-    return relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price), 0);
+    return relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price * detail.Count1), 0);
   }
 
 
