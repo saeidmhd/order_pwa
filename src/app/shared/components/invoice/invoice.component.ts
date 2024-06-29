@@ -197,66 +197,94 @@ export class InvoiceComponent implements OnInit {
   }
 
   async addItemToInvoice(): Promise<void> {
+    let discount = 0;
+    let totalPrice = 0;
     const now = new Date();
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
     const createDate = localTime.toISOString().replace('Z', '');
 
     this.discountAmount = this.invoiceForm.get('discount')?.value;
-    
-    this.discountType = this.invoiceForm.get('discountType')?.value
+    this.discountType = this.invoiceForm.get('discountType')?.value;
 
     const selectedProductDetail = this.invoiceForm.get('productDetail')?.value as ProductDetail;
     const quantity = this.invoiceForm.get('quantity')?.value;
     const price = this.invoiceForm.get('price')?.value;
 
     if (selectedProductDetail && typeof price === 'number') {
-      const totalPrice = price * quantity;
-      const orderDetail: OrderDetail = {
-        ProductDetailId: selectedProductDetail.ProductDetailId,
-        Count1: quantity,
-        Price: totalPrice,
-        OrderDetailId: 0,
-        OrderDetailClientId: 0,
-        ItemType: 0,
-        OrderId: 0,
-        IncomeId: 0,
-        Count2: 0,
-        PromotionCode: 0,
-        Gift: 0,
-        Description: '',
-        Discount: 0,
-        DiscountType: 0,
-        TaxPercent: 0,
-        ChargePercent: 0,
-        StoreId: 0,
-        Width: 0,
-        Height: 0,
-        ItemCount: 0,
-        RowId: 0,
-        Deleted: false,
-        DataHash: '',
-        CreateDate: createDate,
-        UpdateDate: createDate,
-        CreateSyncId: 0,
-        UpdateSyncId: 0,
-        RowVersion: 0,
-        OrderClientId: 0,
-        OrderCode: 0,
-        ProductDetailClientId: 0,
-        ProductDetailCode: 0,
-        Weight: 0
-      };
-      // اعمال تخفیف‌ها
-    
-      const discount = await this.promotionService.applyPromotion(this.invoiceSummary);
-      orderDetail.Price -= discount;
-      
-      this.invoiceItems.push(orderDetail);
-      this.calculateTotal();
-      this.calculateInvoiceSummary();
+
+        switch (selectedProductDetail.DefaultDiscountLevel) {
+            case 1:
+                discount = selectedProductDetail.Discount1;
+                break;
+            case 2:
+                discount = selectedProductDetail.Discount2;
+                break;
+            case 3:
+                discount = selectedProductDetail.Discount3;
+                break;
+            case 4:
+                discount = selectedProductDetail.Discount4;
+                break;
+            default:
+                discount = 0;
+        }
+
+        if (selectedProductDetail.DiscountType === 0) { // Percentage discount
+            discount = (price * discount) / 100;
+        }
+
+        const unitPrice = price;
+        totalPrice = price * quantity - discount * quantity;
+
+        // اعمال طرح تشویقی
+        const discountPromotion = await this.promotionService.applyPromotion(this.invoiceSummary);
+       // orderDetail.Price -= discountPromotion;
+
+        const orderDetail: OrderDetail = {
+          ProductDetailId: selectedProductDetail.ProductDetailId,
+          Count1: quantity,
+          Price: totalPrice,
+          OrderDetailId: 0,
+          OrderDetailClientId: 0,
+          ItemType: 0,
+          OrderId: 0,
+          IncomeId: 0,
+          Count2: 0,
+          PromotionCode: 0,
+          Gift: 0,
+          Description: '',
+          Discount: discount * quantity,
+          DiscountType: selectedProductDetail.DiscountType,
+          TaxPercent: 0,
+          ChargePercent: 0,
+          StoreId: 0,
+          Width: 0,
+          Height: 0,
+          ItemCount: 0,
+          RowId: 0,
+          Deleted: false,
+          DataHash: '',
+          CreateDate: createDate,
+          UpdateDate: createDate,
+          CreateSyncId: 0,
+          UpdateSyncId: 0,
+          RowVersion: 0,
+          OrderClientId: 0,
+          OrderCode: 0,
+          ProductDetailClientId: 0,
+          ProductDetailCode: 0,
+          Weight: 0,
+          UnitPrice: unitPrice
+        };
+
+        this.invoiceItems.push(orderDetail);
+        this.calculateTotal();
+        this.calculateInvoiceSummary();
     }
-  }
+}
+
+  
 
   removeItemFromInvoice(index: number): void {
     this.invoiceItems.splice(index, 1);
@@ -392,7 +420,8 @@ export class InvoiceComponent implements OnInit {
         OrderCode: 0,
         ProductDetailCode: 0,
         OrderId: orderClientId,
-        Weight: 0
+        Weight: 0,
+        UnitPrice: item.UnitPrice
       };
       return orderDetail;
     });

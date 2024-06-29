@@ -77,16 +77,20 @@
     <table class="table">
       <thead>
         <tr>
-          <th>محصول</th>
-          <th>تعداد</th>
-          <th>قیمت</th>
-          <th>عملیات</th>
+          <th>شرح کالا / درآمد</th>
+          <th>مقدار</th>
+          <th>فی</th>
+          <th>تخفیف</th>
+          <th>مبلغ خالص</th>
+          
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of invoiceItems; let i = index">
           <td class="align-right">{{ getProductName(item.ProductDetailId) }}</td>
           <td class="align-right">{{ item.Count1 }}</td>
+          <td class="align-right">{{ item.UnitPrice | rialCurrency  }}</td>
+          <td class="align-right">{{ item.Discount | rialCurrency }}</td>
           <td class="align-right">{{ item.Price | rialCurrency }}</td>
           <td><button class="btn btn-danger" (click)="removeItemFromInvoice(i)">حذف</button></td>
         </tr>
