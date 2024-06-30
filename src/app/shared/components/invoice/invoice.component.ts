@@ -8,6 +8,7 @@ import { Product } from 'src/app/core/models/bazara/bazara-DTOs/product';
 import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDetail';
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 import { PromotionService } from 'src/app/core/services/promotion.service';
+import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
 
 export interface InvoiceSummary {
   TotalInvoiceAmount: number; // مبلغ کل فاکتور
@@ -35,12 +36,14 @@ export class InvoiceComponent implements OnInit {
   invoiceForm: FormGroup;
   people: Person[] = [];
   products: Product[] = [];
+  settings: Setting[] = [];
   productDetails: ProductDetail[] = [];
   propertyDescriptions: PropertyDescription[] = [];
   selectedCustomer: Person | null = null;
   invoiceItems: OrderDetail[] = [];
   subtotal: number = 0;
-  taxRate: number = 0;
+  taxPercent: number = 0;
+  chargePercent: number = 0;
   total: number = 0;
   productPrices: number[] = [];
   selectedProductDetails: ProductDetail[] = [];
@@ -48,6 +51,9 @@ export class InvoiceComponent implements OnInit {
   selectedProductDetail: ProductDetail | undefined = undefined;
   displayedColumns: string[] = ['product', 'quantity', 'price', 'action'];
   visitorId = localStorage.getItem('VisitorId')!;
+
+  totalTax: number = 0;
+  totalCharge: number = 0;
 
   discountAmount: number = 0;
   discountType: number = 0; // 0 for amount, 1 for percentage
@@ -81,7 +87,7 @@ export class InvoiceComponent implements OnInit {
 
     this.invoiceForm.get('discount')?.valueChanges.subscribe(() => this.onDiscountChange());
     this.invoiceForm.get('discountType')?.valueChanges.subscribe(() => this.onDiscountChange());
-    
+
   }
 
   onDiscountChange(): void {
@@ -90,12 +96,25 @@ export class InvoiceComponent implements OnInit {
     this.calculateTotal();
     this.calculateInvoiceSummary();
   }
-  
+
 
   ngOnInit(): void {
     this.fetchProductsAndProductDetails();
     this.fetchPeople();
     this.fetchPropertyDescriptions();
+    this.fetchSettings();
+  }
+
+  async fetchSettings(): Promise<void> {
+    this.settings = await this.indexedDbService.getAllData<Setting>("Setting");
+    const taxAndDutyActive = this.settings.find(s => s.SettingCode === 14008)?.Value === "1.00000000";
+    this.taxPercent = taxAndDutyActive ? Number(this.settings.find(s => s.SettingCode === 14001)?.Value) / 100 : 0;
+    console.log("this.taxPercent = ", this.taxPercent);
+
+
+    this.chargePercent = taxAndDutyActive ? Number(this.settings.find(s => s.SettingCode === 14000)?.Value) / 100 : 0;
+
+    console.log("this.chargePercent = ", this.chargePercent);
   }
 
   fetchPeople() {
@@ -140,7 +159,7 @@ export class InvoiceComponent implements OnInit {
     if (this.selectedProductDetail) {
       this.selectedProductProperties = this.parseProperties(this.selectedProductDetail.Properties);
       console.log(this.selectedProductProperties);
-      
+
       if (this.selectedProductProperties.length > 0) {
         this.invoiceForm.get('productProperty')?.setValue(this.selectedProductProperties);
         this.onProductPropertyChange();
@@ -199,6 +218,7 @@ export class InvoiceComponent implements OnInit {
   async addItemToInvoice(): Promise<void> {
     let discount = 0;
     let totalPrice = 0;
+    let totalTaxCharge = 0;
     const now = new Date();
     const iranTimeOffset = 3.5;
     const localTime = new Date(now.getTime() + iranTimeOffset * 60 * 60 * 1000);
@@ -208,83 +228,104 @@ export class InvoiceComponent implements OnInit {
     this.discountType = this.invoiceForm.get('discountType')?.value;
 
     const selectedProductDetail = this.invoiceForm.get('productDetail')?.value as ProductDetail;
+    const selectedProduct = this.products.find(p => p.ProductId === selectedProductDetail.ProductId);
+
     const quantity = this.invoiceForm.get('quantity')?.value;
     const price = this.invoiceForm.get('price')?.value;
 
-    if (selectedProductDetail && typeof price === 'number') {
+    if (selectedProductDetail && selectedProduct && typeof price === 'number') {
+      switch (selectedProductDetail.DefaultDiscountLevel) {
+        case 1:
+          discount = selectedProductDetail.Discount1;
+          break;
+        case 2:
+          discount = selectedProductDetail.Discount2;
+          break;
+        case 3:
+          discount = selectedProductDetail.Discount3;
+          break;
+        case 4:
+          discount = selectedProductDetail.Discount4;
+          break;
+        default:
+          discount = 0;
+      }
 
-        switch (selectedProductDetail.DefaultDiscountLevel) {
-            case 1:
-                discount = selectedProductDetail.Discount1;
-                break;
-            case 2:
-                discount = selectedProductDetail.Discount2;
-                break;
-            case 3:
-                discount = selectedProductDetail.Discount3;
-                break;
-            case 4:
-                discount = selectedProductDetail.Discount4;
-                break;
-            default:
-                discount = 0;
-        }
+      if (selectedProductDetail.DiscountType === 0) { // Percentage discount
+        discount = (price * discount) / 100;
+      }
 
-        if (selectedProductDetail.DiscountType === 0) { // Percentage discount
-            discount = (price * discount) / 100;
-        }
+      const unitPrice = price;
+      totalPrice = price * quantity - discount * quantity;
 
-        const unitPrice = price;
-        totalPrice = price * quantity - discount * quantity;
+      if (selectedProduct.TaxPercent != -1 && selectedProduct.ChargePercent != -1) {
 
-        // اعمال طرح تشویقی
-        const discountPromotion = await this.promotionService.applyPromotion(this.invoiceSummary);
-       // orderDetail.Price -= discountPromotion;
+        if (selectedProduct.TaxPercent != 0)
+          this.taxPercent = selectedProduct.TaxPercent / 100
+        if (selectedProduct.ChargePercent != 0)
+          this.chargePercent = selectedProduct.ChargePercent / 100
 
-        const orderDetail: OrderDetail = {
-          ProductDetailId: selectedProductDetail.ProductDetailId,
-          Count1: quantity,
-          Price: totalPrice,
-          OrderDetailId: 0,
-          OrderDetailClientId: 0,
-          ItemType: 0,
-          OrderId: 0,
-          IncomeId: 0,
-          Count2: 0,
-          PromotionCode: 0,
-          Gift: 0,
-          Description: '',
-          Discount: discount * quantity,
-          DiscountType: selectedProductDetail.DiscountType,
-          TaxPercent: 0,
-          ChargePercent: 0,
-          StoreId: 0,
-          Width: 0,
-          Height: 0,
-          ItemCount: 0,
-          RowId: 0,
-          Deleted: false,
-          DataHash: '',
-          CreateDate: createDate,
-          UpdateDate: createDate,
-          CreateSyncId: 0,
-          UpdateSyncId: 0,
-          RowVersion: 0,
-          OrderClientId: 0,
-          OrderCode: 0,
-          ProductDetailClientId: 0,
-          ProductDetailCode: 0,
-          Weight: 0,
-          UnitPrice: unitPrice
-        };
+        // Apply tax and charge
+        const taxAmount = totalPrice * this.taxPercent;
+        const chargeAmount = totalPrice * this.chargePercent;
+        
+        totalTaxCharge = taxAmount + chargeAmount
 
-        this.invoiceItems.push(orderDetail);
-        this.calculateTotal();
-        this.calculateInvoiceSummary();
+      }
+
+     // totalPrice += totalTaxCharge;
+
+      // اعمال طرح تشویقی
+      const discountPromotion = await this.promotionService.applyPromotion(this.invoiceSummary);
+      // totalPrice -= discountPromotion; // Uncomment if you want to apply the promotion discount
+
+      const orderDetail: OrderDetail = {
+        ProductDetailId: selectedProductDetail.ProductDetailId,
+        Count1: quantity,
+        Price: totalPrice,
+        OrderDetailId: 0,
+        OrderDetailClientId: 0,
+        ItemType: 0,
+        OrderId: 0,
+        IncomeId: 0,
+        Count2: 0,
+        PromotionCode: 0,
+        Gift: 0,
+        Description: '',
+        Discount: discount * quantity,
+        DiscountType: selectedProductDetail.DiscountType,
+        TaxPercent: this.taxPercent,
+        ChargePercent: this.chargePercent,
+        StoreId: 0,
+        Width: selectedProduct.Width,
+        Height: selectedProduct.Height,
+        ItemCount: 0,
+        RowId: 0,
+        Deleted: false,
+        DataHash: '',
+        CreateDate: createDate,
+        UpdateDate: createDate,
+        CreateSyncId: 0,
+        UpdateSyncId: 0,
+        RowVersion: 0,
+        OrderClientId: 0,
+        OrderCode: 0,
+        ProductDetailClientId: 0,
+        ProductDetailCode: 0,
+        Weight: selectedProduct.Weight,
+        UnitPrice: unitPrice
+      };
+
+      this.invoiceItems.push(orderDetail);
+      this.calculateTotal();
+      this.calculateInvoiceSummary();
+    } else {
+      console.error('Invalid product or price');
+      // Handle the error case, maybe show a message to the user
     }
-}
+  }
 
-  
+
 
   removeItemFromInvoice(index: number): void {
     this.invoiceItems.splice(index, 1);
@@ -294,18 +335,19 @@ export class InvoiceComponent implements OnInit {
 
   calculateTotal(): void {
     this.subtotal = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
-  
-    if (this.discountType == 1) {
+
+    if (this.discountType === 1) {
       this.discountValue = (this.subtotal * this.discountAmount) / 100;
     } else {
       this.discountValue = this.discountAmount;
     }
-    
+
     const discountedSubtotal = this.subtotal - this.discountValue;
-    const tax = discountedSubtotal * this.taxRate;
-    this.total = discountedSubtotal + tax;
+    this.totalTax = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.TaxPercent ), 0);
+    this.totalCharge = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.ChargePercent ), 0);
+    this.total = discountedSubtotal + this.totalTax + this.totalCharge;
   }
-  
+
 
   calculateInvoiceSummary(): void {
     this.invoiceSummary.TotalInvoiceAmount = this.total;
@@ -353,7 +395,7 @@ export class InvoiceComponent implements OnInit {
       OrderDate: createDate,
       DeliveryDate: createDate,
       Discount: this.discountAmount,
-      DiscountType: this.discountType,  
+      DiscountType: this.discountType,
       SendCost: 0,
       OtherCost: 0,
       SettlementType: 0,

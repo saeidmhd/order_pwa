@@ -42,6 +42,7 @@ import { OrderComponent } from './shared/components/order/order.component';
 import { OrderCardComponent } from './shared/components/order/order-card/order-card.component';
 import { PromotionListComponent } from './shared/components/promotion-list/promotion-list.component';
 import { PromotionDetailComponent } from './shared/components/promotion-detail/promotion-detail.component';
+import { SumByPipe } from './sum-by.pipe';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { PromotionDetailComponent } from './shared/components/promotion-detail/p
     OperationSectionComponent,
     MissionCardComponent,
     RialCurrencyPipe,
+    SumByPipe,
     PersianDatePipe,
     BottomSheetCategoryComponent,
     PromotionListComponent,
