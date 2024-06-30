@@ -48,10 +48,72 @@ export class OrderListComponent implements OnInit {
 }
 
 
-  getOrderSum(order: Order): number {
-    const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
-    return relatedOrderDetails.reduce((sum, detail) => sum + (detail.Price * detail.Count1), 0);
+getOrderSum(order: Order): number {
+  const relatedOrderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
+  const subtotal = this.getSubtotal(relatedOrderDetails);
+  const totalDiscount = this.getTotalDiscount(order, relatedOrderDetails);
+  const totalTax = this.getTotalTax(relatedOrderDetails);
+  const totalCharge = this.getTotalCharge(relatedOrderDetails);
+  return subtotal - totalDiscount + totalTax + totalCharge;
+}
+
+getSubtotal(orderDetails: OrderDetail[]): number {
+  return orderDetails.reduce((sum, detail) => sum + (detail.UnitPrice * detail.Count1), 0);
+}
+
+getTotalDiscount(order: Order, orderDetails: OrderDetail[]): number {
+  const itemDiscount = orderDetails.reduce((sum, detail) => sum + detail.Discount, 0);
+  let orderDiscount = 0;
+  if (order.DiscountType === 0) { // Amount
+    orderDiscount = order.Discount;
+  } else if (order.DiscountType === 1) { // Percentage
+    orderDiscount = this.getSubtotal(orderDetails) * (order.Discount / 100);
   }
+  return itemDiscount + orderDiscount;
+}
+
+getTotalTax(orderDetails: OrderDetail[]): number {
+  return orderDetails.reduce((sum, detail) => sum + (detail.Price * detail.TaxPercent), 0);
+}
+
+getTotalCharge(orderDetails: OrderDetail[]): number {
+  return orderDetails.reduce((sum, detail) => sum + (detail.Price * detail.ChargePercent), 0);
+}
+
+getOrderSubtotal(order: Order): number {
+  const orderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
+  return orderDetails.reduce((sum, detail) => sum + (detail.UnitPrice * detail.Count1), 0);
+}
+
+getOrderDiscount(order: Order): number {
+  const orderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
+  const itemDiscount = orderDetails.reduce((sum, detail) => sum + detail.Discount, 0);
+  let orderDiscount = 0;
+  if (order.DiscountType === 0) { // Amount
+    orderDiscount = order.Discount;
+  } else if (order.DiscountType === 1) { // Percentage
+    orderDiscount = this.getOrderSubtotal(order) * (order.Discount / 100);
+  }
+  return itemDiscount + orderDiscount;
+}
+
+getOrderTax(order: Order): number {
+  const orderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
+  return orderDetails.reduce((sum, detail) => sum + (detail.Price * detail.TaxPercent / 100), 0);
+}
+
+getOrderCharge(order: Order): number {
+  const orderDetails = this.orderDetails.filter(detail => detail.OrderId === order.OrderId);
+  return orderDetails.reduce((sum, detail) => sum + (detail.Price * detail.ChargePercent / 100), 0);
+}
+
+// getOrderSum(order: Order): number {
+//   const subtotal = this.getOrderSubtotal(order);
+//   const discount = this.getOrderDiscount(order);
+//   const tax = this.getOrderTax(order);
+//   const charge = this.getOrderCharge(order);
+//   return subtotal - discount + tax + charge;
+// }
 
 
   getPersonName(personId: number): string {
