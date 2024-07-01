@@ -8,7 +8,7 @@ export class IndexedDbManagementService {
 
   db: any;
   private dbName = 'MobileOrderingDb';
-  private dbVersion = 15;
+  private dbVersion = 20;
 
   constructor() {
     this.openDatabase();
