@@ -9,6 +9,7 @@ import { ProductDetail } from 'src/app/core/models/bazara/bazara-DTOs/productDet
 import { IndexedDbService } from 'src/app/core/services/indexed-db/indexed-db.service';
 import { PromotionService } from 'src/app/core/services/promotion.service';
 import { Setting } from 'src/app/core/models/bazara/bazara-DTOs/setting';
+import { PromotionDetailOtherFields } from 'src/app/core/models/bazara/bazara-DTOs/promotion-detail';
 
 export interface InvoiceSummary {
   TotalInvoiceAmount: number; // مبلغ کل فاکتور
@@ -34,6 +35,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   invoiceForm: FormGroup;
+  order!: Order;
   people: Person[] = [];
   products: Product[] = [];
   settings: Setting[] = [];
@@ -216,6 +218,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   async addItemToInvoice(): Promise<void> {
+
     let discount = 0;
     let totalPrice = 0;
     let totalTaxCharge = 0;
@@ -234,22 +237,8 @@ export class InvoiceComponent implements OnInit {
     const price = this.invoiceForm.get('price')?.value;
 
     if (selectedProductDetail && selectedProduct && typeof price === 'number') {
-      switch (selectedProductDetail.DefaultDiscountLevel) {
-        case 1:
-          discount = selectedProductDetail.Discount1;
-          break;
-        case 2:
-          discount = selectedProductDetail.Discount2;
-          break;
-        case 3:
-          discount = selectedProductDetail.Discount3;
-          break;
-        case 4:
-          discount = selectedProductDetail.Discount4;
-          break;
-        default:
-          discount = 0;
-      }
+
+      discount = this.getDefaultDiscountLevel(selectedProductDetail, discount);
 
       if (selectedProductDetail.DiscountType === 0) { // Percentage discount
         discount = (price * discount) / 100;
@@ -272,12 +261,6 @@ export class InvoiceComponent implements OnInit {
         totalTaxCharge = taxAmount + chargeAmount
 
       }
-
-     // totalPrice += totalTaxCharge;
-
-      // اعمال طرح تشویقی
-      const discountPromotion = await this.promotionService.applyPromotion(this.invoiceSummary);
-      // totalPrice -= discountPromotion; // Uncomment if you want to apply the promotion discount
 
       const orderDetail: OrderDetail = {
         ProductDetailId: selectedProductDetail.ProductDetailId,
@@ -319,6 +302,8 @@ export class InvoiceComponent implements OnInit {
       this.invoiceItems.push(orderDetail);
       this.calculateTotal();
       this.calculateInvoiceSummary();
+      this.applyPromotionInvoice();
+
     } else {
       console.error('Invalid product or price');
       // Handle the error case, maybe show a message to the user
@@ -327,20 +312,203 @@ export class InvoiceComponent implements OnInit {
 
 
 
+  private getDefaultDiscountLevel(selectedProductDetail: ProductDetail, discount: number) {
+    switch (selectedProductDetail.DefaultDiscountLevel) {
+      case 1:
+        discount = selectedProductDetail.Discount1;
+        break;
+      case 2:
+        discount = selectedProductDetail.Discount2;
+        break;
+      case 3:
+        discount = selectedProductDetail.Discount3;
+        break;
+      case 4:
+        discount = selectedProductDetail.Discount4;
+        break;
+      default:
+        discount = 0;
+    }
+    return discount;
+  }
+
+  private getSpecificDiscountLevel(selectedProductDetail: ProductDetail, index: number) {
+    switch (index) {
+      case 1:
+        return selectedProductDetail.Discount1;
+      case 2:
+        return selectedProductDetail.Discount2;
+      case 3:
+        return selectedProductDetail.Discount3;
+      case 4:
+        return selectedProductDetail.Discount4;
+      default:
+        return 0;
+    }
+
+  }
+
   removeItemFromInvoice(index: number): void {
     this.invoiceItems.splice(index, 1);
     this.calculateTotal();
     this.calculateInvoiceSummary();
   }
 
+  async applyPromotionInvoice(): Promise<void> {
+    // اعمال طرح تشویقی
+    const detailOtherFields = await this.promotionService.getEligiblePromotion(this.invoiceSummary);
+    if (detailOtherFields !== null) {
+      this.calculatePromotion(detailOtherFields);
+    }
+    this.calculateTotal();
+    this.calculateInvoiceSummary();
+  }
+  
+
+  private calculatePromotion(detailOtherFields: PromotionDetailOtherFields): void {
+    switch (detailOtherFields.HowToPromotion) {
+      case 1: // تخفیف به مبلغ ثابت (Fixed amount discount)
+        this.applyFixedAmountDiscount(detailOtherFields.MeghdarPromotion);
+        break;
+      case 2: // تخفیف درصدی (Percentage discount)
+        this.applyPercentageDiscount(detailOtherFields.MeghdarPromotion);
+        break;
+      case 3: // تخفیف از سطوح تخفیف (Discount from discount levels)
+        this.applyDiscountLevel(detailOtherFields.MeghdarPromotion);
+        break;
+      case 4: // اشانتیون از همان کالا (Free item from the same product)
+        this.applyFreeItemSameProduct(detailOtherFields.Meghdar);
+        break;
+      case 5: // اشانتیون از کالاهای دیگر (Free item from other products)
+        this.applyFreeItemOtherProduct(detailOtherFields.CodeGood, detailOtherFields.Meghdar);
+        break;
+      default:
+        console.warn('Unknown promotion type');
+    }
+    
+    // After applying the promotion, recalculate totals
+    this.calculateTotal();
+    this.calculateInvoiceSummary();
+  }
+
+
+  private applyFixedAmountDiscount(amount: number): void {
+    this.discountValue += amount;
+  }
+  
+  private applyPercentageDiscount(percentage: number): void {
+    const discountAmount = this.subtotal * (percentage / 100);
+    this.discountValue += discountAmount;
+  }
+  
+  private applyDiscountLevel(level: number): void {
+    for (let item of this.invoiceItems) {
+      const productDetail = this.productDetails.find(pd => pd.ProductDetailId === item.ProductDetailId);
+      if (productDetail) {
+        const discountPercentage = this.getSpecificDiscountLevel(productDetail, level);
+        const itemDiscount = item.UnitPrice * item.Count1 * (discountPercentage / 100);
+
+        // برگرداندن تخفیف اگر قبلا اعمال شده باشد
+        item.Price += item.Discount
+
+        item.Discount = itemDiscount;
+        item.Price -= itemDiscount;
+      }
+    }
+  }
+  
+  private applyFreeItemSameProduct(quantity: number): void {
+    if (this.invoiceItems.length > 0) {
+      const lastItem = this.invoiceItems[this.invoiceItems.length - 1];
+      const freeItem: OrderDetail = { ...lastItem };
+      freeItem.Count1 = quantity;
+      freeItem.Price = 0;
+      freeItem.Discount = 0;
+      freeItem.Gift = 1; // Mark as a gift
+      this.invoiceItems.push(freeItem);
+    }
+  }
+  
+  private async applyFreeItemOtherProduct(productCode: number, quantity: number): Promise<void> {
+    try {
+      // Fetch all products
+      const allProducts = await this.indexedDbService.getAllData<Product>("Product");
+      
+      // Find the product with the matching ProductCode
+      const freeProduct = allProducts.find(product => product.ProductCode === productCode);
+  
+      if (freeProduct) {
+        // Fetch all product details
+        const allProductDetails = await this.indexedDbService.getAllData<ProductDetail>("ProductDetail");
+        
+        // Find the corresponding ProductDetail
+        const freeProductDetail = allProductDetails.find(detail => detail.ProductId === freeProduct.ProductId);
+  
+        if (freeProductDetail) {
+          const freeItem: OrderDetail = {
+            ProductDetailId: freeProductDetail.ProductDetailId,
+            Count1: quantity,
+            Price: 0,
+            OrderDetailId: 0,
+            OrderDetailClientId: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER), // Generate a unique client ID
+            ItemType: 0,
+            OrderId: 0,
+            IncomeId: 0,
+            Count2: 0,
+            PromotionCode: 0,
+            Gift: 1, // Mark as a gift
+            Description: 'Promotional free item',
+            Discount: 0,
+            DiscountType: 0,
+            TaxPercent: 0,
+            ChargePercent: 0,
+            StoreId: 0,
+            Width: freeProduct.Width,
+            Height: freeProduct.Height,
+            ItemCount: 0,
+            RowId: 0,
+            Deleted: false,
+            DataHash: '',
+            CreateDate: new Date().toISOString(),
+            UpdateDate: new Date().toISOString(),
+            CreateSyncId: 0,
+            UpdateSyncId: 0,
+            RowVersion: 0,
+            OrderClientId: 0,
+            OrderCode: 0,
+            ProductDetailClientId: freeProductDetail.ProductDetailClientId,
+            ProductDetailCode: freeProductDetail.ProductDetailCode,
+            Weight: freeProduct.Weight,
+            UnitPrice: 0
+          };
+  
+          this.invoiceItems.push(freeItem);
+  
+          // Recalculate totals after adding the free item
+          this.calculateTotal();
+          this.calculateInvoiceSummary();
+        } else {
+          console.warn(`No ProductDetail found for Product with ProductCode ${productCode}`);
+        }
+      } else {
+        console.warn(`No Product found with ProductCode ${productCode}`);
+      }
+    } catch (error) {
+      console.error('Error applying free item promotion:', error);
+    }
+  }
+
   calculateTotal(): void {
     this.subtotal = this.invoiceItems.reduce((acc, item) => acc + item.Price, 0);
 
     if (this.discountType === 1) {
-      this.discountValue = (this.subtotal * this.discountAmount) / 100;
+      this.discountValue += (this.subtotal * this.discountAmount) / 100;
     } else {
-      this.discountValue = this.discountAmount;
+      this.discountValue += this.discountAmount;
     }
+
+    console.log("asdasd" + this.discountValue);
+    
 
     const discountedSubtotal = this.subtotal - this.discountValue;
     this.totalTax = this.invoiceItems.reduce((acc, item) => acc + (item.Price * item.TaxPercent ), 0);
@@ -383,7 +551,7 @@ export class InvoiceComponent implements OnInit {
       visitorIdnum = Number(visitorId);
     }
 
-    const order: Order = {
+      this.order = {
       OrderId: orderClientId,
       OrderClientId: orderClientId,
       PersonId: customerId,
@@ -469,8 +637,8 @@ export class InvoiceComponent implements OnInit {
     });
 
     try {
-      const order_key: IDBValidKey = [+this.visitorId, order.OrderClientId];
-      await this.indexedDbService.addOrEdit<Order>("Order", order, order_key);
+      const order_key: IDBValidKey = [+this.visitorId, this.order.OrderClientId];
+      await this.indexedDbService.addOrEdit<Order>("Order", this.order, order_key);
       console.log('Successfully stored order in IndexedDB');
 
       for (let detail of orderDetails) {

@@ -24,23 +24,19 @@ export class PromotionService {
     });
   }
 
-  async applyPromotion(invoiceSummary: InvoiceSummary): Promise<number> {
-    let totalDiscount = 0;
-
-    console.log(this.promotions);
-
+  async getEligiblePromotion(invoiceSummary: InvoiceSummary): Promise<PromotionDetailOtherFields | null> {
     for (const promo of this.promotions) {
-      const promotionDetails = await this.getPromotionDetails(promo.PromotionId);
-      for (const detail of promotionDetails) {
-        const detailOtherFields: PromotionDetailOtherFields = JSON.parse(detail.OtherFields);
-        if (this.isEligibleForPromotion(invoiceSummary, promo, detailOtherFields)) {
-          totalDiscount += this.calculatePromotion(invoiceSummary, detailOtherFields);
+        const promotionDetails = await this.getPromotionDetails(promo.PromotionId);
+        for (const detail of promotionDetails) {
+            const detailOtherFields: PromotionDetailOtherFields = JSON.parse(detail.OtherFields);
+            if (this.isEligibleForPromotion(invoiceSummary, promo, detailOtherFields)) {
+                return detailOtherFields;
+            }
         }
-      }
     }
+    return null; // Return null if no eligible promotions are found
+}
 
-    return totalDiscount;
-  }
 
   private async getPromotionDetails(promotionId: number): Promise<PromotionDetail[]> {
     const allDetails = await this.indexedDbService.getAllData<PromotionDetail>("PromotionDetail");
@@ -70,37 +66,5 @@ export class PromotionService {
       default:
         return false;
     }
-  }
-
-  private calculatePromotion(invoiceSummary: InvoiceSummary, detailOtherFields: PromotionDetailOtherFields): number {
-    switch (detailOtherFields.HowToPromotion) {
-      case 1: // تخفیف به مبلغ ثابت
-        return detailOtherFields.MeghdarPromotion;
-      case 2: // تخفیف درصدی
-        return invoiceSummary.TotalInvoiceAmount * (detailOtherFields.MeghdarPromotion / 100);
-      case 3: // تخفیف از سطوح
-        return this.calculateTieredDiscount(invoiceSummary, detailOtherFields);
-      case 4: // اشانتیون از همان کالا
-        return this.calculateGiftSameItem(detailOtherFields);
-      case 5: // اشانتیون از کالاهای دیگر
-        return this.calculateGiftDifferentItem(detailOtherFields);
-      default:
-        return 0;
-    }
-  }
-
-  private calculateTieredDiscount(invoiceSummary: InvoiceSummary, detailOtherFields: PromotionDetailOtherFields): number {
-    // Implement tiered discount logic here
-    return 0; // Placeholder
-  }
-
-  private calculateGiftSameItem( detailOtherFields: PromotionDetailOtherFields): number {
-    // Implement gift same item logic here
-    return 0; // Placeholder
-  }
-
-  private calculateGiftDifferentItem( detailOtherFields: PromotionDetailOtherFields): number {
-    // Implement gift different item logic here
-    return 0; // Placeholder
   }
 }
